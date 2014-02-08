@@ -2,7 +2,6 @@
 out
 
 .DS_Store
-.idea/
 
 # Package Files #
 *.jar
