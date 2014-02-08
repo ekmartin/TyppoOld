@@ -6,11 +6,13 @@ import java.util.Random;
 
 /**
  * Created by eiriksylliaas on 08.02.14.
+ *
+ * The word list user receive
  */
 public class WordList {
 
     private WordSend[] wordList;
-    private Random randomGenerator;
+    private Random randomGenerator = new Random();
 
     public WordList(String[] words, int length) {
 
@@ -38,4 +40,5 @@ public class WordList {
     public WordSend[] getWordList() {
         return this.wordList;
     }
+
 }

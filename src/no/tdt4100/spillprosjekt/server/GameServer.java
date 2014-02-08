@@ -2,6 +2,8 @@ package no.tdt4100.spillprosjekt.server;
 
 /**
  * Created by eiriksylliaas on 08.02.14.
+ *
+ * Game Server
  */
 
 import com.esotericsoftware.kryonet.Connection;
@@ -28,9 +30,9 @@ public class GameServer {
             Logger.Log(e);
         }
 
-        WordList test = new WordList(Config.WordList(), 100);
 
-        System.out.print(test);
+
+
 
 
 
