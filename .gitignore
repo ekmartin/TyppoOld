@@ -1,8 +1,12 @@
 *.class
 out
-.idea/
 .DS_Store
+
+#IntelliJ:
+.idea
+*.iml
 
 # Package Files #
 *.war
 *.ear
+
