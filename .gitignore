@@ -1,6 +1,6 @@
 *.class
 out
-
+.idea/
 .DS_Store
 
 # Package Files #
