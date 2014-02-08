@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8aa755e6-ddc3-42d8-9c1e-d284c695b3ae" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="TDT4100-Spillprosjekt.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -69,7 +70,7 @@
       <file leaf-file-name=".gitignore" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="7" selection-start="23" selection-end="23" vertical-scroll-proportion="0.06741573" vertical-offset="0" max-vertical-offset="890">
+            <state line="6" column="6" selection-start="47" selection-end="47" vertical-scroll-proportion="0.101123594" vertical-offset="0" max-vertical-offset="890">
               <folding />
             </state>
           </provider>
@@ -505,7 +506,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1982000" />
+    <option name="totallyTimeSpent" value="2168000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="2560" height="1440" extended-state="0" />
@@ -590,7 +591,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="7" selection-start="23" selection-end="23" vertical-scroll-proportion="0.06741573" vertical-offset="0" max-vertical-offset="890">
+        <state line="6" column="6" selection-start="47" selection-end="47" vertical-scroll-proportion="0.101123594" vertical-offset="0" max-vertical-offset="890">
           <folding />
         </state>
       </provider>
@@ -672,7 +673,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>kryonet</last-edited>
+          <last-edited>slick</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
