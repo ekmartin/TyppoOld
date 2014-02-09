@@ -4,6 +4,8 @@ import no.tdt4100.spillprosjekt.objects.Word;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import java.util.ArrayList;
+
 /**
  * Created by ek on 09/02/14.
  */
@@ -11,25 +13,36 @@ public class Cell {
     private char letter;
     private Word.colors color;
     private Image cellImage;
+
     private boolean faded;
     private boolean locked;
-    private boolean black;
 
-    public Cell(char letter, Word.colors color) throws SlickException {
+    private int xPos;
+    private int yPos;
+    private float xPosFloat;
+    private float yPosFloat;
+
+    public Cell(char letter, Word.colors color, int xPos, int yPos) throws SlickException {
         faded = false;
         locked = false;
-        black = false;
         this.letter = letter;
         this.color = color;
+
+        this.xPos = xPos;
+        this.yPos = yPos;
+
         switch (color) {
             case BLUE:
-                cellImage = new Image("data/bluecell.png");
+                cellImage = new Image("bluecell.png");
                 break;
             case RED:
                 cellImage = new Image("redcell.png");
                 break;
+            case YELLOW:
+                cellImage = new Image("yellowcell.png");
+                break;
             case GREEN:
-                cellImage = new Image("data/greencell.png");
+                cellImage = new Image("greencell.png");
                 break;
             case TEAL:
                 cellImage = new Image("tealcell.png");
@@ -40,13 +53,26 @@ public class Cell {
             case ORANGE:
                 cellImage = new Image("orangecell.png");
                 break;
-            case BLACK:
-                cellImage = new Image("data/blackcell.png");
-                black = true;
+            case LOCKED:
+                System.out.println("LOCKED CELL LOCKED CELL LOCKED CELL???");
+                cellImage = new Image("locked.png");
+                locked = true;
                 break;
             default:
-                cellImage = new Image("data/bluecell.png");
+                cellImage = new Image("bluecell.png");
                 break;
+        }
+    }
+
+    public void dropCell(boolean[][] blocked) {
+        System.out.println("yPos: " + yPos + " xPos: " + xPos);
+        if (blocked[yPos + 1][xPos + 1] == false) {
+            yPos++;
+            if (isLocked() == true) {
+                System.out.println("Got into locked cell " + blocked.length);
+                if (yPos < blocked.length - 1)
+                    dropCell(blocked);
+            }
         }
     }
 
@@ -61,7 +87,7 @@ public class Cell {
     public void fade() throws SlickException {
         switch (color) {
             case BLUE:
-                cellImage = new Image("data/bluefaded.png");
+                cellImage = new Image("bluefaded.png");
                 break;
             case RED:
                 cellImage = new Image("redfaded.png");
@@ -72,6 +98,9 @@ public class Cell {
             case PURPLE:
                 cellImage = new Image("purplefaded.png");
                 break;
+            case YELLOW:
+                cellImage = new Image("yellowfaded.png");
+                break;
             case TEAL:
                 cellImage = new Image("tealfaded.png");
                 break;
@@ -79,26 +108,40 @@ public class Cell {
                 cellImage = new Image("orangefaded.png");
                 break;
             default:
-                cellImage = new Image("data/bluefaded.png");
+                cellImage = new Image("bluefaded.png");
                 break;
         }
         faded = true;
     }
 
     public void lock() {
-        locked = true;
         letter = '\0';
+    }
+
+
+    public boolean isFaded() {
+        return faded;
     }
 
     public boolean isLocked() {
         return locked;
     }
 
-    public boolean isBlack() {
-        return black;
+    public int getX() {
+        return xPos;
     }
 
-    public boolean isFaded() {
-        return faded;
+    public int getY() {
+        return yPos;
+    }
+
+    public boolean up() {
+        if (yPos == 0) {
+            return true;
+        }
+        else {
+            yPos++;
+            return false;
+        }
     }
 }

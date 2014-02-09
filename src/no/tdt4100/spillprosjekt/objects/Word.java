@@ -7,14 +7,14 @@ package no.tdt4100.spillprosjekt.objects;
  */
 public class Word {
     private String wordString;
-    private float xPos;
+    private int xPos;
     private colors color;
 
     public enum colors {
-        BLACK, BLUE, ORANGE, RED, GREEN, PURPLE, TEAL
+        BLUE, GREEN, LOCKED, ORANGE, RED, PURPLE, TEAL, YELLOW
     }
 
-    public Word(String wordString, float xPos, colors color) {
+    public Word(String wordString, int xPos, colors color) {
         this.wordString = wordString;
         this.xPos = xPos;
         this.color = color;
@@ -28,7 +28,7 @@ public class Word {
         return wordString;
     }
 
-    public float getxPos() {
+    public int getX() {
         return xPos;
     }
 }
