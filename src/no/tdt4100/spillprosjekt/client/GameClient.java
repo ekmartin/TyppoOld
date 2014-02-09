@@ -37,7 +37,7 @@ public class GameClient {
             client.sendTCP(me);
         }
         catch (Exception e) {
-            Logger.Log(e);
+            Logger.log(e);
         }
     }
 
