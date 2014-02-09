@@ -26,7 +26,7 @@ public class WordList {
            int wordIndex = randomGenerator.nextInt(words.length);
            String word = words[wordIndex];
 
-           int positionRange = Config.BoardWidth - word.length();
+           int positionRange = ((int) Config.boardWidth) - word.length();
            int position = randomGenerator.nextInt(positionRange);
 
            WordSend wordObject = new WordSend(word, position, i);
