@@ -11,7 +11,7 @@ import java.util.Random;
  */
 public class WordList {
 
-    private WordSend[] wordList;
+    private Word[] wordList;
     private Random randomGenerator = new Random();
 
     public WordList(String[] words, int length) {
@@ -19,7 +19,7 @@ public class WordList {
        // Generate randorm wordlist for a game.
        // Words, position and queue
 
-       this.wordList = new WordSend[length];
+       this.wordList = new Word[length];
 
        for (int i = 0; i < length; i++) {
 
@@ -28,8 +28,8 @@ public class WordList {
 
            int positionRange = ((int) Config.boardWidth) - word.length();
            int position = randomGenerator.nextInt(positionRange);
-
-           WordSend wordObject = new WordSend(word, position, i);
+           Word.colors color = Word.colors.values()[(int) randomGenerator.nextInt(Word.colors.values().length)];
+           Word wordObject = new Word(word, position, i, color);
 
            this.wordList[i] = wordObject;
 
@@ -37,7 +37,7 @@ public class WordList {
 
     }
 
-    public WordSend[] getWordList() {
+    public Word[] getWordList() {
         return this.wordList;
     }
 

@@ -51,7 +51,7 @@ public class GameServer {
             server.bind(Config.ServerTCPPort, Config.ServerUDPPort);
         }
         catch (Exception e) {
-            Logger.Log(e);
+            Logger.log(e);
         }
 
         // Listeners
