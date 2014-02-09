@@ -1,7 +1,6 @@
 package no.tdt4100.spillprosjekt.game;
 
 import no.tdt4100.spillprosjekt.objects.Word;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
@@ -27,19 +26,19 @@ public class Cell {
                 cellImage = new Image("data/bluecell.png");
                 break;
             case RED:
-                cellImage = new Image("data/redcell.png");
+                cellImage = new Image("redcell.png");
                 break;
             case GREEN:
                 cellImage = new Image("data/greencell.png");
                 break;
             case TEAL:
-                cellImage = new Image("data/tealcell.png");
+                cellImage = new Image("tealcell.png");
                 break;
             case PURPLE:
-                cellImage = new Image("data/purplecell.png");
+                cellImage = new Image("purplecell.png");
                 break;
             case ORANGE:
-                cellImage = new Image("data/orangecell.png");
+                cellImage = new Image("orangecell.png");
                 break;
             case BLACK:
                 cellImage = new Image("data/blackcell.png");
@@ -65,19 +64,19 @@ public class Cell {
                 cellImage = new Image("data/bluefaded.png");
                 break;
             case RED:
-                cellImage = new Image("data/redfaded.png");
+                cellImage = new Image("redfaded.png");
                 break;
             case GREEN:
-                cellImage = new Image("data/yellowfaded.png");
+                cellImage = new Image("yellowfaded.png");
                 break;
             case PURPLE:
-                cellImage = new Image("data/purplefaded.png");
+                cellImage = new Image("purplefaded.png");
                 break;
             case TEAL:
-                cellImage = new Image("data/tealfaded.png");
+                cellImage = new Image("tealfaded.png");
                 break;
             case ORANGE:
-                cellImage = new Image("data/orangefaded.png");
+                cellImage = new Image("orangefaded.png");
                 break;
             default:
                 cellImage = new Image("data/bluefaded.png");

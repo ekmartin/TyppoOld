@@ -26,10 +26,10 @@ public class WordList {
            int wordIndex = randomGenerator.nextInt(words.length);
            String word = words[wordIndex];
 
-           int positionRange = ((int) Config.boardWidth) - word.length();
+           int positionRange = (Config.boardWidth) - word.length();
            int position = randomGenerator.nextInt(positionRange);
            Word.colors color = Word.colors.values()[(int) randomGenerator.nextInt(Word.colors.values().length)];
-           Word wordObject = new Word(word, position, i, color);
+           Word wordObject = new Word(word, position, color);
 
            this.wordList[i] = wordObject;
 

@@ -14,8 +14,11 @@ public class Config {
     public static float cellHeight = 32;
     public static float cellWidth = 32;
 
-    public static float boardWidth = 13*cellHeight;
-    public static float boardHeight = 19*cellWidth;
+    public static int boardWidth = 13;
+    public static int boardHeight = 19;
+
+    public static float boardWidthFloat = boardWidth*cellWidth;
+    public static float boardHeightFloat = boardHeight*cellHeight;
 
     public static String[] WordList(){
         String[] list = {"AIDS", "Lollypop", "Mordi", "Råtte"};

@@ -93,7 +93,7 @@ public class GameServer {
 
         // Test Client
         GameClient cli = new GameClient();
-        cli.connect("Eirik Martiniussen Sylliaas");
+        cli.connect("Ek");
 
     }
 

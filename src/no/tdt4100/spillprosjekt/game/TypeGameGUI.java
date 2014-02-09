@@ -1,11 +1,8 @@
 package no.tdt4100.spillprosjekt.game;
 
 import org.newdawn.slick.*;
-import org.newdawn.slick.font.effects.ColorEffect;
-import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.tiled.TiledMap;
-import java.awt.Font;
+
 /**
  * Created by eiriksylliaas on 08.02.14.
  */
@@ -31,7 +28,7 @@ public class TypeGameGUI extends BasicGame {
 
     @Override
     public void init(GameContainer container) throws SlickException {
-        typeMap = new TiledMap("data/TypeMap.tmx", true);
+        typeMap = new TiledMap("/TypeMap.tmx", true);
     }
 
     @Override

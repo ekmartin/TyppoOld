@@ -13,9 +13,10 @@ public class TypeGame {
 
     private float cellHeight;
     private float cellWidth;
-
-    private float boardWidth;
-    private float boardHeight;
+    private int boardWidth;
+    private int boardHeight;
+    private float boardWidthFloat;
+    private float boardHeightFloat;
 
     private Word[] wordList;
     private int wordListIndex;
@@ -27,6 +28,8 @@ public class TypeGame {
         this.cellHeight = Config.cellHeight;
         this.boardWidth = Config.boardWidth;
         this.boardHeight = Config.boardHeight;
+        this.boardWidthFloat = Config.boardWidthFloat;
+        this.boardHeightFloat = Config.boardHeightFloat;
 
         this.wordList = wordList.getWordList();
         this.wordListIndex = 0;
