@@ -12,7 +12,6 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import no.tdt4100.spillprosjekt.client.GameClient;
 import no.tdt4100.spillprosjekt.objects.ServerConnection;
-import no.tdt4100.spillprosjekt.objects.ServerUser;
 import no.tdt4100.spillprosjekt.objects.User;
 import no.tdt4100.spillprosjekt.objects.WordList;
 import no.tdt4100.spillprosjekt.utils.Config;
@@ -22,16 +21,18 @@ import java.util.ArrayList;
 
 public class GameServer {
 
+    // Define server object
     Server server;
 
-
+    // Start server, create new server object
     public static void main (String[] args) {
         GameServer gameserver = new GameServer();
         gameserver.start();
     }
 
+    // Start Server
     public void start() {
-        // Start server
+
         server = new Server(){
             protected Connection newConnection () {
                 return new ServerConnection();
@@ -41,6 +42,7 @@ public class GameServer {
         Kryo kryo = server.getKryo();
         kryo.register(User.class);
 
+        // Start server
         server.start();
 
         // Bind to ports
@@ -52,20 +54,26 @@ public class GameServer {
             Logger.Log(e);
         }
 
+        // Listeners
         server.addListener(new Listener() {
             public void received (Connection c, Object object) {
                 ServerConnection connection = (ServerConnection)c;
 
                 if (object instanceof User) {
-                    if (connection.name != null) return;
+
+                    if (connection.user.getName() != null) return;
+
                     String name = ((User)object).getName();
                     if (name == null) return;
+
                     name = name.trim();
                     if (name.length() == 0) return;
-                    connection.name = name;
+
+                    connection.user = (User) object;
 
                     // Send message to all users. User connected.
 
+                    // Just get connections
                     test();
 
                     return;
@@ -75,12 +83,13 @@ public class GameServer {
             }
             public void disconnected (Connection c) {
                 ServerConnection connection = (ServerConnection)c;
-                if (connection.name != null) {
+                if (connection.user != null) {
                     // User disconnected
 
                 }
             }
         });
+
 
         // Test Client
         GameClient cli = new GameClient();
@@ -93,7 +102,7 @@ public class GameServer {
         for (Connection con : server.getConnections()) {
             ServerConnection servercon = (ServerConnection) con;
 
-            System.out.print(servercon.name + " hello");
+            System.out.print(servercon.user.getName() + " hello");
 
         }
 

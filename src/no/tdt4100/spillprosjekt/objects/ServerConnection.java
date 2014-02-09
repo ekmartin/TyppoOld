@@ -7,6 +7,12 @@ import com.esotericsoftware.kryonet.Connection;
  */
 public class ServerConnection extends Connection {
 
-        public String name;
+    public User user;
+
+
+    public ServerConnection() {
+        this.user = new User();
+    }
+
 
 }
