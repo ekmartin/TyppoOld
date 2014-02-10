@@ -14,5 +14,9 @@ public class ServerConnection extends Connection {
         this.user = new User();
     }
 
+    public User getUser(){
+        return this.user;
+    }
+
 
 }

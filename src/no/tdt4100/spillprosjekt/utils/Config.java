@@ -25,6 +25,12 @@ public class Config {
         return list;
     }
 
+    public enum commands {
+        getUserList,
+        userConnected,
+        userDisconnected
+    }
+
 
 
 }
