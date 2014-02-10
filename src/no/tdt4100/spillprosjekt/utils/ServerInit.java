@@ -21,10 +21,11 @@ public class ServerInit {
         kryo.register(ArrayList.class);
         kryo.register(Game.class);
         kryo.register(WordList.class);
-        kryo.register(WordSend.class);
+        kryo.register(Word.class);
+        kryo.register(Word.colors.class);
         kryo.register(Random.class);
         kryo.register(AtomicLong.class);
-        kryo.register(WordSend[].class);
+        kryo.register(Word[].class);
         kryo.register(OpenGames.class);
         kryo.register(JoinGameRequest.class);
 

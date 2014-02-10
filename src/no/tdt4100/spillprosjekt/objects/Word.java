@@ -14,6 +14,8 @@ public class Word {
         BLUE, GREEN, ORANGE, RED, PURPLE, TEAL
     }
 
+    public Word () {}
+
     public Word(String wordString, int xPos, colors color) {
         this.wordString = wordString;
         this.xPos = xPos;

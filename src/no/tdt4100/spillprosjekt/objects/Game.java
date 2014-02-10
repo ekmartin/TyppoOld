@@ -20,7 +20,7 @@ public class Game {
         this.creator = creator;
         setParticipant(null);
         setRunning(false);
-        this.wordList = new WordList(Config.WordList(), 1000);
+        this.wordList = new WordList(Config.wordList, 1000);
         this.id = id;
     }
 

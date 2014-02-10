@@ -37,6 +37,8 @@ public class WordList {
 
     }
 
+    public WordList() {}
+
     public Word[] getWordList() {
         return this.wordList;
     }
