@@ -8,6 +8,7 @@ package no.tdt4100.spillprosjekt.objects;
 public class User {
 
     private String name;
+    private int uid;
 
     public String getName() {
         return this.name;
@@ -15,5 +16,13 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getUID() {
+        return this.uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 }

@@ -14,11 +14,16 @@ class TestClient implements Runnable{
     public void run(){
         GameClient client = new GameClient() ;
 
-        ClientListenerHandler cl = new ClientListenerHandler();
+        ClientListenerHandler cl = new ClientListenerHandler(client);
 
         client.addListener(cl);
 
         client.connect("Test1");
+
+        client.createGame();
+
+        //client.getOpenGames();
+
     }
 
 
