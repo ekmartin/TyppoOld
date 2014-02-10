@@ -20,11 +20,7 @@ public class Config {
     public static float boardWidthFloat = boardWidth*cellWidth;
     public static float boardHeightFloat = boardHeight*cellHeight;
 
-    public static String[] WordList(){
-        String[] list = {"AIDS", "Lollypop", "Mordi", "Råtte"};
-        return list;
-    }
-
+    public static String[] wordList;
 
 
 }
