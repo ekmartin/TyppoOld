@@ -26,8 +26,10 @@ public class TypeGame {
     private ArrayList<Block> blocks = new ArrayList<Block>();
 
     public TypeGame(WordList wordList) {
-        blocked = new boolean[Config.boardHeight][Config.boardWidth];
-
+        blocked = new boolean[Config.boardHeight + 1][Config.boardWidth];
+        for (int i = 0; i < blocked[Config.boardHeight].length; i++) {
+            blocked[Config.boardHeight][i] = true;
+        }
         bottom = Config.boardHeight;
 
         delay = 1500;
@@ -43,7 +45,6 @@ public class TypeGame {
     }
 
     public void addBlock() {
-        //delay += (-89.1283/Math.pow((0.0742736*counter)+1, 2));
         blocks.add(new Block(wordList[wordListIndex]));
         if (wordListIndex < wordList.length - 1) {
             wordListIndex++;
@@ -55,12 +56,16 @@ public class TypeGame {
 
     public void dropBlocks() {
         // TODO: Fix delay/treshold, should use something like (the derivative) of 1200 / (1 + ℯ^b x) + 300 ((-89.1283/Math.pow((0.0742736*counter)+1, 2)))
-        delay -= 50;
+        delay -= 10;
         if (delay < 800) {
             addBlockTreshold = 1;
         }
         else if (delay < 1300) {
             addBlockTreshold = 2;
+        }
+        for (Block block : blocks) {
+            if (block.isLocked() == false)
+                block.dropBlock(getBlocked());
         }
         System.out.println("Add: " + addBlockCounter + " : " + addBlockTreshold);
         if (addBlockCounter >= addBlockTreshold) {
@@ -69,10 +74,6 @@ public class TypeGame {
             addBlockCounter = 0;
         }
         addBlockCounter++;
-        for (Block block : blocks) {
-            if (block.isLocked() == false)
-                block.dropBlock(blocked);
-        }
     }
 
     public boolean addDead() {
@@ -96,7 +97,7 @@ public class TypeGame {
         for (Block block : blocks) {
             for (Cell cell : block.getCells()) {
                 if (cell.isLocked() == true)
-                    blocked[(int) cell.getY() / 32][(int) cell.getX() / 32] = true;
+                    blocked[cell.getY()][cell.getX()] = true;
             }
         }
         return blocked;

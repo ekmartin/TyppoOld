@@ -23,6 +23,7 @@ public class Block {
     private UnicodeFont uFont;
 
     private boolean locked;
+    private boolean grey;
 
     private int xPos;
     private int yPos;
@@ -30,11 +31,10 @@ public class Block {
     public Block (int yPos) {
         this.xPos = 0;
         this.yPos = yPos;
-        this.color = Word.colors.LOCKED;
-        locked = true;
+        grey = true;
         for (int i = 0; i < Config.boardWidth; i++) {
             try {
-                cells.add(new Cell('\0', Word.colors.LOCKED, xPos + i, yPos));
+                cells.add(new Cell(xPos + i, yPos));
             }
             catch (Exception e) {
                 Logger.log(e);
@@ -43,6 +43,14 @@ public class Block {
     }
 
     public Block (Word word) {
+        this.wordString = word.getWordString();
+        this.color = word.getColor();
+
+        locked = false;
+
+        this.xPos = word.getX();
+        this.yPos = 0;
+
         try {
             font = new Font("Verdana", Font.BOLD, 32);
             uFont = new UnicodeFont(font, font.getSize(), font.isBold(), font.isItalic());
@@ -53,14 +61,6 @@ public class Block {
         catch (Exception e) {
             Logger.log(e);
         }
-
-        this.wordString = word.getWordString();
-        this.color = word.getColor();
-
-        locked = false;
-
-        this.xPos = word.getX();
-        this.yPos = 0;
 
         for (int i = 0; i < wordString.length(); i++) {
             try {
@@ -80,37 +80,30 @@ public class Block {
         }
     }
 
-    public void lockBlock() {
-        for (int i = 0; i < cells.size(); i++) {
-            if (cells.get(i).isFaded()) {
-                cells.remove(i);
-            }
-            else {
-                cells.get(i).lock();
-            }
-        }
-
-    }
-
     public void dropBlock(boolean[][] blocked) {
         for (Cell cell : cells) {
-            if (blocked[cell.getY()+1][cell.getX() + 1] == true) {
+            cell.dropCell(blocked);
+            if (blocked[cell.getY()+1][cell.getX()] == true) {
+                locked = true;
                 for (Cell cell2 : cells) {
-                    locked = true;
-                    cell.lock();
-                    cell.dropCell(blocked);
+                    cell2.lock();
+                    cell2.dropCell(blocked);
                 }
                 break;
             }
-            else {
-                cell.dropCell(blocked);
-            }
         }
-
     }
 
     public boolean isLocked() {
         return locked;
+    }
+
+    public boolean isGrey() {
+        return grey;
+    }
+
+    public boolean isDead() {
+        return locked || grey;
     }
 
     public ArrayList<Cell> getCells() {
@@ -120,8 +113,8 @@ public class Block {
     public void draw(Graphics g) {
         g.setFont(uFont);
         for (Cell cell : cells) {
-            g.drawImage(cell.getCellImage(), cell.getX() * Config.cellWidth, cell.getY() * Config.cellHeight);
-            g.drawString(String.valueOf(cell.getLetter()), cell.getX() * Config.cellWidth, cell.getY() * Config.cellHeight);
+            g.drawImage(cell.getCellImage(), (cell.getX() + 1) * Config.cellWidth, cell.getY() * Config.cellHeight);
+            g.drawString(String.valueOf(cell.getLetter()), ((cell.getX() + 1) * Config.cellWidth)+3, (cell.getY() * Config.cellHeight)-4);
         }
     }
 

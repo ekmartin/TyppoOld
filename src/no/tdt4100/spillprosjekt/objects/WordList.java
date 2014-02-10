@@ -27,7 +27,7 @@ public class WordList {
            String word = words[wordIndex];
 
            int positionRange = (Config.boardWidth) - word.length();
-           int position = randomGenerator.nextInt(positionRange);
+           int position = randomGenerator.nextInt(positionRange + 1);
            Word.colors color = Word.colors.values()[(int) randomGenerator.nextInt(Word.colors.values().length)];
            Word wordObject = new Word(word, position, color);
 

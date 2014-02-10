@@ -16,11 +16,22 @@ public class Cell {
 
     private boolean faded;
     private boolean locked;
+    private boolean grey;
 
     private int xPos;
     private int yPos;
     private float xPosFloat;
     private float yPosFloat;
+
+    public Cell(int xPos, int yPos) throws SlickException {
+        grey = true;
+        this.letter = '\0';
+
+        this.xPos = xPos;
+        this.yPos = yPos;
+
+        cellImage = new Image("locked.png");
+    }
 
     public Cell(char letter, Word.colors color, int xPos, int yPos) throws SlickException {
         faded = false;
@@ -38,9 +49,6 @@ public class Cell {
             case RED:
                 cellImage = new Image("redcell.png");
                 break;
-            case YELLOW:
-                cellImage = new Image("yellowcell.png");
-                break;
             case GREEN:
                 cellImage = new Image("greencell.png");
                 break;
@@ -53,11 +61,6 @@ public class Cell {
             case ORANGE:
                 cellImage = new Image("orangecell.png");
                 break;
-            case LOCKED:
-                System.out.println("LOCKED CELL LOCKED CELL LOCKED CELL???");
-                cellImage = new Image("locked.png");
-                locked = true;
-                break;
             default:
                 cellImage = new Image("bluecell.png");
                 break;
@@ -66,12 +69,11 @@ public class Cell {
 
     public void dropCell(boolean[][] blocked) {
         System.out.println("yPos: " + yPos + " xPos: " + xPos);
-        if (blocked[yPos + 1][xPos + 1] == false) {
+        if (blocked[yPos + 1][xPos] == false) {
             yPos++;
             if (isLocked() == true) {
                 System.out.println("Got into locked cell " + blocked.length);
-                if (yPos < blocked.length - 1)
-                    dropCell(blocked);
+                dropCell(blocked);
             }
         }
     }
@@ -98,9 +100,6 @@ public class Cell {
             case PURPLE:
                 cellImage = new Image("purplefaded.png");
                 break;
-            case YELLOW:
-                cellImage = new Image("yellowfaded.png");
-                break;
             case TEAL:
                 cellImage = new Image("tealfaded.png");
                 break;
@@ -116,8 +115,13 @@ public class Cell {
 
     public void lock() {
         letter = '\0';
+        locked = true;
     }
 
+
+    public  boolean isGrey() {
+        return grey;
+    }
 
     public boolean isFaded() {
         return faded;

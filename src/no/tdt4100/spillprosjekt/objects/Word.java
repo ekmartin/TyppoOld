@@ -11,7 +11,7 @@ public class Word {
     private colors color;
 
     public enum colors {
-        BLUE, GREEN, LOCKED, ORANGE, RED, PURPLE, TEAL, YELLOW
+        BLUE, GREEN, ORANGE, RED, PURPLE, TEAL
     }
 
     public Word(String wordString, int xPos, colors color) {
