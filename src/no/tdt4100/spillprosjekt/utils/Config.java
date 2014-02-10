@@ -24,7 +24,9 @@ public class Config {
     public enum commands {
         getUserList,
         userConnected,
-        userDisconnected
+        userDisconnected,
+        startGame,
+        getOpenGames
     }
 
     public static String[] wordList;

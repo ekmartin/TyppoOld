@@ -1,11 +1,11 @@
 package no.tdt4100.spillprosjekt.utils;
 
 import com.esotericsoftware.kryo.Kryo;
-import no.tdt4100.spillprosjekt.objects.User;
-import no.tdt4100.spillprosjekt.objects.UserList;
-import no.tdt4100.spillprosjekt.objects.UserMessage;
+import no.tdt4100.spillprosjekt.objects.*;
 
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Created by eiriksylliaas on 09.02.14.
@@ -19,6 +19,14 @@ public class ServerInit {
         kryo.register(UserList.class);
         kryo.register(UserMessage.class);
         kryo.register(ArrayList.class);
+        kryo.register(Game.class);
+        kryo.register(WordList.class);
+        kryo.register(WordSend.class);
+        kryo.register(Random.class);
+        kryo.register(AtomicLong.class);
+        kryo.register(WordSend[].class);
+        kryo.register(OpenGames.class);
+        kryo.register(JoinGameRequest.class);
 
     }
 

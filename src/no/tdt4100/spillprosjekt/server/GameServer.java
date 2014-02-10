@@ -23,6 +23,9 @@ public class GameServer {
 
     // Define server object
     Server server;
+    ArrayList<Game> games = new ArrayList<Game>();
+    int GameIDs = 0;
+
 
     // Start server, create new server object
     public static void main (String[] args) {
@@ -49,16 +52,12 @@ public class GameServer {
     // Start Server
     public void start() {
 
-
-
-
-        server = new Server(){
+        server = new Server(40000, 40000){
             protected Connection newConnection () {
                 return new ServerConnection();
             }
         };
         ServerInit.mapClasses(server.getKryo());
-
 
 
         // Start server
@@ -90,6 +89,8 @@ public class GameServer {
 
                     connection.user = (User) object;
 
+                    connection.user.setUid(connection.getID());
+
                     // Send message to all users. User connected.
                     userLoggedIn(connection);
 
@@ -104,8 +105,17 @@ public class GameServer {
 
                     switch (command) {
                         case getUserList: { sendUserList(connection) ; break;}
+                        case startGame: { startNewGame(connection); break;}
+                        case getOpenGames: {returnOpenGames(connection); break;}
+
                     }
 
+                }
+
+                // Join game
+                if (object instanceof JoinGameRequest) {
+                    JoinGameRequest joinGame = (JoinGameRequest) object;
+                    joinGame(connection, joinGame);
                 }
 
 
@@ -124,8 +134,14 @@ public class GameServer {
     }
 
 
+    /*******************************************************************************************************************
+     *
+     * Server Functions
+     *
+     ******************************************************************************************************************/
 
-    // Server functions
+
+    // Send User list
     private void sendUserList(ServerConnection c) {
         UserList userList = new UserList();
         for (Connection connection : server.getConnections()) {
@@ -155,6 +171,63 @@ public class GameServer {
             ServerConnection serverconnection = (ServerConnection) connection;
             serverconnection.sendTCP(message);
         }
+    }
+
+    private void startNewGame(ServerConnection connection) {
+
+
+        ArrayList<Game> gamesCopy = new ArrayList<Game>(games);
+        for (Game game : gamesCopy) {
+            if (game.getCreator() == connection.getUser() || game.getParticipant() == connection.getUser()) {
+                games.remove(game);
+            }
+        }
+
+        Game newGame = new Game(connection.getUser(), getGameID());
+        this.games.add(newGame);
+
+        connection.sendTCP(newGame);
+
+    }
+
+    private void returnOpenGames(ServerConnection connection) {
+
+        OpenGames openGames = new OpenGames();
+
+        for (Game game : games) {
+            if (!game.getRunning() && game.getParticipant() == null) {
+                openGames.openGames.add(game);
+            }
+        }
+
+        connection.sendTCP(openGames);
+
+    }
+
+    private  void joinGame(ServerConnection connection, JoinGameRequest joinGameRequest) {
+        for (Game game : games) {
+            if (game.getID() == joinGameRequest.getGame().getID()) {
+                if (!game.getRunning() && game.getParticipant() == null) {
+                   game.setParticipant(connection.getUser());
+
+                   //Send game to both users!
+                    
+
+                }
+            }
+        }
+    }
+
+
+    /*******************************************************************************************************************
+     *
+     * Other Functions
+     *
+     ******************************************************************************************************************/
+
+    private int getGameID() {
+        this.GameIDs ++;
+        return this.GameIDs;
     }
 
 }

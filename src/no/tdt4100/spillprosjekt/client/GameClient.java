@@ -4,9 +4,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
-import no.tdt4100.spillprosjekt.objects.User;
-import no.tdt4100.spillprosjekt.objects.UserList;
-import no.tdt4100.spillprosjekt.objects.UserMessage;
+import no.tdt4100.spillprosjekt.objects.*;
 import no.tdt4100.spillprosjekt.utils.Config;
 import no.tdt4100.spillprosjekt.utils.Logger;
 import no.tdt4100.spillprosjekt.utils.ServerInit;
@@ -23,7 +21,7 @@ import java.util.List;
 public class GameClient {
 
     // Define the client object
-    Client client = new Client();
+    Client client = new Client(40000, 40000);
 
     ArrayList<ClientListener> listeners = new ArrayList<ClientListener>();
 
@@ -35,6 +33,7 @@ public class GameClient {
 
         // Start client
         client.start();
+
 
         // Connect
         try {
@@ -85,15 +84,49 @@ public class GameClient {
                     }
 
                 }
+
+                if (object instanceof Game) {
+                    Game game = (Game) object;
+
+                    if (game.getParticipant() == null) {
+                        for (ClientListener ci : listeners) {
+                            ci.receiveNewGame(game);
+                        }
+                    }
+
+                }
+
+                if (object instanceof OpenGames) {
+                    OpenGames openGames = (OpenGames) object;
+                    for (ClientListener cl : listeners) {
+                        cl.receiveOpenGames(openGames);
+                    }
+                }
             }
         });
 
     }
 
-
     public void addListener(ClientListener toAdd) {
         listeners.add(toAdd);
     }
 
+
+    public void getUsers () {
+        client.sendTCP(Config.commands.getUserList);
+    }
+
+    public void getOpenGames() {
+        client.sendTCP(Config.commands.getOpenGames);
+    }
+
+    public void joinGame(Game game) {
+        JoinGameRequest join = new JoinGameRequest(game);
+        client.sendTCP(join);
+    }
+
+    public void createGame() {
+        client.sendTCP(Config.commands.startGame);
+    }
 
 }
