@@ -68,11 +68,9 @@ public class Cell {
     }
 
     public void dropCell(boolean[][] blocked) {
-        System.out.println("yPos: " + yPos + " xPos: " + xPos);
         if (blocked[yPos + 1][xPos] == false) {
             yPos++;
             if (isLocked() == true) {
-                System.out.println("Got into locked cell " + blocked.length);
                 dropCell(blocked);
             }
         }
@@ -95,7 +93,7 @@ public class Cell {
                 cellImage = new Image("redfaded.png");
                 break;
             case GREEN:
-                cellImage = new Image("yellowfaded.png");
+                cellImage = new Image("greenfaded.png");
                 break;
             case PURPLE:
                 cellImage = new Image("purplefaded.png");
@@ -117,7 +115,6 @@ public class Cell {
         letter = '\0';
         locked = true;
     }
-
 
     public  boolean isGrey() {
         return grey;

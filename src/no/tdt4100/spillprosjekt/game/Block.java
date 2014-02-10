@@ -28,6 +28,8 @@ public class Block {
     private int xPos;
     private int yPos;
 
+    private int fadeIndex;
+
     public Block (int yPos) {
         this.xPos = 0;
         this.yPos = yPos;
@@ -124,5 +126,17 @@ public class Block {
                 return true;
         }
         return false;
+    }
+
+    public boolean fadeNext() {
+        try {
+            System.out.println("Fading: " + cells.get(fadeIndex).getLetter());
+            cells.get(fadeIndex).fade();
+            fadeIndex++;
+        }
+        catch (Exception e) {
+            Logger.log(e);
+        }
+        return fadeIndex == wordString.length();
     }
 }

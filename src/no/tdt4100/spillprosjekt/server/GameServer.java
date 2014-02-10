@@ -18,6 +18,7 @@ import no.tdt4100.spillprosjekt.utils.Config;
 import no.tdt4100.spillprosjekt.utils.Logger;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class GameServer {
 
@@ -26,9 +27,25 @@ public class GameServer {
 
     // Start server, create new server object
     public static void main (String[] args) {
+        ArrayList<String> words = new ArrayList<String>();
+        String[] wordsArray;
+        try {
+            Scanner scanner = new Scanner("wordlist.txt");
+            while (scanner.hasNextLine()) {
+                words.add(scanner.nextLine());
+            }
+            scanner.close();
+            wordsArray = words.toArray(new String[0]);
+            Config.wordList = wordsArray;
+        }
+        catch (Exception e) {
+            Logger.log(e);
+        }
         GameServer gameserver = new GameServer();
         gameserver.start();
     }
+
+
 
     // Start Server
     public void start() {
