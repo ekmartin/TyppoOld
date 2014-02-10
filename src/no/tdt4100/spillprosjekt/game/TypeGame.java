@@ -16,12 +16,15 @@ public class TypeGame {
     private int addBlockTreshold;
     private int addBlockCounter;
 
-    public boolean[][] blocked;
+    private boolean[][] blocked;
 
     private Word[] wordList;
     private int wordListIndex;
 
     private int bottom;
+
+    private boolean startedWriting;
+    private Block currentBlock;
 
     private ArrayList<Block> blocks = new ArrayList<Block>();
 
@@ -64,12 +67,10 @@ public class TypeGame {
             addBlockTreshold = 2;
         }
         for (Block block : blocks) {
-            if (block.isLocked() == false)
+            if (!block.isLocked())
                 block.dropBlock(getBlocked());
         }
-        System.out.println("Add: " + addBlockCounter + " : " + addBlockTreshold);
         if (addBlockCounter >= addBlockTreshold) {
-            System.out.println("Adding block.");
             addBlock();
             addBlockCounter = 0;
         }
@@ -79,7 +80,7 @@ public class TypeGame {
     public boolean addDead() {
         boolean returnVal = false;
         for (Block block : blocks) {
-            if (block.up() == true)
+            if (block.up())
                 returnVal = true;
         }
         blocks.add(new Block(bottom));
@@ -96,10 +97,38 @@ public class TypeGame {
     public boolean[][] getBlocked() {
         for (Block block : blocks) {
             for (Cell cell : block.getCells()) {
-                if (cell.isLocked() == true)
+                if (cell.isLocked())
                     blocked[cell.getY()][cell.getX()] = true;
             }
         }
         return blocked;
+    }
+
+    public boolean hasStartedWriting() {
+        return startedWriting;
+    }
+
+    public void startedWriting(Block currentBlock) {
+        startedWriting = true;
+        this.currentBlock = currentBlock;
+    }
+
+    public Block getCurrentBlock() {
+        return currentBlock;
+    }
+
+    public ArrayList<Block> getBlocks() {
+        return blocks;
+    }
+
+    public void fadeNext() {
+        if (startedWriting) {
+            System.out.println("fading next!!!");
+            if (currentBlock.fadeNext()) {
+                System.out.println("Deleting block, cuz yolo. ");
+                blocks.remove(currentBlock);
+                startedWriting = false;
+            }
+        }
     }
 }

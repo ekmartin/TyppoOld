@@ -20,10 +20,6 @@ public class Config {
     public static float boardWidthFloat = boardWidth*cellWidth;
     public static float boardHeightFloat = boardHeight*cellHeight;
 
-    public static String[] WordList(){
-        String[] list = {"AIDS", "Lollypop", "Mordi", "Råtte"};
-        return list;
-    }
 
     public enum commands {
         getUserList,
@@ -31,6 +27,7 @@ public class Config {
         userDisconnected
     }
 
+    public static String[] wordList;
 
 
 }
