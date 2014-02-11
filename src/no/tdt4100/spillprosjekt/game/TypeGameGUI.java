@@ -67,7 +67,7 @@ public class TypeGameGUI extends BasicGame {
         }
         wordList = new WordList(Config.wordList, 500);
         game = new TypeGame(wordList);
-        typeMap = new TiledMap(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/TypeMap.tmx"));
+        typeMap = new TiledMap(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/TiledMap.tmx"), Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/").getPath());
     }
 
     @Override
