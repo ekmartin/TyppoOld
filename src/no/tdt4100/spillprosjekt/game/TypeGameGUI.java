@@ -48,12 +48,13 @@ public class TypeGameGUI extends BasicGame {
         counter = 0;
         ArrayList<String> words = new ArrayList<String>();
         String[] wordsArray;
+
         try {
-            typeSoundGood = new Sound("click.aif");
-            typeSoundFail = new Sound("Bottle.aif");
-            lockSound = new Sound("Tink.aif");
-            loseSound = new Sound("Basso.aif");
-            Scanner scanner = new Scanner(new File("wordlist.txt"));
+            typeSoundGood = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/click.aif"));
+            typeSoundFail = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/Bottle.aif"));
+            lockSound = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/Tink.aif"));
+            loseSound = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/Basso.aif"));
+            Scanner scanner = new Scanner(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/wordlist.txt"));
             while (scanner.hasNextLine()) {
                 words.add(scanner.nextLine());
             }
@@ -66,7 +67,7 @@ public class TypeGameGUI extends BasicGame {
         }
         wordList = new WordList(Config.wordList, 500);
         game = new TypeGame(wordList);
-        typeMap = new TiledMap("/TypeMap.tmx", true);
+        typeMap = new TiledMap(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/TypeMap.tmx"));
     }
 
     @Override

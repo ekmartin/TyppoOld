@@ -45,22 +45,22 @@ public class Cell {
         try {
             switch (color) {
                 case BLUE:
-                    cellImage = new Image("bluecell.png");
+                    cellImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/bluecell.png"), "bluecell.png", false);
                     break;
                 case RED:
-                    cellImage = new Image("redcell.png");
+                    cellImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/redcell.png"), "redcell.png", false);
                     break;
                 case GREEN:
-                    cellImage = new Image("greencell.png");
+                    cellImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/greencell.png"), "greencell.png", false);
                     break;
                 case TEAL:
-                    cellImage = new Image("tealcell.png");
+                    cellImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/tealcell.png"), "tealcell.png", false);
                     break;
                 case PURPLE:
-                    cellImage = new Image("purplecell.png");
+                    cellImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/purplecell.png"), "purplecell.png", false);
                     break;
                 case ORANGE:
-                    cellImage = new Image("orangecell.png");
+                    cellImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/orangecell.png"), "orangecell.png", false);
                     break;
             }
         }
@@ -90,22 +90,22 @@ public class Cell {
         try {
             switch (color) {
                 case BLUE:
-                    cellImage = new Image("bluecell.png");
+                    cellImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/bluecell.png"), "bluecell.png", false);
                     break;
                 case RED:
-                    cellImage = new Image("redcell.png");
+                    cellImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/redcell.png"), "redcell.png", false);
                     break;
                 case GREEN:
-                    cellImage = new Image("greencell.png");
+                    cellImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/greencell.png"), "greencell.png", false);
                     break;
                 case TEAL:
-                    cellImage = new Image("tealcell.png");
+                    cellImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/tealcell.png"), "tealcell.png", false);
                     break;
                 case PURPLE:
-                    cellImage = new Image("purplecell.png");
+                    cellImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/purplecell.png"), "purplecell.png", false);
                     break;
                 case ORANGE:
-                    cellImage = new Image("orangecell.png");
+                    cellImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/orangecell.png"), "orangecell.png", false);
                     break;
             }
         }
@@ -117,22 +117,22 @@ public class Cell {
         try {
             switch (color) {
                 case BLUE:
-                    cellImage = new Image("bluefaded.png");
+                    cellImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/bluefaded.png"), "bluefaded.png", false);
                     break;
                 case RED:
-                    cellImage = new Image("redfaded.png");
+                    cellImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/redfaded.png"), "redfaded.png", false);
                     break;
                 case GREEN:
-                    cellImage = new Image("greenfaded.png");
-                    break;
-                case PURPLE:
-                    cellImage = new Image("purplefaded.png");
+                    cellImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/greenfaded.png"), "greenfaded.png", false);
                     break;
                 case TEAL:
-                    cellImage = new Image("tealfaded.png");
+                    cellImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/tealfaded.png"), "tealfaded.png", false);
+                    break;
+                case PURPLE:
+                    cellImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/purplefaded.png"), "purplefaded.png", false);
                     break;
                 case ORANGE:
-                    cellImage = new Image("orangefaded.png");
+                    cellImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/orangefaded.png"), "orangefaded.png", false);
                     break;
             }
         }
