@@ -12,6 +12,8 @@ import java.util.ArrayList;
  */
 public class TypeGame {
 
+    private int score;
+
     private int delay;
     private int addBlockTreshold;
     private int addBlockCounter;
@@ -34,6 +36,8 @@ public class TypeGame {
             blocked[Config.boardHeight][i] = true;
         }
         bottom = Config.boardHeight;
+
+        score = 0;
 
         delay = 1500;
         addBlockCounter = 3;
@@ -139,6 +143,7 @@ public class TypeGame {
         if (startedWriting) {
             System.out.println("fading next!!!");
             if (currentBlock.fadeNext()) {
+                score++;
                 System.out.println("Deleting block, cuz yolo. ");
                 blocks.remove(currentBlock);
                 startedWriting = false;
