@@ -86,6 +86,7 @@ public class Block {
         for (Cell cell : cells) {
             cell.dropCell(blocked);
             if (blocked[cell.getY()+1][cell.getX()] == true) {
+                TypeGameGUI.lockSound.play();
                 locked = true;
                 for (Cell cell2 : cells) {
                     cell2.lock();

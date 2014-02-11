@@ -21,6 +21,11 @@ public class TypeGameGUI extends BasicGame {
     private int runTime;
     private int counter;
 
+    public static Sound typeSoundGood;
+    public static Sound typeSoundFail;
+    public static Sound loseSound;
+    public static Sound lockSound;
+
     public TypeGameGUI() {
         super("TypeGameGUI game");
     }
@@ -44,6 +49,10 @@ public class TypeGameGUI extends BasicGame {
         ArrayList<String> words = new ArrayList<String>();
         String[] wordsArray;
         try {
+            typeSoundGood = new Sound("click.aif");
+            typeSoundFail = new Sound("Bottle.aif");
+            lockSound = new Sound("Tink.aif");
+            loseSound = new Sound("Basso.aif");
             Scanner scanner = new Scanner(new File("wordlist.txt"));
             while (scanner.hasNextLine()) {
                 words.add(scanner.nextLine());
@@ -62,6 +71,7 @@ public class TypeGameGUI extends BasicGame {
 
     @Override
     public void keyPressed(int key, char c) {
+        boolean wrote = false;
         c = Character.toLowerCase(c);
         ArrayList<AllowedCharacter> allowedChars = new ArrayList<AllowedCharacter>();
         System.out.println("New key pressed, currently writing: " + game.hasStartedWriting());
@@ -83,12 +93,17 @@ public class TypeGameGUI extends BasicGame {
         for (AllowedCharacter allowed : allowedChars) {
             System.out.println("Allowed char: " + allowed.getChar());
             if (allowed.getChar() == c) {
+                wrote = true;
+                typeSoundGood.play(); // temp sound, should be replaced
                 System.out.println("fading next, which is: " + allowed.getChar());
                 game.startedWriting(allowed.getBlock());
                 game.fadeNext();
                 break;
             }
         }
+
+        if (!wrote)
+            typeSoundFail.play();
     }
 
     @Override
