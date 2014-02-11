@@ -47,14 +47,26 @@ public class TypeGame {
         return delay;
     }
 
-    public void addBlock() {
-        blocks.add(new Block(wordList[wordListIndex]));
+    public void gameLost() {
+        // do stuff here
+        System.out.println("2bad4u");
+    }
+
+    public boolean addBlock() {
+        Block addBlock = new Block(wordList[wordListIndex]);
+        for (Cell cell : addBlock.getCells()) {
+            if (blocked[cell.getY()][cell.getX()]) {
+                return false;
+            }
+        }
+        blocks.add(addBlock);
         if (wordListIndex < wordList.length - 1) {
             wordListIndex++;
         }
         else {
             wordListIndex = 0;
         }
+        return true;
     }
 
     public void dropBlocks() {
@@ -71,7 +83,8 @@ public class TypeGame {
                 block.dropBlock(getBlocked());
         }
         if (addBlockCounter >= addBlockTreshold) {
-            addBlock();
+            if (!addBlock())
+                gameLost();
             addBlockCounter = 0;
         }
         addBlockCounter++;
