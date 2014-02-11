@@ -1,6 +1,7 @@
 package no.tdt4100.spillprosjekt.game;
 
 import no.tdt4100.spillprosjekt.objects.Word;
+import no.tdt4100.spillprosjekt.utils.Logger;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
@@ -33,7 +34,7 @@ public class Cell {
         cellImage = new Image("locked.png");
     }
 
-    public Cell(char letter, Word.colors color, int xPos, int yPos) throws SlickException {
+    public Cell(char letter, Word.colors color, int xPos, int yPos) {
         faded = false;
         locked = false;
         this.letter = letter;
@@ -41,29 +42,30 @@ public class Cell {
 
         this.xPos = xPos;
         this.yPos = yPos;
-
-        switch (color) {
-            case BLUE:
-                cellImage = new Image("bluecell.png");
-                break;
-            case RED:
-                cellImage = new Image("redcell.png");
-                break;
-            case GREEN:
-                cellImage = new Image("greencell.png");
-                break;
-            case TEAL:
-                cellImage = new Image("tealcell.png");
-                break;
-            case PURPLE:
-                cellImage = new Image("purplecell.png");
-                break;
-            case ORANGE:
-                cellImage = new Image("orangecell.png");
-                break;
-            default:
-                cellImage = new Image("bluecell.png");
-                break;
+        try {
+            switch (color) {
+                case BLUE:
+                    cellImage = new Image("bluecell.png");
+                    break;
+                case RED:
+                    cellImage = new Image("redcell.png");
+                    break;
+                case GREEN:
+                    cellImage = new Image("greencell.png");
+                    break;
+                case TEAL:
+                    cellImage = new Image("tealcell.png");
+                    break;
+                case PURPLE:
+                    cellImage = new Image("purplecell.png");
+                    break;
+                case ORANGE:
+                    cellImage = new Image("orangecell.png");
+                    break;
+            }
+        }
+        catch (Exception e) {
+            Logger.log(e);
         }
     }
 
@@ -84,34 +86,64 @@ public class Cell {
         return letter;
     }
 
-    public void fade() throws SlickException {
-        switch (color) {
-            case BLUE:
-                cellImage = new Image("bluefaded.png");
-                break;
-            case RED:
-                cellImage = new Image("redfaded.png");
-                break;
-            case GREEN:
-                cellImage = new Image("greenfaded.png");
-                break;
-            case PURPLE:
-                cellImage = new Image("purplefaded.png");
-                break;
-            case TEAL:
-                cellImage = new Image("tealfaded.png");
-                break;
-            case ORANGE:
-                cellImage = new Image("orangefaded.png");
-                break;
-            default:
-                cellImage = new Image("bluefaded.png");
-                break;
+    public void unFade() {
+        try {
+            switch (color) {
+                case BLUE:
+                    cellImage = new Image("bluecell.png");
+                    break;
+                case RED:
+                    cellImage = new Image("redcell.png");
+                    break;
+                case GREEN:
+                    cellImage = new Image("greencell.png");
+                    break;
+                case TEAL:
+                    cellImage = new Image("tealcell.png");
+                    break;
+                case PURPLE:
+                    cellImage = new Image("purplecell.png");
+                    break;
+                case ORANGE:
+                    cellImage = new Image("orangecell.png");
+                    break;
+            }
+        }
+        catch (Exception e) {
+            Logger.log(e);
+        }
+    }
+    public void fade() {
+        try {
+            switch (color) {
+                case BLUE:
+                    cellImage = new Image("bluefaded.png");
+                    break;
+                case RED:
+                    cellImage = new Image("redfaded.png");
+                    break;
+                case GREEN:
+                    cellImage = new Image("greenfaded.png");
+                    break;
+                case PURPLE:
+                    cellImage = new Image("purplefaded.png");
+                    break;
+                case TEAL:
+                    cellImage = new Image("tealfaded.png");
+                    break;
+                case ORANGE:
+                    cellImage = new Image("orangefaded.png");
+                    break;
+            }
+        }
+        catch (Exception e) {
+            Logger.log(e);
         }
         faded = true;
     }
 
     public void lock() {
+        unFade();
         letter = '\0';
         locked = true;
     }

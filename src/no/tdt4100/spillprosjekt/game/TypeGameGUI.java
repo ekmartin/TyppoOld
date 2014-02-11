@@ -29,6 +29,7 @@ public class TypeGameGUI extends BasicGame {
         try {
             AppGameContainer app = new AppGameContainer(new TypeGameGUI());
             app.setDisplayMode(480, 640, false);
+            app.setTargetFrameRate(200);
             app.start();
         }
         catch (SlickException e) {
@@ -64,7 +65,7 @@ public class TypeGameGUI extends BasicGame {
         c = Character.toLowerCase(c);
         ArrayList<AllowedCharacter> allowedChars = new ArrayList<AllowedCharacter>();
         System.out.println("New key pressed, currently writing: " + game.hasStartedWriting());
-        if (game.hasStartedWriting()) {
+        if (game.hasStartedWriting() && !game.getCurrentBlock().isLocked()) {
             for (Cell cell : game.getCurrentBlock().getCells()) {
                 if (!cell.isFaded()) {
                     allowedChars.add(new AllowedCharacter(Character.toLowerCase(cell.getLetter()), game.getCurrentBlock()));
