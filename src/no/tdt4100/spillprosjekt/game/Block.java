@@ -6,7 +6,7 @@ import no.tdt4100.spillprosjekt.utils.Logger;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
-
+import org.newdawn.slick.TrueTypeFont;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -57,8 +57,9 @@ public class Block {
             font = new Font("Verdana", Font.BOLD, 32);
             uFont = new UnicodeFont(font, font.getSize(), font.isBold(), font.isItalic());
             uFont.getEffects().add(new ColorEffect(java.awt.Color.white));
-            uFont.addNeheGlyphs();
+            uFont.addGlyphs("ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ");
             uFont.loadGlyphs();
+            //uFont = new TrueTypeFont(font, true);
         }
         catch (Exception e) {
             Logger.log(e);
@@ -115,6 +116,7 @@ public class Block {
 
     public void draw(Graphics g) {
         g.setFont(uFont);
+
         for (Cell cell : cells) {
             g.drawImage(cell.getCellImage(), (cell.getX() + 1) * Config.cellWidth, cell.getY() * Config.cellHeight);
             g.drawString(String.valueOf(cell.getLetter()), ((cell.getX() + 1) * Config.cellWidth)+3, (cell.getY() * Config.cellHeight)-4);
