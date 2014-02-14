@@ -6,8 +6,8 @@ import no.tdt4100.spillprosjekt.utils.Logger;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
-import org.newdawn.slick.TrueTypeFont;
-import java.awt.*;
+
+import java.awt.Font;
 import java.util.ArrayList;
 
 /**
@@ -21,6 +21,8 @@ public class Block {
 
     private Font font;
     private UnicodeFont uFont;
+
+    private String alphabet = "abcdefghijklmnopqrstuvwxyzæøå";
 
     private boolean locked;
     private boolean grey;
@@ -57,7 +59,7 @@ public class Block {
             font = new Font("Verdana", Font.BOLD, 32);
             uFont = new UnicodeFont(font, font.getSize(), font.isBold(), font.isItalic());
             uFont.getEffects().add(new ColorEffect(java.awt.Color.white));
-            uFont.addGlyphs("ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ");
+            uFont.addGlyphs(alphabet + alphabet.toUpperCase());
             uFont.loadGlyphs();
             //uFont = new TrueTypeFont(font, true);
         }
@@ -87,7 +89,7 @@ public class Block {
         for (Cell cell : cells) {
             cell.dropCell(blocked);
             if (blocked[cell.getY()+1][cell.getX()] == true) {
-                TypeGameGUI.lockSound.play();
+                GameGUI.lockSound.play();
                 locked = true;
                 for (Cell cell2 : cells) {
                     cell2.lock();
