@@ -15,7 +15,7 @@ public class TypeFont {
     private boolean bold;
     private boolean italic;
     private Color color;
-    private String alphabet = "abcdefghijklmnopqrstuvwxyzæøå";
+    private String glyphs = "abcdefghijklmnopqrstuvwxyzæøå0123456789()!?";
 
     public TypeFont(String font, int size, boolean bold, Color color) {
         this.font = font;
@@ -30,7 +30,7 @@ public class TypeFont {
                 awtFont = new Font(font, Font.PLAIN, size);
             uFont = new UnicodeFont(awtFont, size, bold, false);
             uFont.getEffects().add(new ColorEffect(color));
-            uFont.addGlyphs(alphabet + alphabet.toUpperCase());
+            uFont.addGlyphs(glyphs + glyphs.toUpperCase());
             uFont.loadGlyphs();
         } catch (Exception e) {
             Logger.log(e);
