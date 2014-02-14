@@ -6,14 +6,13 @@ import no.tdt4100.spillprosjekt.utils.Logger;
 import org.newdawn.slick.*;
 import org.newdawn.slick.tiled.TiledMap;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
  * Created by eiriksylliaas on 08.02.14.
  */
-public class TypeGameGUI extends BasicGame {
+public class GameGUI extends BasicGame {
 
     private TypeGame game;
     private WordList wordList;
@@ -26,13 +25,13 @@ public class TypeGameGUI extends BasicGame {
     public static Sound loseSound;
     public static Sound lockSound;
 
-    public TypeGameGUI() {
+    public GameGUI() {
         super("TypeGameGUI game");
     }
 
     public static void main (String[] args) {
         try {
-            AppGameContainer app = new AppGameContainer(new TypeGameGUI());
+            AppGameContainer app = new AppGameContainer(new GameGUI());
             app.setDisplayMode(480, 640, false);
             app.setTargetFrameRate(200);
             app.start();
