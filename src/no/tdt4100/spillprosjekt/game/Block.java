@@ -7,22 +7,16 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 
-import java.awt.Font;
+import java.awt.*;
 import java.util.ArrayList;
 
-/**
- * Created by ek on 09/02/14.
- */
 public class Block {
 
     private ArrayList<Cell> cells = new ArrayList<Cell>();
     private String wordString;
     private Word.colors color;
 
-    private Font font;
-    private UnicodeFont uFont;
-
-    private String alphabet = "abcdefghijklmnopqrstuvwxyzæøå";
+    private TypeFont typeFont;
 
     private boolean locked;
     private boolean grey;
@@ -36,6 +30,9 @@ public class Block {
         this.xPos = 0;
         this.yPos = yPos;
         grey = true;
+
+        typeFont = new TypeFont("Verdana", 32, true, Color.white);
+
         for (int i = 0; i < Config.boardWidth; i++) {
             try {
                 cells.add(new Cell(xPos + i, yPos));
@@ -55,17 +52,7 @@ public class Block {
         this.xPos = word.getX();
         this.yPos = 0;
 
-        try {
-            font = new Font("Verdana", Font.BOLD, 32);
-            uFont = new UnicodeFont(font, font.getSize(), font.isBold(), font.isItalic());
-            uFont.getEffects().add(new ColorEffect(java.awt.Color.white));
-            uFont.addGlyphs(alphabet + alphabet.toUpperCase());
-            uFont.loadGlyphs();
-            //uFont = new TrueTypeFont(font, true);
-        }
-        catch (Exception e) {
-            Logger.log(e);
-        }
+        typeFont = new TypeFont("Verdana", 32, true, Color.white);
 
         for (int i = 0; i < wordString.length(); i++) {
             try {
@@ -117,7 +104,7 @@ public class Block {
     }
 
     public void draw(Graphics g) {
-        g.setFont(uFont);
+        g.setFont(typeFont.getFont());
 
         for (Cell cell : cells) {
             g.drawImage(cell.getCellImage(), (cell.getX() + 1) * Config.cellWidth, cell.getY() * Config.cellHeight);
