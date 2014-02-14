@@ -17,8 +17,8 @@ public class Config {
     public static int boardWidth = 13;
     public static int boardHeight = 19;
 
-    public static float boardWidthFloat = boardWidth*cellWidth;
-    public static float boardHeightFloat = boardHeight*cellHeight;
+    public static float boardWidthFloat = (boardWidth+2)*cellWidth;
+    public static float boardHeightFloat = (boardHeight+1)*cellHeight;
 
 
     public enum commands {
