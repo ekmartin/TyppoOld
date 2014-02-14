@@ -14,9 +14,6 @@ import org.newdawn.slick.tiled.TiledMap;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/**
- * Created by eiriksylliaas on 08.02.14.
- */
 public class GameGUI extends BasicGameState {
 
     private TypeGame game;

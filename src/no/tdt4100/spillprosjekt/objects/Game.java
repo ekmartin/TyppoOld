@@ -2,9 +2,6 @@ package no.tdt4100.spillprosjekt.objects;
 
 import no.tdt4100.spillprosjekt.utils.Config;
 
-/**
- * Created by eiriksylliaas on 10.02.14.
- */
 public class Game {
 
     private User creator;

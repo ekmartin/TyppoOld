@@ -1,8 +1,6 @@
 package no.tdt4100.spillprosjekt.objects;
 
 /**
- * Created by eiriksylliaas on 08.02.14.
- *
  * Words. Position and queue.
  */
 public class Word {

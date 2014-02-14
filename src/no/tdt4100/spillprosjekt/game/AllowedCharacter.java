@@ -1,8 +1,5 @@
 package no.tdt4100.spillprosjekt.game;
 
-/**
- * Created by ek on 10/02/14.
- */
 public class AllowedCharacter {
 
     private char allowedChar;

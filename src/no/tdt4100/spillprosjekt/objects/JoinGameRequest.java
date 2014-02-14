@@ -1,8 +1,5 @@
 package no.tdt4100.spillprosjekt.objects;
 
-/**
- * Created by eiriksylliaas on 10.02.14.
- */
 public class JoinGameRequest {
 
 

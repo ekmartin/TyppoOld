@@ -7,9 +7,6 @@ import org.newdawn.slick.SlickException;
 
 import java.util.ArrayList;
 
-/**
- * Created by ek on 09/02/14.
- */
 public class Cell {
     private char letter;
     private Word.colors color;

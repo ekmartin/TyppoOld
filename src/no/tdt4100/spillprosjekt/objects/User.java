@@ -1,8 +1,6 @@
 package no.tdt4100.spillprosjekt.objects;
 
 /**
- * Created by eiriksylliaas on 09.02.14.
- *
  * Created by user. Send username to server.
  */
 public class User {

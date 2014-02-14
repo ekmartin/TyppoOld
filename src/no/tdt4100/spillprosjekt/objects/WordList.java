@@ -5,9 +5,7 @@ import no.tdt4100.spillprosjekt.utils.Config;
 import java.util.Random;
 
 /**
- * Created by eiriksylliaas on 08.02.14.
- *
- * The word list user receive
+ * The word list each user receives.
  */
 public class WordList {
 

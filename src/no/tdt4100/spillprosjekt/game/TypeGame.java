@@ -7,9 +7,6 @@ import org.newdawn.slick.Graphics;
 
 import java.util.ArrayList;
 
-/**
- * Created by ek on 09/02/14.
- */
 public class TypeGame {
 
     private int score;
@@ -143,11 +140,13 @@ public class TypeGame {
         if (startedWriting) {
             System.out.println("fading next!!!");
             if (currentBlock.fadeNext()) {
-                score++;
+                score += 5;
                 System.out.println("Deleting block, cuz yolo. ");
                 blocks.remove(currentBlock);
                 startedWriting = false;
             }
+            else
+                score++;
         }
     }
 }

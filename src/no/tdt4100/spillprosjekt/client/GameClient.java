@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by eiriksylliaas on 09.02.14.
- *
  * Game Client
  */
 public class GameClient {
