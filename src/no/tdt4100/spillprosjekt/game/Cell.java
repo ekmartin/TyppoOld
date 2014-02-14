@@ -28,10 +28,11 @@ public class Cell {
         this.xPos = xPos;
         this.yPos = yPos;
 
-        cellImage = new Image("locked.png");
+        cellImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/locked.png"), "locked.png", false);
     }
 
     public Cell(char letter, Word.colors color, int xPos, int yPos) {
+        grey = false;
         faded = false;
         locked = false;
         this.letter = letter;
@@ -145,6 +146,9 @@ public class Cell {
         locked = true;
     }
 
+    public boolean isDead() {
+        return locked || grey;
+    }
     public  boolean isGrey() {
         return grey;
     }
@@ -170,7 +174,7 @@ public class Cell {
             return true;
         }
         else {
-            yPos++;
+            yPos--;
             return false;
         }
     }

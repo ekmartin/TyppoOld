@@ -7,7 +7,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class Block {
@@ -21,21 +20,17 @@ public class Block {
     private boolean locked;
     private boolean grey;
 
-    private int xPos;
-    private int yPos;
-
     private int fadeIndex;
 
-    public Block (int yPos) {
-        this.xPos = 0;
-        this.yPos = yPos;
+    public Block (int y) {
         grey = true;
+        locked = false;
 
-        typeFont = new TypeFont("Verdana", 32, true, Color.white);
+        typeFont = new TypeFont("Verdana", 32, true, java.awt.Color.white);
 
         for (int i = 0; i < Config.boardWidth; i++) {
             try {
-                cells.add(new Cell(xPos + i, yPos));
+                cells.add(new Cell(i, y));
             }
             catch (Exception e) {
                 Logger.log(e);
@@ -49,14 +44,13 @@ public class Block {
 
         locked = false;
 
-        this.xPos = word.getX();
-        this.yPos = 0;
+        int x = word.getX();
 
-        typeFont = new TypeFont("Verdana", 32, true, Color.white);
+        typeFont = new TypeFont("Verdana", 32, true, java.awt.Color.white);
 
         for (int i = 0; i < wordString.length(); i++) {
             try {
-                cells.add(new Cell(wordString.charAt(i), color, xPos + i, yPos));
+                cells.add(new Cell(wordString.charAt(i), color, x + i, 0));
             }
             catch (Exception e) {
                 Logger.log(e);
@@ -110,6 +104,11 @@ public class Block {
             g.drawImage(cell.getCellImage(), (cell.getX() + 1) * Config.cellWidth, cell.getY() * Config.cellHeight);
             g.drawString(String.valueOf(cell.getLetter()), ((cell.getX() + 1) * Config.cellWidth)+3, (cell.getY() * Config.cellHeight)-4);
         }
+    }
+
+    public int getY() {
+        // This is pointless to look at if the block is locked, as the cells might be split over multiple rows.
+        return cells.get(0).getY();
     }
 
     public boolean up() {

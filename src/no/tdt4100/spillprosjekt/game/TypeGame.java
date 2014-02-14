@@ -34,7 +34,7 @@ public class TypeGame {
         for (int i = 0; i < blocked[Config.boardHeight].length; i++) {
             blocked[Config.boardHeight][i] = true;
         }
-        bottom = Config.boardHeight;
+        bottom = Config.boardHeight-1;
 
         score = 0;
 
@@ -59,7 +59,7 @@ public class TypeGame {
     public boolean addBlock() {
         Block addBlock = new Block(wordList[wordListIndex]);
         for (Cell cell : addBlock.getCells()) {
-            if (blocked[cell.getY()][cell.getX()]) {
+            if (getBlocked()[cell.getY()][cell.getX()]) {
                 return false;
             }
         }
@@ -75,15 +75,17 @@ public class TypeGame {
 
     public void dropBlocks() {
         // TODO: Fix delay/treshold, should use something like (the derivative) of 1200 / (1 + ℯ^b x) + 300 ((-89.1283/Math.pow((0.0742736*counter)+1, 2)))
-        delay -= 10;
+        if (delay > 300)
+            delay -= 10;
+        /*
         if (delay < 800) {
             addBlockTreshold = 1;
         }
         else if (delay < 1300) {
             addBlockTreshold = 2;
-        }
+        }*/
         for (Block block : blocks) {
-            if (!block.isLocked())
+            if (!block.isLocked() && !block.isGrey())
                 block.dropBlock(getBlocked());
         }
         if (addBlockCounter >= addBlockTreshold) {
@@ -97,8 +99,11 @@ public class TypeGame {
     public boolean addDead() {
         boolean returnVal = false;
         for (Block block : blocks) {
-            if (block.up())
-                returnVal = true;
+            System.out.println("locked, " + block.isLocked());
+            if (block.isLocked()) {
+                if (block.up())
+                    returnVal = true;
+            }
         }
         blocks.add(new Block(bottom));
         bottom--;
@@ -117,7 +122,7 @@ public class TypeGame {
     public boolean[][] getBlocked() {
         for (Block block : blocks) {
             for (Cell cell : block.getCells()) {
-                if (cell.isLocked())
+                if (cell.isDead())
                     blocked[cell.getY()][cell.getX()] = true;
             }
         }
@@ -153,5 +158,9 @@ public class TypeGame {
             else
                 score++;
         }
+    }
+
+    public int getBottom() {
+        return bottom;
     }
 }

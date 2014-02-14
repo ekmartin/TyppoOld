@@ -20,6 +20,7 @@ public class GameGUI extends BasicGameState {
     private WordList wordList;
     private TiledMap typeMap = null;
     private int runTime;
+    private int failCounter;
 
     public static final int ID = 2;
     private StateBasedGame stateGame;
@@ -31,6 +32,7 @@ public class GameGUI extends BasicGameState {
 
     @Override
     public void init(GameContainer container, StateBasedGame stateGame) throws SlickException {
+        failCounter = 0;
         this.stateGame = stateGame;
         runTime = 0;
         ArrayList<String> words = new ArrayList<String>();
@@ -66,6 +68,9 @@ public class GameGUI extends BasicGameState {
         if (key == Input.KEY_ESCAPE) {
             stateGame.enterState(3, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
         }
+        else if (key == Input.KEY_ENTER) {
+            game.addDead();
+        }
         else {
             boolean wrote = false;
             c = Character.toLowerCase(c);
@@ -90,6 +95,7 @@ public class GameGUI extends BasicGameState {
                 System.out.println("Allowed char: " + allowed.getChar());
                 if (allowed.getChar() == c) {
                     wrote = true;
+                    failCounter = 0;
                     typeSoundGood.play(); // temp sound, should be replaced
                     System.out.println("fading next, which is: " + allowed.getChar());
                     game.startedWriting(allowed.getBlock());
@@ -98,8 +104,15 @@ public class GameGUI extends BasicGameState {
                 }
             }
 
-            if (!wrote)
+            if (!wrote) {
+                failCounter++;
                 typeSoundFail.play();
+                if (failCounter >= 5) {
+                    game.addDead();
+                    failCounter = 0;
+                    // should play another sound here
+                }
+            }
         }
     }
 
