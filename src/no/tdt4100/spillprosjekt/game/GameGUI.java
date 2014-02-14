@@ -3,7 +3,12 @@ package no.tdt4100.spillprosjekt.game;
 import no.tdt4100.spillprosjekt.objects.WordList;
 import no.tdt4100.spillprosjekt.utils.Config;
 import no.tdt4100.spillprosjekt.utils.Logger;
+
 import org.newdawn.slick.*;
+import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 import org.newdawn.slick.tiled.TiledMap;
 
 import java.util.ArrayList;
@@ -12,39 +17,25 @@ import java.util.Scanner;
 /**
  * Created by eiriksylliaas on 08.02.14.
  */
-public class GameGUI extends BasicGame {
+public class GameGUI extends BasicGameState {
 
     private TypeGame game;
     private WordList wordList;
     private TiledMap typeMap = null;
     private int runTime;
-    private int counter;
+
+    public static final int ID = 2;
+    private StateBasedGame stateGame;
 
     public static Sound typeSoundGood;
     public static Sound typeSoundFail;
     public static Sound loseSound;
     public static Sound lockSound;
 
-    public GameGUI() {
-        super("TypeGameGUI game");
-    }
-
-    public static void main (String[] args) {
-        try {
-            AppGameContainer app = new AppGameContainer(new GameGUI());
-            app.setDisplayMode(480, 640, false);
-            app.setTargetFrameRate(200);
-            app.start();
-        }
-        catch (SlickException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
-    public void init(GameContainer container) throws SlickException {
+    public void init(GameContainer container, StateBasedGame stateGame) throws SlickException {
+        this.stateGame = stateGame;
         runTime = 0;
-        counter = 0;
         ArrayList<String> words = new ArrayList<String>();
         String[] wordsArray;
 
@@ -69,45 +60,53 @@ public class GameGUI extends BasicGame {
         typeMap = new TiledMap(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/TiledMap.tmx"), Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/").getPath());
     }
 
-    @Override
-    public void keyPressed(int key, char c) {
-        boolean wrote = false;
-        c = Character.toLowerCase(c);
-        ArrayList<AllowedCharacter> allowedChars = new ArrayList<AllowedCharacter>();
-        System.out.println("New key pressed, currently writing: " + game.hasStartedWriting());
-        if (game.hasStartedWriting() && !game.getCurrentBlock().isLocked()) {
-            for (Cell cell : game.getCurrentBlock().getCells()) {
-                if (!cell.isFaded()) {
-                    allowedChars.add(new AllowedCharacter(Character.toLowerCase(cell.getLetter()), game.getCurrentBlock()));
-                    break;
-                }
-            }
-        }
-        else {
-            System.out.println("kom inn i else");
-            for (Block block : game.getBlocks()) {
-                allowedChars.add(new AllowedCharacter(Character.toLowerCase(block.getCells().get(0).getLetter()), block));
-            }
-        }
-
-        for (AllowedCharacter allowed : allowedChars) {
-            System.out.println("Allowed char: " + allowed.getChar());
-            if (allowed.getChar() == c) {
-                wrote = true;
-                typeSoundGood.play(); // temp sound, should be replaced
-                System.out.println("fading next, which is: " + allowed.getChar());
-                game.startedWriting(allowed.getBlock());
-                game.fadeNext();
-                break;
-            }
-        }
-
-        if (!wrote)
-            typeSoundFail.play();
+    public int getID() {
+        return ID;
     }
 
     @Override
-    public void update(GameContainer container, int delta) throws SlickException {
+    public void keyPressed(int key, char c) {
+        if (key == Input.KEY_ESCAPE) {
+            stateGame.enterState(3, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+        }
+        else {
+            boolean wrote = false;
+            c = Character.toLowerCase(c);
+            ArrayList<AllowedCharacter> allowedChars = new ArrayList<AllowedCharacter>();
+            System.out.println("New key pressed, currently writing: " + game.hasStartedWriting());
+            if (game.hasStartedWriting() && !game.getCurrentBlock().isLocked()) {
+                for (Cell cell : game.getCurrentBlock().getCells()) {
+                    if (!cell.isFaded()) {
+                        allowedChars.add(new AllowedCharacter(Character.toLowerCase(cell.getLetter()), game.getCurrentBlock()));
+                        break;
+                    }
+                }
+            }
+            else {
+                System.out.println("kom inn i else");
+                for (Block block : game.getBlocks()) {
+                    allowedChars.add(new AllowedCharacter(Character.toLowerCase(block.getCells().get(0).getLetter()), block));
+                }
+            }
+
+            for (AllowedCharacter allowed : allowedChars) {
+                System.out.println("Allowed char: " + allowed.getChar());
+                if (allowed.getChar() == c) {
+                    wrote = true;
+                    typeSoundGood.play(); // temp sound, should be replaced
+                    System.out.println("fading next, which is: " + allowed.getChar());
+                    game.startedWriting(allowed.getBlock());
+                    game.fadeNext();
+                    break;
+                }
+            }
+
+            if (!wrote)
+                typeSoundFail.play();
+        }
+    }
+
+    public void update(GameContainer container, StateBasedGame stateGame, int delta) throws SlickException {
         runTime += delta;
         int n = runTime / game.getDelay();
         if (runTime > game.getDelay()) {
@@ -119,7 +118,7 @@ public class GameGUI extends BasicGame {
 
     }
 
-    public void render(GameContainer container, Graphics g) throws SlickException {
+    public void render(GameContainer container, StateBasedGame stateGame, Graphics g) throws SlickException {
         typeMap.render(0, 0);
         game.render(g);
     }

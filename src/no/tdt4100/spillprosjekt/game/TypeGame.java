@@ -53,7 +53,7 @@ public class TypeGame {
 
     public void gameLost() {
         // do stuff here
-        TypeGameGUI.loseSound.play();
+        GameGUI.loseSound.play();
         System.out.println("2bad4u");
     }
 
