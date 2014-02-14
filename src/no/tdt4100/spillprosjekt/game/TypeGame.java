@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class TypeGame {
 
+    private TypeFont typeFont;
     private int score;
 
     private int delay;
@@ -28,6 +29,7 @@ public class TypeGame {
     private ArrayList<Block> blocks = new ArrayList<Block>();
 
     public TypeGame(WordList wordList) {
+        typeFont = new TypeFont("Verdana", 20, true, java.awt.Color.lightGray);
         blocked = new boolean[Config.boardHeight + 1][Config.boardWidth];
         for (int i = 0; i < blocked[Config.boardHeight].length; i++) {
             blocked[Config.boardHeight][i] = true;
@@ -107,6 +109,9 @@ public class TypeGame {
         for (Block block : blocks) {
             block.draw(g);
         }
+        g.setFont(typeFont.getFont());
+        String scoreString = score+"";
+        g.drawString(scoreString, Config.boardWidthFloat/2-(scoreString.length()*8), Config.boardHeightFloat-32);
     }
 
     public boolean[][] getBlocked() {
