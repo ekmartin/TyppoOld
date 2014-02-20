@@ -28,6 +28,7 @@ public class TypeGameGUI extends StateBasedGame {
     @Override
     public void initStatesList(GameContainer container) throws SlickException {
         addState(new Menu());
+        addState(new MenuJoinGame());
         addState(new GameGUI());
         addState(new Pause());
         addState(new LoseScreen());
