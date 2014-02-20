@@ -16,6 +16,8 @@ public class TypeGame {
     private int addBlockTreshold;
     private int addBlockCounter;
 
+    private boolean gameLost;
+
     private boolean[][] blocked;
 
     private Word[] wordList;
@@ -29,6 +31,8 @@ public class TypeGame {
     private ArrayList<Block> blocks = new ArrayList<Block>();
 
     public TypeGame(WordList wordList) {
+        gameLost = false;
+
         typeFont = new TypeFont("Verdana", 20, true, java.awt.Color.lightGray);
         blocked = new boolean[Config.boardHeight + 1][Config.boardWidth];
         for (int i = 0; i < blocked[Config.boardHeight].length; i++) {
@@ -48,12 +52,6 @@ public class TypeGame {
 
     public int getDelay() {
         return delay;
-    }
-
-    public void gameLost() {
-        // do stuff here
-        GameGUI.loseSound.play();
-        System.out.println("2bad4u");
     }
 
     public boolean addBlock() {
@@ -90,7 +88,7 @@ public class TypeGame {
         }
         if (addBlockCounter >= addBlockTreshold) {
             if (!addBlock())
-                gameLost();
+                gameLost = true;
             addBlockCounter = 0;
         }
         addBlockCounter++;
@@ -162,5 +160,9 @@ public class TypeGame {
 
     public int getBottom() {
         return bottom;
+    }
+
+    public boolean isLost() {
+        return gameLost;
     }
 }

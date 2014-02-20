@@ -30,5 +30,6 @@ public class TypeGameGUI extends StateBasedGame {
         addState(new Menu());
         addState(new GameGUI());
         addState(new Pause());
+        addState(new LoseScreen());
     }
 }

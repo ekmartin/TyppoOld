@@ -125,7 +125,11 @@ public class GameGUI extends BasicGameState {
             }
             runTime = 0;
         }
-
+        if (game.isLost()) {
+            loseSound.play();
+            System.out.println("Game lost.");
+            stateGame.enterState(4, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+        }
     }
 
     public void render(GameContainer container, StateBasedGame stateGame, Graphics g) throws SlickException {
