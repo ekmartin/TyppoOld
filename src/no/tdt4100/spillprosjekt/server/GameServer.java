@@ -52,7 +52,7 @@ public class GameServer {
     // Start Server
     public void start() {
 
-        server = new Server(40000, 40000){
+        server = new Server(400000, 400000){
             protected Connection newConnection () {
                 return new ServerConnection();
             }
@@ -208,10 +208,19 @@ public class GameServer {
         for (Game game : games) {
             if (game.getID() == joinGameRequest.getGame().getID()) {
                 if (!game.getRunning() && game.getParticipant() == null) {
-                   game.setParticipant(connection.getUser());
+                    game.setParticipant(connection.getUser());
 
-                   //Send game to both users!
-                    
+                    game.setRunning(true);
+
+                    //Send game to both users!
+                    for (Connection con : server.getConnections()){
+                        ServerConnection serverConnection = (ServerConnection) connection;
+                        if (serverConnection.getUser().getUID() == game.getCreator().getUID() || serverConnection.getUser().getUID() == game.getParticipant().getUID()) {
+
+                            serverConnection.sendTCP(new StartGame(game));
+
+                        }
+                    }
 
                 }
             }

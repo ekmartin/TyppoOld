@@ -28,6 +28,7 @@ public class ServerInit {
         kryo.register(Word[].class);
         kryo.register(OpenGames.class);
         kryo.register(JoinGameRequest.class);
+        kryo.register(StartGame.class);
 
     }
 

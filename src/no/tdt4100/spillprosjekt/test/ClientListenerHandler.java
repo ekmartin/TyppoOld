@@ -3,10 +3,7 @@ package no.tdt4100.spillprosjekt.test;
 import com.esotericsoftware.kryonet.Client;
 import no.tdt4100.spillprosjekt.client.ClientListener;
 import no.tdt4100.spillprosjekt.client.GameClient;
-import no.tdt4100.spillprosjekt.objects.Game;
-import no.tdt4100.spillprosjekt.objects.OpenGames;
-import no.tdt4100.spillprosjekt.objects.User;
-import no.tdt4100.spillprosjekt.objects.UserList;
+import no.tdt4100.spillprosjekt.objects.*;
 
 /**
  * Created by eiriksylliaas on 09.02.14.
@@ -42,7 +39,7 @@ public class ClientListenerHandler implements ClientListener {
     public void receiveNewGame(Game game) {
         System.out.println("Received new game: " + game.getCreator().getName() + Boolean.toString(game.getRunning()));
 
-        client.joinGame(game);
+        //client.joinGame(game);
 
     }
 
@@ -53,6 +50,13 @@ public class ClientListenerHandler implements ClientListener {
         for (Game game : openGames.openGames) {
             System.out.println(game.getCreator().getName() + Boolean.toString(game.getRunning()));
         }
+
+    }
+
+    @Override
+    public void receiveStartGame (StartGame startGame) {
+
+        System.out.println("Start GAME!");
 
     }
 

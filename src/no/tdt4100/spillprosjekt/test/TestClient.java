@@ -7,22 +7,34 @@ import no.tdt4100.spillprosjekt.client.GameClient;
  */
 
 import java.io.*;
+import java.util.Scanner;
 
 class TestClient implements Runnable{
     static BufferedReader in ;  static int quit=0;
 
     public void run(){
+
+        try {
+
         GameClient client = new GameClient() ;
 
         ClientListenerHandler cl = new ClientListenerHandler(client);
 
         client.addListener(cl);
 
-        client.connect("Test1");
+        Scanner scanner = new Scanner(System.in);
+
+        client.connect(scanner.next());
 
         client.createGame();
 
-        //client.getOpenGames();
+        client.getOpenGames();
+
+        } catch (Exception e) {
+
+        System.out.println("System Client Error");
+
+        }
 
     }
 

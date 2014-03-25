@@ -19,7 +19,7 @@ import java.util.List;
 public class GameClient {
 
     // Define the client object
-    Client client = new Client(40000, 40000);
+    Client client = new Client(400000, 400000);
 
     ArrayList<ClientListener> listeners = new ArrayList<ClientListener>();
 
@@ -100,6 +100,14 @@ public class GameClient {
                         cl.receiveOpenGames(openGames);
                     }
                 }
+
+                if (object instanceof StartGame) {
+                    StartGame startGame = (StartGame) object;
+                    for (ClientListener cl : listeners) {
+                        cl.receiveStartGame(startGame);
+                    }
+                }
+
             }
         });
 
