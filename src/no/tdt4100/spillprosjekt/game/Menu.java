@@ -78,7 +78,7 @@ public class Menu extends BasicGameState {
     public void mousePressed(int button, int x, int y) {
         if (button == 0) {
             if (playGameHover.isMouseOver()) {
-                stateGame.enterState(2, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+                stateGame.enterState(6, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
             }
             else if (joinGameHover.isMouseOver()) {
                 stateGame.enterState(5, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
