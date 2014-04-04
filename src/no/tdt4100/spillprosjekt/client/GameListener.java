@@ -51,8 +51,8 @@ public class GameListener implements ClientListener, Runnable {
 
     }
 
-    public void sendClientCommand(String command) {
-        System.out.println("GOT IT BIATCH " + command);
+    public void sendClientCommand(SendObject sendObject) {
+        System.out.println("GOT IT BIATCH " + sendObject);
     }
 
     @Override

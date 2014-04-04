@@ -147,7 +147,7 @@ public class GameGUI extends BasicGameState {
         SendObject nextAction;
 
         if (serverDeque.getFirst() instanceof SendObject) {
-            nextAction = (SendObject) serverDeque.pop();
+            nextAction = (SendObject) serverDeque.poll();
             switch (nextAction.getType()) {
                 case "wordlist":
                     Config.wordlist = nextAction.getWordlist();
@@ -175,7 +175,7 @@ public class GameGUI extends BasicGameState {
     }
 
     public void update(GameContainer container, StateBasedGame stateGame, int delta) throws SlickException {
-        clientDeque.add("hei");
+        clientDeque.add(new SendObject("grey"));
         runTime += delta;
         int n = runTime / game.getDelay();
 

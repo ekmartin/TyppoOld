@@ -18,10 +18,10 @@ public class LinkedBlockingDequeCustom<E> extends LinkedBlockingDeque<E> {
     @Override
     public boolean add(E e) {
         super.add(e);
-        String command;
-        if (e instanceof String) {
-            command = (String) e;
-            client.sendClientCommand(command);
+        SendObject sendObject;
+        if (e instanceof SendObject) {
+            sendObject = (SendObject) e;
+            client.sendClientCommand(sendObject);
         }
         else {
             throw new IllegalArgumentException();

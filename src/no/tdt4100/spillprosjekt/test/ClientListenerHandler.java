@@ -3,6 +3,7 @@ package no.tdt4100.spillprosjekt.test;
 import com.esotericsoftware.kryonet.Client;
 import no.tdt4100.spillprosjekt.client.ClientListener;
 import no.tdt4100.spillprosjekt.client.GameClient;
+import no.tdt4100.spillprosjekt.client.SendObject;
 import no.tdt4100.spillprosjekt.objects.Game;
 import no.tdt4100.spillprosjekt.objects.OpenGames;
 import no.tdt4100.spillprosjekt.objects.User;
@@ -55,7 +56,7 @@ public class ClientListenerHandler implements ClientListener {
     }
 
     @Override
-    public void sendClientCommand(String string) {
+    public void sendClientCommand(SendObject sendObject) {
 
     }
 
