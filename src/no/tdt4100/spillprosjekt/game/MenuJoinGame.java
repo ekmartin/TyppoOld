@@ -17,11 +17,13 @@ public class MenuJoinGame extends BasicGameState {
     public static final int ID = 5;
     private StateBasedGame stateGame;
 
+    private Animation loading;
 
     private Image backgroundImage;
     private Image joinGameImage;
     private Image joinGameHoverImage;
 
+    private Image[] animationImage;
     private Image[] buttonImages;
     private Image[] buttonHoverImages;
 
@@ -44,6 +46,20 @@ public class MenuJoinGame extends BasicGameState {
         backgroundImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/background.png"), "background.png", false);
         joinGameImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/join_game.png"), "join_game.png", false);
         joinGameHoverImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/join_game_hover.png"), "join_game_hover.png", false);
+
+        animationImage = new Image[] {
+                new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/anim1.png"), "anim1.png", false),
+                new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/anim2.png"), "anim2.png", false),
+                new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/anim3.png"), "anim3.png", false),
+                new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/anim4.png"), "anim4.png", false),
+        };
+        int[] duration = {150, 150, 150, 150};
+
+        loading = new Animation(animationImage, duration, true);
+
+        for (int i = 0; i < animationImage.length; i ++) {
+            loading.addFrame(animationImage[i], duration[i]);
+        }
 
         buttonImages = new Image[] {joinGameImage};
         buttonHoverImages = new Image[] {joinGameHoverImage};
@@ -90,10 +106,10 @@ public class MenuJoinGame extends BasicGameState {
         field.setCursorVisible(true);
 
         field.render(container, g);
-
         for (int i = 0; i < mouseOverAreas.length; i++) {
             mouseOverAreas[i].render(container, g);
         }
+        loading.draw(200, 500);
     }
 
 }

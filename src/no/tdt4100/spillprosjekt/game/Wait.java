@@ -17,6 +17,8 @@ public class Wait extends BasicGameState {
     public static final int ID = 6;
     private StateBasedGame stateGame;
 
+    private Animation loading;
+    private Image[] animationImage;
 
     private Image backgroundImage;
 
@@ -27,6 +29,16 @@ public class Wait extends BasicGameState {
         this.stateGame = stateGame;
 
         typeFont = new TypeFont("Myriad Pro", 40, true, new java.awt.Color(28, 28, 31));
+
+        animationImage = new Image[] {
+                new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/anim1.png"), "anim1.png", false),
+                new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/anim2.png"), "anim2.png", false),
+                new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/anim3.png"), "anim3.png", false),
+                new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/anim4.png"), "anim4.png", false),
+        };
+        int[] duration = {150, 150, 150, 150};
+
+        loading = new Animation(animationImage, duration, true);
 
         backgroundImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/background.png"), "background.png", false);
     }
@@ -48,6 +60,7 @@ public class Wait extends BasicGameState {
     public void render(GameContainer container, StateBasedGame stateGame, Graphics g) throws SlickException {
         // temporary buttons.
         g.drawImage(backgroundImage, 0, 0);
+        loading.draw(200, 500);
     }
 
 }
