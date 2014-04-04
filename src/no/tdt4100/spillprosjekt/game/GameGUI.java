@@ -2,6 +2,7 @@ package no.tdt4100.spillprosjekt.game;
 
 import no.tdt4100.spillprosjekt.client.GameListener;
 import no.tdt4100.spillprosjekt.client.LinkedBlockingDequeCustom;
+import no.tdt4100.spillprosjekt.client.SendObject;
 import no.tdt4100.spillprosjekt.objects.WordList;
 import no.tdt4100.spillprosjekt.utils.Config;
 import no.tdt4100.spillprosjekt.utils.Logger;
@@ -15,7 +16,6 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.concurrent.BlockingDeque;
 
 public class GameGUI extends BasicGameState {
 
@@ -24,6 +24,7 @@ public class GameGUI extends BasicGameState {
     private TiledMap typeMap = null;
     private int runTime;
     private int failCounter;
+    private int successfulWordCounter;
 
     public static final int ID = 2;
     private StateBasedGame stateGame;
@@ -41,6 +42,8 @@ public class GameGUI extends BasicGameState {
     @Override
     public void init(GameContainer container, StateBasedGame stateGame) throws SlickException {
         failCounter = 0;
+        successfulWordCounter = 0;
+
         this.stateGame = stateGame;
         runTime = 0;
         ArrayList<String> words = new ArrayList<String>();
@@ -57,10 +60,10 @@ public class GameGUI extends BasicGameState {
             }
             scanner.close();
             wordsArray = words.toArray(new String[0]);
-            Config.wordList = wordsArray;
+            Config.wordlist = wordsArray;
 
-            serverDeque = new LinkedBlockingDequeCustom<String>();
-            clientDeque = new LinkedBlockingDequeCustom<String>();
+            serverDeque = new LinkedBlockingDequeCustom<SendObject>();
+            clientDeque = new LinkedBlockingDequeCustom<SendObject>();
             gameListener = new GameListener(clientDeque, serverDeque);
 
             serverDeque.setListener(gameListener);
@@ -72,7 +75,7 @@ public class GameGUI extends BasicGameState {
         catch (Exception e) {
             Logger.log(e);
         }
-        wordList = new WordList(Config.wordList, 500);
+        wordList = new WordList(Config.wordlist, 500);
         game = new TypeGame(wordList);
         typeMap = new TiledMap(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/TiledMap.tmx"), Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/").getPath());
     }
@@ -117,7 +120,13 @@ public class GameGUI extends BasicGameState {
                     typeSoundGood.play(); // temp sound, should be replaced
                     System.out.println("fading next, which is: " + allowed.getChar());
                     game.startedWriting(allowed.getBlock());
-                    game.fadeNext();
+                    if (game.fadeNext()) {
+                        successfulWordCounter++;
+                        if (successfulWordCounter >= 5) {
+                            serverDeque.add(new SendObject("grey"));
+                            successfulWordCounter = 0;
+                        }
+                    }
                     break;
                 }
             }
@@ -134,10 +143,43 @@ public class GameGUI extends BasicGameState {
         }
     }
 
+    public void doNextAction() {
+        SendObject nextAction;
+
+        if (serverDeque.getFirst() instanceof SendObject) {
+            nextAction = (SendObject) serverDeque.pop();
+            switch (nextAction.getType()) {
+                case "wordlist":
+                    Config.wordlist = nextAction.getWordlist();
+                    break;
+                case "grey":
+                    game.addDead();
+                    break;
+                case "lost":
+                    gameWon();
+                    break;
+                default:
+                    System.out.println("Unkown SendObject type");
+            }
+        }
+        else {
+            //TODO: Need to handle this.
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public void gameWon() {
+        //TODO: Add victory state, stats etc.
+        System.out.println("Won, FIXME");
+        stateGame.enterState(4, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+    }
+
     public void update(GameContainer container, StateBasedGame stateGame, int delta) throws SlickException {
         clientDeque.add("hei");
         runTime += delta;
         int n = runTime / game.getDelay();
+
+
         if (runTime > game.getDelay()) {
             for (int i = 0; i < n; i++) {
                 game.dropBlocks();
@@ -147,6 +189,7 @@ public class GameGUI extends BasicGameState {
         if (game.isLost()) {
             loseSound.play();
             System.out.println("Game lost.");
+            serverDeque.add("lost");
             stateGame.enterState(4, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
         }
     }

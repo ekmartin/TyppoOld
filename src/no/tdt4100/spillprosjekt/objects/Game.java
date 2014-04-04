@@ -17,7 +17,7 @@ public class Game {
         this.creator = creator;
         setParticipant(null);
         setRunning(false);
-        this.wordList = new WordList(Config.wordList, 1000);
+        this.wordList = new WordList(Config.wordlist, 1000);
         this.id = id;
     }
 

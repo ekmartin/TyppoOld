@@ -6,18 +6,22 @@ package no.tdt4100.spillprosjekt.client;
 public class SendObject {
 
     private String type;
-    private String data;
+    private String[] wordlist;
 
-    public SendObject(String type, String data) {
+    public SendObject(String type) {
         this.type = type;
-        this.data = data;
+    }
+
+    public SendObject(String[] wordlist) {
+        this.type = "wordlist";
+        this.wordlist = wordlist;
     }
 
     public String getType() {
         return type;
     }
 
-    public String getData() {
-        return data;
+    public String[] getWordlist() {
+        return wordlist;
     }
 }

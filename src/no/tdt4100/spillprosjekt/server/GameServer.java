@@ -6,11 +6,9 @@ package no.tdt4100.spillprosjekt.server;
  * Game Server
  */
 
-import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
-import no.tdt4100.spillprosjekt.client.GameClient;
 import no.tdt4100.spillprosjekt.objects.*;
 import no.tdt4100.spillprosjekt.utils.Config;
 import no.tdt4100.spillprosjekt.utils.Logger;
@@ -38,7 +36,7 @@ public class GameServer {
             }
             scanner.close();
             wordsArray = words.toArray(new String[0]);
-            Config.wordList = wordsArray;
+            Config.wordlist = wordsArray;
         }
         catch (Exception e) {
             Logger.log(e);
