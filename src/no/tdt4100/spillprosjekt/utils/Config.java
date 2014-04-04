@@ -29,7 +29,7 @@ public class Config {
         getOpenGames
     }
 
-    public static String[] wordList;
+    public static String[] wordlist;
 
 
 }
