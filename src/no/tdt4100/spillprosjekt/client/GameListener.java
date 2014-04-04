@@ -11,7 +11,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 /**
  * Created by eiriksylliaas on 04.04.14.
  */
-public class GameListener implements ClientListener {
+public class GameListener implements ClientListener, Runnable {
 
     GameClient client;
 
@@ -53,4 +53,8 @@ public class GameListener implements ClientListener {
 
     }
 
+    @Override
+    public void run() {
+        
+    }
 }
