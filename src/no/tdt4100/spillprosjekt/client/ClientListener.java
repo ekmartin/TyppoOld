@@ -20,4 +20,5 @@ public interface ClientListener {
 
     public void receiveOpenGames (OpenGames openGames);
 
+    public void sendClientCommand(String string);
 }

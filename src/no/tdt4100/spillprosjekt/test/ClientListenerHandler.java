@@ -48,12 +48,16 @@ public class ClientListenerHandler implements ClientListener {
 
     @Override
     public void receiveOpenGames(OpenGames openGames) {
-
         System.out.println("Received open games:");
         for (Game game : openGames.openGames) {
             System.out.println(game.getCreator().getName() + Boolean.toString(game.getRunning()));
         }
+    }
+
+    @Override
+    public void sendClientCommand(String string) {
 
     }
+
 
 }

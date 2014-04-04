@@ -1,5 +1,7 @@
 package no.tdt4100.spillprosjekt.game;
 
+import no.tdt4100.spillprosjekt.client.GameListener;
+import no.tdt4100.spillprosjekt.client.LinkedBlockingDequeCustom;
 import no.tdt4100.spillprosjekt.objects.WordList;
 import no.tdt4100.spillprosjekt.utils.Config;
 import no.tdt4100.spillprosjekt.utils.Logger;
@@ -13,6 +15,7 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.BlockingDeque;
 
 public class GameGUI extends BasicGameState {
 
@@ -29,6 +32,11 @@ public class GameGUI extends BasicGameState {
     public static Sound typeSoundFail;
     public static Sound loseSound;
     public static Sound lockSound;
+
+    private LinkedBlockingDequeCustom serverDeque;
+    private LinkedBlockingDequeCustom clientDeque;
+
+    private GameListener gameListener;
 
     @Override
     public void init(GameContainer container, StateBasedGame stateGame) throws SlickException {
@@ -50,6 +58,16 @@ public class GameGUI extends BasicGameState {
             scanner.close();
             wordsArray = words.toArray(new String[0]);
             Config.wordList = wordsArray;
+
+            serverDeque = new LinkedBlockingDequeCustom<String>();
+            clientDeque = new LinkedBlockingDequeCustom<String>();
+            gameListener = new GameListener(clientDeque, serverDeque);
+
+            serverDeque.setListener(gameListener);
+            clientDeque.setListener(gameListener);
+
+            new Thread(gameListener).start();
+
         }
         catch (Exception e) {
             Logger.log(e);
@@ -117,6 +135,7 @@ public class GameGUI extends BasicGameState {
     }
 
     public void update(GameContainer container, StateBasedGame stateGame, int delta) throws SlickException {
+        clientDeque.add("hei");
         runTime += delta;
         int n = runTime / game.getDelay();
         if (runTime > game.getDelay()) {

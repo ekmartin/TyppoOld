@@ -15,10 +15,13 @@ public class GameListener implements ClientListener, Runnable {
 
     GameClient client;
 
-    protected BlockingDeque client_deque;
-    protected BlockingDeque game_deque;
+    protected BlockingDeque clientDeque;
+    protected BlockingDeque serverDeque;
 
-    public GameListener(BlockingDeque client_deque, BlockingDeque game_deque){
+    public GameListener(BlockingDeque clientDeque, BlockingDeque serverDeque){
+
+        this.clientDeque = clientDeque;
+        this.serverDeque = serverDeque;
 
         client = new GameClient() ;
         client.addListener(this);
@@ -28,33 +31,40 @@ public class GameListener implements ClientListener, Runnable {
     }
 
 
-    @Override
     public void userList(UserList users) {
 
     }
 
-    @Override
     public void userLoggedIn(User user) {
 
     }
 
-    @Override
     public void userLoggedOut(User user) {
 
     }
 
-    @Override
     public void receiveNewGame(Game game) {
 
     }
 
-    @Override
     public void receiveOpenGames(OpenGames openGames) {
 
     }
 
+    public void sendClientCommand(String command) {
+        System.out.println("GOT IT BIATCH " + command);
+    }
+
     @Override
     public void run() {
-        
+        while (true) {
+            try {
+                System.out.println("her: " + clientDeque.poll());
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 }
