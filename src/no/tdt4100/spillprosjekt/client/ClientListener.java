@@ -21,4 +21,8 @@ public interface ClientListener {
     public void receiveOpenGames (OpenGames openGames);
 
     public void sendClientCommand(SendObject sendObject);
+
+    public void youWin();
+
+    public void addGrayLine();
 }

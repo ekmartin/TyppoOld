@@ -26,7 +26,10 @@ public class Config {
         userConnected,
         userDisconnected,
         startGame,
-        getOpenGames
+        getOpenGames,
+        loss,
+        win,
+        grayLine
     }
 
     public static String[] wordlist;

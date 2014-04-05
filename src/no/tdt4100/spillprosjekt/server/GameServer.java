@@ -104,6 +104,8 @@ public class GameServer {
                         case getUserList: { sendUserList(connection) ; break;}
                         case startGame: { startNewGame(connection); break;}
                         case getOpenGames: {returnOpenGames(connection); break;}
+                        case loss: {sendGameCommand(connection, Config.commands.win); break;}
+                        case grayLine:{sendGameCommand(connection, Config.commands.grayLine); break;}
 
                     }
 
@@ -219,6 +221,32 @@ public class GameServer {
             }
         }
     }
+
+    private void sendGameCommand(ServerConnection connection, Config.commands inputMessage) {
+        UserMessage message = new UserMessage(inputMessage, connection.getUser());
+        for (Game game : games) {
+            if (game.getRunning() && (game.getCreator().getUID() == connection.getUser().getUID() || game.getParticipant().getUID() == connection.getUser().getUID())) {
+
+                for (Connection serverConnection : server.getConnections()) {
+                    ServerConnection serverconnection = (ServerConnection) serverConnection;
+
+                    if (game.getCreator().getUID() == connection.getUser().getUID()){
+                        // Send to part
+                        if (serverconnection.getUser().getUID() == game.getParticipant().getUID()) {
+                            serverconnection.sendTCP(message);
+                        }
+                    }
+                    else {
+                        //sent to creator
+                        if (serverconnection.getUser().getUID() == game.getCreator().getUID()) {
+                            serverconnection.sendTCP(message);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
 
     /*******************************************************************************************************************

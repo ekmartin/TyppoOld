@@ -1,6 +1,7 @@
 package no.tdt4100.spillprosjekt.client;
 
 import no.tdt4100.spillprosjekt.objects.*;
+import no.tdt4100.spillprosjekt.utils.Config;
 
 import java.net.InetAddress;
 import java.util.concurrent.BlockingDeque;
@@ -12,7 +13,6 @@ public class GameListener implements ClientListener, Runnable {
 
     GameClient client;
 
-    private LinkedBlockingDequeCustom clientDeque;
     private LinkedBlockingDequeCustom serverDeque;
     private String username = "";
 
@@ -77,6 +77,16 @@ public class GameListener implements ClientListener, Runnable {
                 joinGameRequest();
                 break;
         }
+    }
+
+    @Override
+    public void youWin() {
+        serverDeque.add(new SendObject(Config.commands.win));
+    }
+
+    @Override
+    public void addGrayLine() {
+        serverDeque.add(new SendObject(Config.commands.grayLine));
     }
 
     @Override
