@@ -48,13 +48,6 @@ public class GameGUI extends BasicGameState {
         //String[] wordsArray;
 
         try {
-            typeSoundGood = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/click.aif"));
-            typeSoundFail = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/Bottle.aif"));
-            lockSound = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/Tink.aif"));
-            loseSound = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/Basso.aif"));
-
-            typeMap = new TiledMap(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/TiledMap.tmx"), Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/").getPath());
-
             /* Scanner scanner = new Scanner(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/wordlist.txt"));
             while (scanner.hasNextLine()) {
                 words.add(scanner.nextLine());
@@ -88,6 +81,34 @@ public class GameGUI extends BasicGameState {
         successfulWordCounter = 0;
         foundGame = false;
 
+        try {
+            typeSoundGood = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/click.aif"));
+            typeSoundFail = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/Bottle.aif"));
+            lockSound = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/Tink.aif"));
+            loseSound = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/Basso.aif"));
+
+            typeMap = new TiledMap(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/TiledMap.tmx"), Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/").getPath());
+
+            /* Scanner scanner = new Scanner(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/wordlist.txt"));
+            while (scanner.hasNextLine()) {
+                words.add(scanner.nextLine());
+            }
+            scanner.close();
+            System.out.println(words);
+            wordsArray = words.toArray(new String[0]);
+            Config.wordlist = wordsArray;*/
+
+            serverDeque = new LinkedBlockingDequeCustom<SendObject>();
+            gameListener = new GameListener(serverDeque);
+
+            serverDeque.setListener(gameListener, this);
+
+            new Thread(gameListener).start();
+
+        }
+        catch (Exception e) {
+            Logger.log(e);
+        }
         SendObject sendObject = new SendObject(Config.commands.findGame);
         serverDeque.sendToServer(sendObject);
     }
@@ -161,10 +182,10 @@ public class GameGUI extends BasicGameState {
             SendObject nextAction = (SendObject) serverDeque.poll();
             switch (nextAction.getType()) {
                 case gray:
-                    game.addDead();
+                    if (foundGame) game.addDead();
                     break;
                 case won:
-                    gameWon();
+                    if (foundGame) gameWon();
                     break;
                 case foundGame:
                     game = new TypeGame(nextAction.getWordlist());
