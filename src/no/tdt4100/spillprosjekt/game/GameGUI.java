@@ -168,7 +168,7 @@ public class GameGUI extends BasicGameState {
                 case grey:
                     game.addDead();
                     break;
-                case lost:
+                case won:
                     gameWon();
                     break;
                 case foundGame:

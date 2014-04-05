@@ -1,30 +1,27 @@
 package no.tdt4100.spillprosjekt.client;
 
 import no.tdt4100.spillprosjekt.objects.WordList;
+import no.tdt4100.spillprosjekt.utils.Config;
 
 /**
  * Created by ek on 04/04/14.
  */
 public class SendObject {
 
-    Type type;
-
-    public enum Type {
-        grey, lost, wordlist, findGame, foundGame, test
-    };
+    Config.commands type;
 
     private WordList wordList;
 
-    public SendObject(Type type) {
+    public SendObject(Config.commands type) {
         this.type = type;
     }
 
     public SendObject(WordList wordList) {
-        this.type = Type.foundGame;
+        this.type = Config.commands.foundGame;
         this.wordList = wordList;
     }
 
-    public Type getType() {
+    public Config.commands getType() {
         return type;
     }
 
