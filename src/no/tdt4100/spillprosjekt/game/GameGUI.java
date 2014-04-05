@@ -34,6 +34,7 @@ public class GameGUI extends BasicGameState {
     public static Sound loseSound;
     public static Sound lockSound;
 
+    public static int score = 0;
     private LinkedBlockingDequeCustom serverDeque;
 
     private GameListener gameListener;
@@ -76,6 +77,7 @@ public class GameGUI extends BasicGameState {
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
         super.enter(container, game);
 
+        score = 0;
         runTime = 0;
         failCounter = 0;
         successfulWordCounter = 0;
@@ -194,6 +196,7 @@ public class GameGUI extends BasicGameState {
     public void gameWon() {
         //TODO: Add victory state, stats etc.
         System.out.println("Won, FIXME");
+        score = game.getScore();
         stateGame.enterState(4, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
     }
 
@@ -214,6 +217,7 @@ public class GameGUI extends BasicGameState {
                 loseSound.play();
                 System.out.println("Game lost.");
                 serverDeque.sendToServer(new SendObject(Config.commands.lost));
+                score = -game.getScore();
                 stateGame.enterState(4, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
             }
         }

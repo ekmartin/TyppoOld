@@ -168,4 +168,8 @@ public class TypeGame {
     public boolean isLost() {
         return gameLost;
     }
+
+    public int getScore() {
+        return score;
+    }
 }
