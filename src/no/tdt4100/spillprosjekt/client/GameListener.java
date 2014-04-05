@@ -12,11 +12,11 @@ public class GameListener implements ClientListener, Runnable {
 
     GameClient client;
 
-    protected BlockingDeque clientDeque;
-    protected BlockingDeque serverDeque;
+    private LinkedBlockingDequeCustom clientDeque;
+    private LinkedBlockingDequeCustom serverDeque;
     private String username = "";
 
-    public GameListener(BlockingDeque clientDeque, BlockingDeque serverDeque){
+    public GameListener(LinkedBlockingDequeCustom clientDeque, LinkedBlockingDequeCustom serverDeque){
 
         this.clientDeque = clientDeque;
         this.serverDeque = serverDeque;
@@ -48,7 +48,11 @@ public class GameListener implements ClientListener, Runnable {
     }
 
     public void receiveNewGame(Game game) {
-        System.out.println(game);
+        if (game.getRunning()) {
+            System.out.println("STARTING SHITTTTTT");
+            SendObject sendObject = new SendObject(SendObject.Type.foundGame);
+            clientDeque.addFromClient(sendObject);
+        }
     }
 
     public void receiveOpenGames(OpenGames openGames) {
