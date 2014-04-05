@@ -70,8 +70,8 @@ public class GameGUI extends BasicGameState {
             clientDeque = new LinkedBlockingDequeCustom<SendObject>();
             gameListener = new GameListener(clientDeque, serverDeque);
 
-            serverDeque.setListener(gameListener);
-            clientDeque.setListener(gameListener);
+            serverDeque.setListener(gameListener, this);
+            clientDeque.setListener(gameListener, this);
 
             new Thread(gameListener).start();
 
@@ -88,7 +88,7 @@ public class GameGUI extends BasicGameState {
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
         super.enter(container, game);
         SendObject sendObject = new SendObject(SendObject.Type.findGame);
-        serverDeque.add(sendObject);
+        serverDeque.addFromGame(sendObject);
     }
 
     public int getID() {
@@ -134,7 +134,7 @@ public class GameGUI extends BasicGameState {
                     if (game.fadeNext()) {
                         successfulWordCounter++;
                         if (successfulWordCounter >= 5) {
-                            serverDeque.add(new SendObject(SendObject.Type.grey));
+                            serverDeque.addFromGame(new SendObject(SendObject.Type.grey));
                             successfulWordCounter = 0;
                         }
                     }
@@ -206,7 +206,7 @@ public class GameGUI extends BasicGameState {
         if (game.isLost()) {
             loseSound.play();
             System.out.println("Game lost.");
-            serverDeque.add("lost");
+            serverDeque.addFromGame(new SendObject(SendObject.Type.lost));
             stateGame.enterState(4, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
         }
     }
