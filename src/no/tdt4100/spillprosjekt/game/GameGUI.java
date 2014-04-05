@@ -111,58 +111,57 @@ public class GameGUI extends BasicGameState {
 
     @Override
     public void keyPressed(int key, char c) {
-        if (key == Input.KEY_ESCAPE) {
-            stateGame.enterState(3, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
-        }
-        else if (key == Input.KEY_ENTER) {
-            game.addDead();
-        }
-        else {
-            boolean wrote = false;
-            c = Character.toLowerCase(c);
-            ArrayList<AllowedCharacter> allowedChars = new ArrayList<AllowedCharacter>();
-            System.out.println("New key pressed, currently writing: " + game.hasStartedWriting());
-            if (game.hasStartedWriting() && !game.getCurrentBlock().isLocked()) {
-                for (Cell cell : game.getCurrentBlock().getCells()) {
-                    if (!cell.isFaded()) {
-                        allowedChars.add(new AllowedCharacter(Character.toLowerCase(cell.getLetter()), game.getCurrentBlock()));
+        if (foundGame) {
+            if (key == Input.KEY_ESCAPE) {
+                stateGame.enterState(3, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+            } else if (key == Input.KEY_ENTER) {
+                game.addDead();
+            } else {
+                boolean wrote = false;
+                c = Character.toLowerCase(c);
+                ArrayList<AllowedCharacter> allowedChars = new ArrayList<AllowedCharacter>();
+                System.out.println("New key pressed, currently writing: " + game.hasStartedWriting());
+                if (game.hasStartedWriting() && !game.getCurrentBlock().isLocked()) {
+                    for (Cell cell : game.getCurrentBlock().getCells()) {
+                        if (!cell.isFaded()) {
+                            allowedChars.add(new AllowedCharacter(Character.toLowerCase(cell.getLetter()), game.getCurrentBlock()));
+                            break;
+                        }
+                    }
+                } else {
+                    System.out.println("kom inn i else");
+                    for (Block block : game.getBlocks()) {
+                        allowedChars.add(new AllowedCharacter(Character.toLowerCase(block.getCells().get(0).getLetter()), block));
+                    }
+                }
+
+                for (AllowedCharacter allowed : allowedChars) {
+                    System.out.println("Allowed char: " + allowed.getChar());
+                    if (allowed.getChar() == c) {
+                        wrote = true;
+                        failCounter = 0;
+                        typeSoundGood.play(); // temp sound, should be replaced
+                        System.out.println("fading next, which is: " + allowed.getChar());
+                        game.startedWriting(allowed.getBlock());
+                        if (game.fadeNext()) {
+                            successfulWordCounter++;
+                            if (successfulWordCounter >= 5) {
+                                serverDeque.sendToServer(new SendObject(Config.commands.gray));
+                                successfulWordCounter = 0;
+                            }
+                        }
                         break;
                     }
                 }
-            }
-            else {
-                System.out.println("kom inn i else");
-                for (Block block : game.getBlocks()) {
-                    allowedChars.add(new AllowedCharacter(Character.toLowerCase(block.getCells().get(0).getLetter()), block));
-                }
-            }
 
-            for (AllowedCharacter allowed : allowedChars) {
-                System.out.println("Allowed char: " + allowed.getChar());
-                if (allowed.getChar() == c) {
-                    wrote = true;
-                    failCounter = 0;
-                    typeSoundGood.play(); // temp sound, should be replaced
-                    System.out.println("fading next, which is: " + allowed.getChar());
-                    game.startedWriting(allowed.getBlock());
-                    if (game.fadeNext()) {
-                        successfulWordCounter++;
-                        if (successfulWordCounter >= 5) {
-                            serverDeque.sendToServer(new SendObject(Config.commands.gray));
-                            successfulWordCounter = 0;
-                        }
+                if (!wrote) {
+                    failCounter++;
+                    typeSoundFail.play();
+                    if (failCounter >= 5) {
+                        game.addDead();
+                        failCounter = 0;
+                        // should play another sound here
                     }
-                    break;
-                }
-            }
-
-            if (!wrote) {
-                failCounter++;
-                typeSoundFail.play();
-                if (failCounter >= 5) {
-                    game.addDead();
-                    failCounter = 0;
-                    // should play another sound here
                 }
             }
         }
