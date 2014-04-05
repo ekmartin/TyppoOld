@@ -206,10 +206,15 @@ public class GameServer {
         for (Game game : games) {
             if (game.getID() == joinGameRequest.getGame().getID()) {
                 if (!game.getRunning() && game.getParticipant() == null) {
-                   game.setParticipant(connection.getUser());
+                    game.setParticipant(connection.getUser());
+                    game.setRunning(true);
 
-                   //Send game to both users!
-                    
+                    for (Connection serverConnection : server.getConnections()) {
+                        ServerConnection serverconnection = (ServerConnection) serverConnection;
+                        if (serverconnection.getUser().getUID() == game.getParticipant().getUID() || serverconnection.getUser().getUID() == game.getCreator().getUID()) {
+                            serverconnection.sendTCP(game);
+                        }
+                    }
 
                 }
             }
