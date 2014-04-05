@@ -4,21 +4,20 @@ import no.tdt4100.spillprosjekt.objects.WordList;
 import no.tdt4100.spillprosjekt.utils.Config;
 import no.tdt4100.spillprosjekt.utils.Logger;
 
-import org.newdawn.slick.*;
-import org.newdawn.slick.gui.MouseOverArea;
-import org.newdawn.slick.gui.TextField;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
-public class Wait extends BasicGameState {
+public class FinishedScreen extends BasicGameState {
 
-    public static final int ID = 6;
+    public static final int ID = 4;
     private StateBasedGame stateGame;
-
-
-    private Image backgroundImage;
 
     private TypeFont typeFont;
 
@@ -26,9 +25,7 @@ public class Wait extends BasicGameState {
     public void init(GameContainer container, StateBasedGame stateGame) throws SlickException {
         this.stateGame = stateGame;
 
-        typeFont = new TypeFont("Myriad Pro", 40, true, new java.awt.Color(28, 28, 31));
-
-        backgroundImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/background.png"), "background.png", false);
+        typeFont = new TypeFont("Verdana", 18, true, java.awt.Color.white);
     }
 
     public int getID() {
@@ -41,13 +38,18 @@ public class Wait extends BasicGameState {
     @Override
     public void keyPressed(int key, char c) {
         if (key == Input.KEY_ESCAPE) {
-            stateGame.enterState(1, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+            stateGame.enterState(2, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
         }
     }
 
     public void render(GameContainer container, StateBasedGame stateGame, Graphics g) throws SlickException {
-        // temporary buttons.
-        g.drawImage(backgroundImage, 0, 0);
+        g.setFont(typeFont.getFont());
+        if (GameGUI.score > 0) {
+            g.drawString("Congratulations! Score: " + GameGUI.score, 80, container.getHeight()/2);
+        }
+        else {
+            g.drawString("You reached " + GameGUI.score + " points before losing.", 80, container.getHeight() / 2);
+        }
     }
 
 }

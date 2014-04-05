@@ -1,11 +1,6 @@
 package no.tdt4100.spillprosjekt.test;
 
-import no.tdt4100.spillprosjekt.client.ClientListener;
 import no.tdt4100.spillprosjekt.client.GameClient;
-import no.tdt4100.spillprosjekt.objects.Game;
-import no.tdt4100.spillprosjekt.objects.OpenGames;
-import no.tdt4100.spillprosjekt.objects.User;
-import no.tdt4100.spillprosjekt.objects.UserList;
 
 /**
  * Created by eiriksylliaas on 09.02.14.
@@ -13,63 +8,36 @@ import no.tdt4100.spillprosjekt.objects.UserList;
 
 import java.io.*;
 
-class TestClient implements Runnable, ClientListener {
-
-
-    static BufferedReader in ;
-    static int quit=0;
-    GameClient client;
-
+class TestClient implements Runnable{
+    static BufferedReader in ;  static int quit=0;
 
     public void run(){
+        GameClient client = new GameClient() ;
 
-        client = new GameClient() ;
+        ClientListenerHandler cl = new ClientListenerHandler(client);
 
-        client.addListener(this);
+        client.addListener(cl);
 
         client.connect("Test1");
 
         client.createGame();
 
+        //client.getOpenGames();
+
     }
 
 
     public static void main(String args[]) throws Exception{
+        in=new BufferedReader(new InputStreamReader(System.in));
 
         Thread t1=new Thread(new TestClient());
         t1.start();
+
+        System.out.println("press Q THEN ENTER to terminate");
+
         while(true){
             t1.sleep(10);
+            if(quit==1) break;
         }
-
-    }
-
-
-
-    @Override
-    public void userList(UserList users) {
-
-    }
-
-    @Override
-    public void userLoggedIn(User user) {
-
-        System.out.println(user);
-
-    }
-
-    @Override
-    public void userLoggedOut(User user) {
-
-    }
-
-    @Override
-    public void receiveNewGame(Game game) {
-
-    }
-
-    @Override
-    public void receiveOpenGames(OpenGames openGames) {
-
     }
 }

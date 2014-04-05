@@ -9,7 +9,7 @@ public class Config {
 
     public static int ServerTCPPort = 54555;
     public static int ServerUDPPort = 54777;
-    public static String ServerAddress = "127.0.0.1";
+    public static String ServerAddress = "192.168.1.206";
 
     public static float cellHeight = 32;
     public static float cellWidth = 32;
@@ -26,10 +26,15 @@ public class Config {
         userConnected,
         userDisconnected,
         startGame,
-        getOpenGames
+        getOpenGames,
+        findGame,
+        foundGame,
+        lost,
+        won,
+        gray
     }
 
-    public static String[] wordList;
+    public static String[] wordlist;
 
 
 }

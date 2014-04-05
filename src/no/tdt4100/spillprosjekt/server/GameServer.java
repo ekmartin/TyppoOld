@@ -6,11 +6,9 @@ package no.tdt4100.spillprosjekt.server;
  * Game Server
  */
 
-import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
-import no.tdt4100.spillprosjekt.client.GameClient;
 import no.tdt4100.spillprosjekt.objects.*;
 import no.tdt4100.spillprosjekt.utils.Config;
 import no.tdt4100.spillprosjekt.utils.Logger;
@@ -32,13 +30,12 @@ public class GameServer {
         ArrayList<String> words = new ArrayList<String>();
         String[] wordsArray;
         try {
-            Scanner scanner = new Scanner("wordlist.txt");
-            while (scanner.hasNextLine()) {
+            Scanner scanner = new Scanner(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/wordlist.txt"));            while (scanner.hasNextLine()) {
                 words.add(scanner.nextLine());
             }
             scanner.close();
             wordsArray = words.toArray(new String[0]);
-            Config.wordList = wordsArray;
+            Config.wordlist = wordsArray;
         }
         catch (Exception e) {
             Logger.log(e);
@@ -104,12 +101,22 @@ public class GameServer {
                     Config.commands command = (Config.commands) object;
 
                     switch (command) {
-                        case getUserList: { sendUserList(connection) ; break;}
-                        case startGame: { startNewGame(connection); break;}
-                        case getOpenGames: {returnOpenGames(connection); break;}
-
+                        case getUserList:
+                            sendUserList(connection);
+                            break;
+                        case startGame:
+                            startNewGame(connection);
+                            break;
+                        case getOpenGames:
+                            returnOpenGames(connection);
+                            break;
+                        case lost:
+                            sendGameCommand(connection, Config.commands.won);
+                            break;
+                        case gray:
+                            sendGameCommand(connection, Config.commands.gray);
+                            break;
                     }
-
                 }
 
                 // Join game
@@ -208,15 +215,46 @@ public class GameServer {
         for (Game game : games) {
             if (game.getID() == joinGameRequest.getGame().getID()) {
                 if (!game.getRunning() && game.getParticipant() == null) {
-                   game.setParticipant(connection.getUser());
+                    game.setParticipant(connection.getUser());
+                    game.setRunning(true);
 
-                   //Send game to both users!
-                    
+                    for (Connection serverConnection : server.getConnections()) {
+                        ServerConnection serverconnection = (ServerConnection) serverConnection;
+                        if (serverconnection.getUser().getUID() == game.getParticipant().getUID() || serverconnection.getUser().getUID() == game.getCreator().getUID()) {
+                            serverconnection.sendTCP(game);
+                        }
+                    }
 
                 }
             }
         }
     }
+
+    private void sendGameCommand(ServerConnection connection, Config.commands inputMessage) {
+        UserMessage message = new UserMessage(inputMessage, connection.getUser());
+        for (Game game : games) {
+            if (game.getRunning() && (game.getCreator().getUID() == connection.getUser().getUID() || game.getParticipant().getUID() == connection.getUser().getUID())) {
+
+                for (Connection serverConnection : server.getConnections()) {
+                    ServerConnection serverconnection = (ServerConnection) serverConnection;
+
+                    if (game.getCreator().getUID() == connection.getUser().getUID()){
+                        // Send to part
+                        if (serverconnection.getUser().getUID() == game.getParticipant().getUID()) {
+                            serverconnection.sendTCP(message);
+                        }
+                    }
+                    else {
+                        //sent to creator
+                        if (serverconnection.getUser().getUID() == game.getCreator().getUID()) {
+                            serverconnection.sendTCP(message);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
 
     /*******************************************************************************************************************

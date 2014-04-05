@@ -144,7 +144,7 @@ public class TypeGame {
         return blocks;
     }
 
-    public void fadeNext() {
+    public boolean fadeNext() {
         if (startedWriting) {
             System.out.println("fading next!!!");
             if (currentBlock.fadeNext()) {
@@ -152,10 +152,13 @@ public class TypeGame {
                 System.out.println("Deleting block, cuz yolo. ");
                 blocks.remove(currentBlock);
                 startedWriting = false;
+                return true;
             }
-            else
+            else {
                 score++;
+            }
         }
+        return false;
     }
 
     public int getBottom() {
@@ -164,5 +167,9 @@ public class TypeGame {
 
     public boolean isLost() {
         return gameLost;
+    }
+
+    public int getScore() {
+        return score;
     }
 }

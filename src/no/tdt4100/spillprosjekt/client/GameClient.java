@@ -1,6 +1,5 @@
 package no.tdt4100.spillprosjekt.client;
 
-import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -9,9 +8,7 @@ import no.tdt4100.spillprosjekt.utils.Config;
 import no.tdt4100.spillprosjekt.utils.Logger;
 import no.tdt4100.spillprosjekt.utils.ServerInit;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Game Client
@@ -79,6 +76,18 @@ public class GameClient {
                             }
                             break;
                         }
+                        case won: {
+                            for (ClientListener ci : listeners) {
+                                ci.youWin();
+                            }
+                            break;
+                        }
+                        case gray:{
+                            for (ClientListener ci : listeners) {
+                                ci.addGrayLine();
+                            }
+                            break;
+                        }
                     }
 
                 }
@@ -86,10 +95,8 @@ public class GameClient {
                 if (object instanceof Game) {
                     Game game = (Game) object;
 
-                    if (game.getParticipant() == null) {
-                        for (ClientListener ci : listeners) {
-                            ci.receiveNewGame(game);
-                        }
+                    for (ClientListener ci : listeners) {
+                        ci.receiveNewGame(game);
                     }
 
                 }
@@ -125,6 +132,16 @@ public class GameClient {
 
     public void createGame() {
         client.sendTCP(Config.commands.startGame);
+    }
+
+
+
+    public void sendGrayLine() {
+        client.sendTCP(Config.commands.gray);
+    }
+
+    public void sendLoss() {
+        client.sendTCP(Config.commands.lost);
     }
 
 }
