@@ -97,11 +97,6 @@ public class GameGUI extends BasicGameState {
             System.out.println(words);
             wordsArray = words.toArray(new String[0]);
             Config.wordlist = wordsArray;*/
-
-            serverDeque = new LinkedBlockingDequeCustom<SendObject>();
-            gameListener = new GameListener(serverDeque);
-
-            serverDeque.setListener(gameListener, this);
         }
         catch (Exception e) {
             Logger.log(e);
