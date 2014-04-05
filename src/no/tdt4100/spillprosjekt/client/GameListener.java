@@ -1,9 +1,6 @@
 package no.tdt4100.spillprosjekt.client;
 
-import no.tdt4100.spillprosjekt.objects.Game;
-import no.tdt4100.spillprosjekt.objects.OpenGames;
-import no.tdt4100.spillprosjekt.objects.User;
-import no.tdt4100.spillprosjekt.objects.UserList;
+import no.tdt4100.spillprosjekt.objects.*;
 
 import java.net.InetAddress;
 import java.util.concurrent.BlockingDeque;
@@ -34,7 +31,7 @@ public class GameListener implements ClientListener, Runnable {
         catch (Exception e) {
             this.username = "Unknown";
         }
-        client.connect(this.username);
+
 
     }
 
@@ -61,11 +58,17 @@ public class GameListener implements ClientListener, Runnable {
 
     public void sendClientCommand(SendObject sendObject) {
         switch (sendObject.getType()) {
+            case grey: {client.sendGrayLine();}
+            case lost: {client.sendLoss();}
+            case findGame: {JoinGameRequest();}
         }
     }
 
     @Override
     public void run() {
+
+        client.connect(this.username);
+
         while (true) {
             try {
                 Thread.sleep(10);
@@ -74,5 +77,10 @@ public class GameListener implements ClientListener, Runnable {
             }
 
         }
+    }
+
+
+    private void JoinGameRequest() {
+
     }
 }

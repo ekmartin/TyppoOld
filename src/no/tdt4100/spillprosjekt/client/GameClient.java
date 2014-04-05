@@ -127,4 +127,13 @@ public class GameClient {
         client.sendTCP(Config.commands.startGame);
     }
 
+
+
+    public void sendGrayLine() {
+
+    }
+    public void sendLoss() {
+
+    }
+
 }

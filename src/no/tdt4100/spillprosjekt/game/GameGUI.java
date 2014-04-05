@@ -16,6 +16,7 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class GameGUI extends BasicGameState {
 
