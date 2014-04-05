@@ -74,7 +74,7 @@ public class TypeGame {
     public void dropBlocks() {
         // TODO: Fix delay/treshold, should use something like (the derivative) of 1200 / (1 + ℯ^b x) + 300 ((-89.1283/Math.pow((0.0742736*counter)+1, 2)))
         if (delay > 300)
-            delay -= 20;
+            delay -= 12;
         /*
         if (delay < 800) {
             addBlockTreshold = 1;
