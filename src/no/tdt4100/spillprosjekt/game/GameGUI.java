@@ -168,23 +168,25 @@ public class GameGUI extends BasicGameState {
     }
 
     public void doNextAction() {
-        Object nextActionObject = serverDeque.peekFirst();
-        if (nextActionObject != null) {
-            SendObject nextAction = (SendObject) serverDeque.poll();
-            switch (nextAction.getType()) {
-                case gray:
-                    if (foundGame) game.addDead();
-                    break;
-                case won:
-                    if (foundGame) gameWon();
-                    break;
-                case foundGame:
-                    game = new TypeGame(nextAction.getWordlist());
-                    foundGame = true;
-                    // do stuff
-                    break;
-                default:
-                    System.out.println("Unkown SendObject-type: " + nextAction.getType());
+        while (!serverDeque.isEmpty()) {
+            Object nextActionObject = serverDeque.peekFirst();
+            if (nextActionObject != null) {
+                SendObject nextAction = (SendObject) serverDeque.poll();
+                switch (nextAction.getType()) {
+                    case gray:
+                        if (foundGame) game.addDead();
+                        break;
+                    case won:
+                        if (foundGame) gameWon();
+                        break;
+                    case foundGame:
+                        game = new TypeGame(nextAction.getWordlist());
+                        foundGame = true;
+                        // do stuff
+                        break;
+                    default:
+                        System.out.println("Unkown SendObject-type: " + nextAction.getType());
+                }
             }
         }
     }
@@ -196,6 +198,7 @@ public class GameGUI extends BasicGameState {
     }
 
     public void update(GameContainer container, StateBasedGame stateGame, int delta) throws SlickException {
+        doNextAction();
         if (foundGame) {
             runTime += delta;
             int n = runTime / game.getDelay();

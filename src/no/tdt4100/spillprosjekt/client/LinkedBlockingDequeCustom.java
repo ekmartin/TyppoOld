@@ -26,7 +26,6 @@ public class LinkedBlockingDequeCustom<E> extends LinkedBlockingDeque<E> {
     public boolean add(E e) {
         if (e instanceof SendObject) {
             super.add(e);
-            gameGUI.doNextAction();
             return true;
         }
         // TODO: Add correct error handling and stuff
