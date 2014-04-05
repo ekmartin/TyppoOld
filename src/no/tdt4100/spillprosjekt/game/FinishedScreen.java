@@ -47,7 +47,9 @@ public class FinishedScreen extends BasicGameState {
         if (GameGUI.score > 0) {
             g.drawString("Congratulations! Score: " + GameGUI.score, 80, container.getHeight()/2);
         }
-        g.drawString("You reached " + GameGUI.score + " points before losing.", 80, container.getHeight()/2);
+        else {
+            g.drawString("You reached " + GameGUI.score + " points before losing.", 80, container.getHeight() / 2);
+        }
     }
 
 }
