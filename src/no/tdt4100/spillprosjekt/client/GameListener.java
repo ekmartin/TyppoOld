@@ -4,7 +4,6 @@ import no.tdt4100.spillprosjekt.objects.*;
 
 import java.net.InetAddress;
 import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.LinkedBlockingDeque;
 
 /**
  * Created by eiriksylliaas on 04.04.14.
@@ -53,7 +52,7 @@ public class GameListener implements ClientListener, Runnable {
     }
 
     public void receiveOpenGames(OpenGames openGames) {
-        System.out.println(openGames);
+        System.out.println("KOM TIL OPEN GAMES");
         if (openGames.openGames.size() == 0) {
             client.createGame();
         }
@@ -64,9 +63,15 @@ public class GameListener implements ClientListener, Runnable {
 
     public void sendClientCommand(SendObject sendObject) {
         switch (sendObject.getType()) {
-            case grey: {client.sendGrayLine();}
-            case lost: {client.sendLoss();}
-            case findGame: {JoinGameRequest();}
+            case grey:
+                client.sendGrayLine();
+                break;
+            case lost:
+                client.sendLoss();
+                break;
+            case findGame:
+                joinGameRequest();
+                break;
         }
     }
 
@@ -74,7 +79,6 @@ public class GameListener implements ClientListener, Runnable {
     public void run() {
 
         client.connect(this.username);
-        client.getOpenGames();
 
         while (true) {
             try {
@@ -87,7 +91,7 @@ public class GameListener implements ClientListener, Runnable {
     }
 
 
-    private void JoinGameRequest() {
+    private void joinGameRequest() {
         client.getOpenGames();
     }
 }
