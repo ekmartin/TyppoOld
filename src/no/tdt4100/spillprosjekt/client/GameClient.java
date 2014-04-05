@@ -79,6 +79,18 @@ public class GameClient {
                             }
                             break;
                         }
+                        case win: {
+                            for (ClientListener ci : listeners) {
+                                ci.youWin();
+                            }
+                            break;
+                        }
+                        case grayLine:{
+                            for (ClientListener ci : listeners) {
+                                ci.addGrayLine();
+                            }
+                            break;
+                        }
                     }
 
                 }
@@ -128,10 +140,11 @@ public class GameClient {
 
 
     public void sendGrayLine() {
-
+        client.sendTCP(Config.commands.grayLine);
     }
 
     public void sendLoss() {
+        client.sendTCP(Config.commands.loss);
     }
 
 }
