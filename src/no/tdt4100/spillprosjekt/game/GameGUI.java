@@ -102,9 +102,6 @@ public class GameGUI extends BasicGameState {
             gameListener = new GameListener(serverDeque);
 
             serverDeque.setListener(gameListener, this);
-
-            new Thread(gameListener).start();
-
         }
         catch (Exception e) {
             Logger.log(e);
