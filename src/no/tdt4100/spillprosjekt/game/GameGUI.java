@@ -184,7 +184,9 @@ public class GameGUI extends BasicGameState {
                     case foundGame:
                         game = new TypeGame(nextAction.getWordlist());
                         foundGame = true;
-                        // do stuff
+                        break;
+                    case opponentLeft:
+                        stateGame.enterState(6, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
                         break;
                     default:
                         System.out.println("Unkown SendObject-type: " + nextAction.getType());

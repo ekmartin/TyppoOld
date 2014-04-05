@@ -31,7 +31,8 @@ public class Config {
         foundGame,
         lost,
         won,
-        gray
+        gray,
+        opponentLeft
     }
 
     public static String[] wordlist;

@@ -14,9 +14,9 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
-public class FinishedScreen extends BasicGameState {
+public class OpponentLeft extends BasicGameState {
 
-    public static final int ID = 4;
+    public static final int ID = 6;
     private StateBasedGame stateGame;
 
     private TypeFont typeFont;
@@ -44,12 +44,7 @@ public class FinishedScreen extends BasicGameState {
 
     public void render(GameContainer container, StateBasedGame stateGame, Graphics g) throws SlickException {
         g.setFont(typeFont.getFont());
-        if (GameGUI.score > 0) {
-            g.drawString("Congratulations! Score: " + GameGUI.score, 80, container.getHeight()/2);
-        }
-        else {
-            g.drawString("You reached " + GameGUI.score + " points before losing.", 80, container.getHeight() / 2);
-        }
+        g.drawString("Your opponent disconnected or left, sorry.", 80, container.getHeight()/2);
     }
 
 }

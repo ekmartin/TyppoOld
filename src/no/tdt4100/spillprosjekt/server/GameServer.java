@@ -132,7 +132,7 @@ public class GameServer {
                 if (connection.user != null) {
                     // User disconnected
                     userLoggedOut(connection);
-                    sendGameCommand(connection, Config.commands.won);
+                    sendGameCommand(connection, Config.commands.opponentLeft);
                 }
             }
 
