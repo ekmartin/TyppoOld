@@ -5,6 +5,7 @@ import no.tdt4100.spillprosjekt.objects.OpenGames;
 import no.tdt4100.spillprosjekt.objects.User;
 import no.tdt4100.spillprosjekt.objects.UserList;
 
+import java.net.InetAddress;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -17,6 +18,7 @@ public class GameListener implements ClientListener, Runnable {
 
     protected BlockingDeque clientDeque;
     protected BlockingDeque serverDeque;
+    private String username = "";
 
     public GameListener(BlockingDeque clientDeque, BlockingDeque serverDeque){
 
@@ -25,8 +27,14 @@ public class GameListener implements ClientListener, Runnable {
 
         client = new GameClient() ;
         client.addListener(this);
-        client.connect("Test1");
-        client.createGame();
+
+        try {
+            this.username = InetAddress.getLocalHost().getHostName();
+        }
+        catch (Exception e) {
+            this.username = "Unknown";
+        }
+        client.connect(this.username);
 
     }
 
@@ -36,11 +44,11 @@ public class GameListener implements ClientListener, Runnable {
     }
 
     public void userLoggedIn(User user) {
-
+        System.out.println(user.getName() + " logged in");
     }
 
     public void userLoggedOut(User user) {
-
+        System.out.println(user.getName() + " logged out");
     }
 
     public void receiveNewGame(Game game) {
@@ -52,14 +60,14 @@ public class GameListener implements ClientListener, Runnable {
     }
 
     public void sendClientCommand(SendObject sendObject) {
-        System.out.println("GOT IT BIATCH " + sendObject);
+        switch (sendObject.getType()) {
+        }
     }
 
     @Override
     public void run() {
         while (true) {
             try {
-                System.out.println("her: " + clientDeque.poll());
                 Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
