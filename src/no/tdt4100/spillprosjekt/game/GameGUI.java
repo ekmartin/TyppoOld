@@ -25,6 +25,7 @@ public class GameGUI extends BasicGameState {
     private int runTime;
     private int failCounter;
     private int successfulWordCounter;
+    private boolean foundGame;
 
     public static final int ID = 2;
     private StateBasedGame stateGame;
@@ -46,6 +47,9 @@ public class GameGUI extends BasicGameState {
 
         this.stateGame = stateGame;
         runTime = 0;
+
+        foundGame = false;
+
         ArrayList<String> words = new ArrayList<String>();
         String[] wordsArray;
 
@@ -78,6 +82,13 @@ public class GameGUI extends BasicGameState {
         wordList = new WordList(Config.wordlist, 500);
         game = new TypeGame(wordList);
         typeMap = new TiledMap(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/TiledMap.tmx"), Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/").getPath());
+    }
+
+    @Override
+    public void enter(GameContainer container, StateBasedGame game) throws SlickException {
+        super.enter(container, game);
+        SendObject sendObject = new SendObject(SendObject.Type.findGame);
+        serverDeque.add(sendObject);
     }
 
     public int getID() {
@@ -123,7 +134,7 @@ public class GameGUI extends BasicGameState {
                     if (game.fadeNext()) {
                         successfulWordCounter++;
                         if (successfulWordCounter >= 5) {
-                            serverDeque.add(new SendObject("grey"));
+                            serverDeque.add(new SendObject(SendObject.Type.grey));
                             successfulWordCounter = 0;
                         }
                     }
@@ -144,27 +155,26 @@ public class GameGUI extends BasicGameState {
     }
 
     public void doNextAction() {
-        SendObject nextAction;
 
-        if (serverDeque.getFirst() instanceof SendObject) {
-            nextAction = (SendObject) serverDeque.poll();
+        if (serverDeque.peekFirst() != null) {
+            SendObject nextAction = (SendObject) serverDeque.poll();
             switch (nextAction.getType()) {
-                case "wordlist":
+                case wordlist:
                     Config.wordlist = nextAction.getWordlist();
                     break;
-                case "grey":
+                case grey:
                     game.addDead();
                     break;
-                case "lost":
+                case lost:
                     gameWon();
                     break;
+                case foundGame:
+                    foundGame = true;
+                    // do stuff
+                    break;
                 default:
-                    System.out.println("Unkown SendObject type");
+                    System.out.println("Unkown SendObject-type: " + nextAction.getType());
             }
-        }
-        else {
-            //TODO: Need to handle this.
-            throw new IllegalArgumentException();
         }
     }
 
@@ -175,17 +185,24 @@ public class GameGUI extends BasicGameState {
     }
 
     public void update(GameContainer container, StateBasedGame stateGame, int delta) throws SlickException {
-        clientDeque.add(new SendObject("grey"));
         runTime += delta;
         int n = runTime / game.getDelay();
 
+        doNextAction();
 
-        if (runTime > game.getDelay()) {
-            for (int i = 0; i < n; i++) {
-                game.dropBlocks();
+        if (foundGame) {
+            if (runTime > game.getDelay()) {
+                for (int i = 0; i < n; i++) {
+                    game.dropBlocks();
+                }
+                runTime = 0;
             }
-            runTime = 0;
         }
+        else {
+            // do shit
+            System.out.println("Waiting for game!");
+        }
+
         if (game.isLost()) {
             loseSound.play();
             System.out.println("Game lost.");

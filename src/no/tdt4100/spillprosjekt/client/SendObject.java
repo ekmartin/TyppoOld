@@ -5,19 +5,24 @@ package no.tdt4100.spillprosjekt.client;
  */
 public class SendObject {
 
-    private String type;
+    Type type;
+
+    public enum Type {
+        grey, lost, wordlist, findGame, foundGame, test
+    };
+
     private String[] wordlist;
 
-    public SendObject(String type) {
+    public SendObject(Type type) {
         this.type = type;
     }
 
     public SendObject(String[] wordlist) {
-        this.type = "wordlist";
+
         this.wordlist = wordlist;
     }
 
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
