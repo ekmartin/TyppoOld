@@ -49,11 +49,17 @@ public class GameListener implements ClientListener, Runnable {
     }
 
     public void receiveNewGame(Game game) {
-
+        System.out.println(game);
     }
 
     public void receiveOpenGames(OpenGames openGames) {
-
+        System.out.println(openGames);
+        if (openGames.openGames.size() == 0) {
+            client.createGame();
+        }
+        else {
+            client.joinGame(openGames.openGames.get(0));
+        }
     }
 
     public void sendClientCommand(SendObject sendObject) {
@@ -68,6 +74,7 @@ public class GameListener implements ClientListener, Runnable {
     public void run() {
 
         client.connect(this.username);
+        client.getOpenGames();
 
         while (true) {
             try {
@@ -81,6 +88,6 @@ public class GameListener implements ClientListener, Runnable {
 
 
     private void JoinGameRequest() {
-
+        client.getOpenGames();
     }
 }

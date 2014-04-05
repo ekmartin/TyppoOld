@@ -133,7 +133,6 @@ public class GameClient {
 
     }
     public void sendLoss() {
-
     }
 
 }
