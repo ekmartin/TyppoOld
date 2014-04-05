@@ -37,7 +37,6 @@ public class GameGUI extends BasicGameState {
     public static Sound lockSound;
 
     private LinkedBlockingDequeCustom serverDeque;
-    private LinkedBlockingDequeCustom clientDeque;
 
     private GameListener gameListener;
 
@@ -68,11 +67,9 @@ public class GameGUI extends BasicGameState {
             Config.wordlist = wordsArray;*/
 
             serverDeque = new LinkedBlockingDequeCustom<SendObject>();
-            clientDeque = new LinkedBlockingDequeCustom<SendObject>();
-            gameListener = new GameListener(clientDeque, serverDeque);
+            gameListener = new GameListener(serverDeque);
 
             serverDeque.setListener(gameListener, this);
-            clientDeque.setListener(gameListener, this);
 
             new Thread(gameListener).start();
 
@@ -93,7 +90,7 @@ public class GameGUI extends BasicGameState {
         successfulWordCounter = 0;
         foundGame = false;
 
-        SendObject sendObject = new SendObject(SendObject.Type.findGame);
+        SendObject sendObject = new SendObject(Config.commands.findGame);
         serverDeque.sendToServer(sendObject);
     }
 
@@ -140,7 +137,7 @@ public class GameGUI extends BasicGameState {
                     if (game.fadeNext()) {
                         successfulWordCounter++;
                         if (successfulWordCounter >= 5) {
-                            serverDeque.sendToServer(new SendObject(SendObject.Type.grey));
+                            serverDeque.sendToServer(new SendObject(Config.commands.grey));
                             successfulWordCounter = 0;
                         }
                     }
@@ -203,7 +200,7 @@ public class GameGUI extends BasicGameState {
             if (game.isLost()) {
                 loseSound.play();
                 System.out.println("Game lost.");
-                serverDeque.sendToServer(new SendObject(SendObject.Type.lost));
+                serverDeque.sendToServer(new SendObject(Config.commands.lost));
                 stateGame.enterState(4, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
             }
         }

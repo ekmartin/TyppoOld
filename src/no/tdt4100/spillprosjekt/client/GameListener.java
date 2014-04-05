@@ -16,9 +16,8 @@ public class GameListener implements ClientListener, Runnable {
     private LinkedBlockingDequeCustom serverDeque;
     private String username = "";
 
-    public GameListener(LinkedBlockingDequeCustom clientDeque, LinkedBlockingDequeCustom serverDeque){
+    public GameListener(LinkedBlockingDequeCustom serverDeque){
 
-        this.clientDeque = clientDeque;
         this.serverDeque = serverDeque;
 
         client = new GameClient() ;
@@ -81,12 +80,12 @@ public class GameListener implements ClientListener, Runnable {
 
     @Override
     public void youWin() {
-        serverDeque.add(new SendObject(Config.commands.win));
+        serverDeque.add(new SendObject(Config.commands.won));
     }
 
     @Override
     public void addGrayLine() {
-        serverDeque.add(new SendObject(Config.commands.grayLine));
+        serverDeque.add(new SendObject(Config.commands.grey));
     }
 
     @Override
