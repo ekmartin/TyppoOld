@@ -51,7 +51,7 @@ public class GameListener implements ClientListener, Runnable {
         if (game.getRunning()) {
             System.out.println("STARTING SHITTTTTT");
             SendObject sendObject = new SendObject(SendObject.Type.foundGame);
-            clientDeque.addFromClient(sendObject);
+            serverDeque.add(sendObject);
         }
     }
 

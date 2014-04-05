@@ -89,7 +89,7 @@ public class GameGUI extends BasicGameState {
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
         super.enter(container, game);
         SendObject sendObject = new SendObject(SendObject.Type.findGame);
-        serverDeque.addFromGame(sendObject);
+        serverDeque.sendToServer(sendObject);
     }
 
     public int getID() {
@@ -135,7 +135,7 @@ public class GameGUI extends BasicGameState {
                     if (game.fadeNext()) {
                         successfulWordCounter++;
                         if (successfulWordCounter >= 5) {
-                            serverDeque.addFromGame(new SendObject(SendObject.Type.grey));
+                            serverDeque.sendToServer(new SendObject(SendObject.Type.grey));
                             successfulWordCounter = 0;
                         }
                     }
@@ -189,8 +189,6 @@ public class GameGUI extends BasicGameState {
         runTime += delta;
         int n = runTime / game.getDelay();
 
-        doNextAction();
-
         if (foundGame) {
             if (runTime > game.getDelay()) {
                 for (int i = 0; i < n; i++) {
@@ -207,7 +205,7 @@ public class GameGUI extends BasicGameState {
         if (game.isLost()) {
             loseSound.play();
             System.out.println("Game lost.");
-            serverDeque.addFromGame(new SendObject(SendObject.Type.lost));
+            serverDeque.sendToServer(new SendObject(SendObject.Type.lost));
             stateGame.enterState(4, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
         }
     }

@@ -18,27 +18,19 @@ public class LinkedBlockingDequeCustom<E> extends LinkedBlockingDeque<E> {
         this.gameGUI = gameGUI;
     }
 
-    public void addFromGame(E e) {
-        super.add(e);
-        if (e instanceof SendObject) {
-            SendObject sendObject = (SendObject) e;
-            client.sendClientCommand(sendObject);
-        }
-        else {
-            // TODO: Add correct error handling and stuff
-            System.out.println("Not sendObject (addFromGame) " + e);
-        }
+    public void sendToServer(SendObject sendObject) {
+        client.sendClientCommand(sendObject);
     }
 
-    public void addFromClient(E e) {
-        super.add(e);
+    @Override
+    public boolean add(E e) {
         if (e instanceof SendObject) {
-            SendObject sendObject = (SendObject) e;
+            super.add(e);
             gameGUI.doNextAction();
+            return true;
         }
-        else {
-            // TODO: Add correct error handling and stuff
-            System.out.println("Not sendObject (addFromGame) " + e);
-        }
+        // TODO: Add correct error handling and stuff
+        System.out.println("Not sendObject (addFromGame) " + e);
+        return false;
     }
 }
