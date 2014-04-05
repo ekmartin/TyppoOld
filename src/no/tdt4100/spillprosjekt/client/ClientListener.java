@@ -24,5 +24,7 @@ public interface ClientListener {
 
     public void youWin();
 
+    public void opponentLeft();
+
     public void addGrayLine();
 }

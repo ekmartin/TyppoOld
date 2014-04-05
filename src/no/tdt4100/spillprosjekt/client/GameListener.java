@@ -88,6 +88,11 @@ public class GameListener implements ClientListener, Runnable {
     }
 
     @Override
+    public void opponentLeft() {
+        serverDeque.add(new SendObject(Config.commands.opponentLeft));
+    }
+
+    @Override
     public void run() {
 
         client.connect(this.username);

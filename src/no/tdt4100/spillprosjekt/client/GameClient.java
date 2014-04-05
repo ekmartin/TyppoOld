@@ -76,6 +76,12 @@ public class GameClient {
                             }
                             break;
                         }
+                        case opponentLeft: {
+                            for (ClientListener ci : listeners) {
+                                ci.opponentLeft();
+                            }
+                            break;
+                        }
                         case won: {
                             for (ClientListener ci : listeners) {
                                 ci.youWin();
