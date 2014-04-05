@@ -1,5 +1,7 @@
 package no.tdt4100.spillprosjekt.client;
 
+import no.tdt4100.spillprosjekt.objects.WordList;
+
 /**
  * Created by ek on 04/04/14.
  */
@@ -11,22 +13,22 @@ public class SendObject {
         grey, lost, wordlist, findGame, foundGame, test
     };
 
-    private String[] wordlist;
+    private WordList wordList;
 
     public SendObject(Type type) {
         this.type = type;
     }
 
-    public SendObject(String[] wordlist) {
-
-        this.wordlist = wordlist;
+    public SendObject(WordList wordList) {
+        this.type = Type.foundGame;
+        this.wordList = wordList;
     }
 
     public Type getType() {
         return type;
     }
 
-    public String[] getWordlist() {
-        return wordlist;
+    public WordList getWordlist() {
+        return wordList;
     }
 }

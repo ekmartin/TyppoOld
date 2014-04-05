@@ -30,8 +30,7 @@ public class GameServer {
         ArrayList<String> words = new ArrayList<String>();
         String[] wordsArray;
         try {
-            Scanner scanner = new Scanner("wordlist.txt");
-            while (scanner.hasNextLine()) {
+            Scanner scanner = new Scanner(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/wordlist.txt"));            while (scanner.hasNextLine()) {
                 words.add(scanner.nextLine());
             }
             scanner.close();

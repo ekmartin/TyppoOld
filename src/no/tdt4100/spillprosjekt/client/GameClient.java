@@ -130,6 +130,7 @@ public class GameClient {
     public void sendGrayLine() {
 
     }
+
     public void sendLoss() {
     }
 
