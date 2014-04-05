@@ -15,8 +15,6 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 import org.newdawn.slick.tiled.TiledMap;
 
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.concurrent.LinkedBlockingDeque;
 
 public class GameGUI extends BasicGameState {
 
@@ -137,7 +135,7 @@ public class GameGUI extends BasicGameState {
                     if (game.fadeNext()) {
                         successfulWordCounter++;
                         if (successfulWordCounter >= 5) {
-                            serverDeque.sendToServer(new SendObject(Config.commands.grey));
+                            serverDeque.sendToServer(new SendObject(Config.commands.gray));
                             successfulWordCounter = 0;
                         }
                     }
@@ -162,7 +160,7 @@ public class GameGUI extends BasicGameState {
         if (nextActionObject != null) {
             SendObject nextAction = (SendObject) serverDeque.poll();
             switch (nextAction.getType()) {
-                case grey:
+                case gray:
                     game.addDead();
                     break;
                 case won:

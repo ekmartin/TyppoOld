@@ -101,14 +101,22 @@ public class GameServer {
                     Config.commands command = (Config.commands) object;
 
                     switch (command) {
-                        case getUserList: { sendUserList(connection) ; break;}
-                        case startGame: { startNewGame(connection); break;}
-                        case getOpenGames: {returnOpenGames(connection); break;}
-                        case loss: {sendGameCommand(connection, Config.commands.win); break;}
-                        case grayLine:{sendGameCommand(connection, Config.commands.grayLine); break;}
-
+                        case getUserList:
+                            sendUserList(connection);
+                            break;
+                        case startGame:
+                            startNewGame(connection);
+                            break;
+                        case getOpenGames:
+                            returnOpenGames(connection);
+                            break;
+                        case lost:
+                            sendGameCommand(connection, Config.commands.won);
+                            break;
+                        case gray:
+                            sendGameCommand(connection, Config.commands.gray);
+                            break;
                     }
-
                 }
 
                 // Join game

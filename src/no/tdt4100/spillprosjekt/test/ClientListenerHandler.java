@@ -60,5 +60,15 @@ public class ClientListenerHandler implements ClientListener {
 
     }
 
+    @Override
+    public void youWin() {
+
+    }
+
+    @Override
+    public void addGrayLine() {
+
+    }
+
 
 }

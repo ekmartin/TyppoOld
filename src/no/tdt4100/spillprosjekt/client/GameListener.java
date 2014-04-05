@@ -4,7 +4,6 @@ import no.tdt4100.spillprosjekt.objects.*;
 import no.tdt4100.spillprosjekt.utils.Config;
 
 import java.net.InetAddress;
-import java.util.concurrent.BlockingDeque;
 
 /**
  * Created by eiriksylliaas on 04.04.14.
@@ -66,7 +65,7 @@ public class GameListener implements ClientListener, Runnable {
 
     public void sendClientCommand(SendObject sendObject) {
         switch (sendObject.getType()) {
-            case grey:
+            case gray:
                 client.sendGrayLine();
                 break;
             case lost:
@@ -85,7 +84,7 @@ public class GameListener implements ClientListener, Runnable {
 
     @Override
     public void addGrayLine() {
-        serverDeque.add(new SendObject(Config.commands.grey));
+        serverDeque.add(new SendObject(Config.commands.gray));
     }
 
     @Override
