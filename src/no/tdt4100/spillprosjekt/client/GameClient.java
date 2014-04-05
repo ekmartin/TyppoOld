@@ -86,10 +86,8 @@ public class GameClient {
                 if (object instanceof Game) {
                     Game game = (Game) object;
 
-                    if (game.getParticipant() == null) {
-                        for (ClientListener ci : listeners) {
-                            ci.receiveNewGame(game);
-                        }
+                    for (ClientListener ci : listeners) {
+                        ci.receiveNewGame(game);
                     }
 
                 }
