@@ -5,6 +5,7 @@ out
 #IntelliJ:
 .idea
 *.iml
+src/META-INF
 
 # Package Files #
 *.war
