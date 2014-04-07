@@ -24,7 +24,7 @@ public class Block {
         grey = true;
         locked = false;
 
-        typeFont = new TypeFont("Verdana", 32, true, java.awt.Color.white);
+        typeFont = new TypeFont("Consolas", 32, true, java.awt.Color.white);
 
         for (int i = 0; i < Config.boardWidth; i++) {
             try {
@@ -44,7 +44,7 @@ public class Block {
 
         int x = word.getX();
 
-        typeFont = new TypeFont("Verdana", 32, true, java.awt.Color.white);
+        typeFont = new TypeFont("Consolas", 32, true, java.awt.Color.white);
 
         for (int i = 0; i < wordString.length(); i++) {
             try {
@@ -100,7 +100,7 @@ public class Block {
 
         for (Cell cell : cells) {
             g.drawImage(cell.getCellImage(), (cell.getX() + 1) * Config.cellWidth, cell.getY() * Config.cellHeight);
-            g.drawString(String.valueOf(cell.getLetter()), ((cell.getX() + 1) * Config.cellWidth)+3, (cell.getY() * Config.cellHeight)-4);
+            g.drawString(String.valueOf(cell.getLetter()), ((cell.getX() + 1) * Config.cellWidth)+7, (cell.getY() * Config.cellHeight)+2);
         }
     }
 
