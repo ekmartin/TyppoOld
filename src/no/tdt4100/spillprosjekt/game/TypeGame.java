@@ -100,6 +100,7 @@ public class TypeGame {
                     returnVal = true;
             }
         }
+        Menu.typeSoundFail.play();
         blocks.add(new Block(bottom));
         bottom--;
         return returnVal;

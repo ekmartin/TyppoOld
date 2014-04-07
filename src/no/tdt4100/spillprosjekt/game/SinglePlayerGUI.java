@@ -114,7 +114,6 @@ public class SinglePlayerGUI extends BasicGameState {
                 if (failCounter >= 5) {
                     game.addDead();
                     failCounter = 0;
-                    // should play another sound here
                 }
             }
         }

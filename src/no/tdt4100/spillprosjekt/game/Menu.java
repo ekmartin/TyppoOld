@@ -25,6 +25,8 @@ public class Menu extends BasicGameState {
     public static Sound typeSoundFail;
     public static Sound lockSound;
     public static Sound loseSound;
+    public static Sound greySound;
+
     public static TiledMap typeMap;
 
     public static Animation loadingAnimation;
@@ -51,6 +53,7 @@ public class Menu extends BasicGameState {
         typeSoundGood = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/click.aif"));
         typeSoundFail = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/Bottle.aif"));
         lockSound = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/Tink.aif"));
+        greySound = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/Frog.aif"));
         loseSound = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/Basso.aif"));
 
         typeMap = new TiledMap(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/TiledMap.tmx"), "no/tdt4100/spillprosjekt/res");
