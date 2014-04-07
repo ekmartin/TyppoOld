@@ -27,6 +27,9 @@ public class Menu extends BasicGameState {
     public static Sound loseSound;
     public static TiledMap typeMap;
 
+    public static Animation loadingAnimation;
+    private Image[] animationImage;
+
     private Image[] buttonHoverImages;
 
     private MouseOverArea singlePlayerHower;
@@ -53,6 +56,16 @@ public class Menu extends BasicGameState {
         typeMap = new TiledMap(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/TiledMap.tmx"), "no/tdt4100/spillprosjekt/res");
 
         backgroundImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/background.png"), "background.png", false);
+
+        animationImage = new Image[] {
+                new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/anim1.png"), "anim1.png", false),
+                new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/anim2.png"), "anim2.png", false),
+                new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/anim3.png"), "anim3.png", false),
+                new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/anim4.png"), "anim4.png", false),
+        };
+        int[] duration = {150, 150, 150, 150};
+        loadingAnimation = new Animation(animationImage, duration, true);
+
         singlePlayerImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/single_player.png"), "single_player.png", false);
         singlePlayerHowerImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/single_player_hover.png"), "single_player_hover.png", false);
         multiPlayerImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/multi_player.png"), "multi_player.png", false);

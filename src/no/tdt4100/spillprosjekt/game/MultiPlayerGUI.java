@@ -28,12 +28,17 @@ public class MultiPlayerGUI extends BasicGameState {
     private LinkedBlockingDequeCustom serverDeque;
 
     private GameListener gameListener;
+    private TypeFont typeFont;
+
+    private int dots;
 
     @Override
     public void init(GameContainer container, StateBasedGame stateGame) throws SlickException {
         this.stateGame = stateGame;
 
         foundGame = false;
+
+        typeFont = new TypeFont("Consolas", 25, true, java.awt.Color.white);
 
         try {
             serverDeque = new LinkedBlockingDequeCustom<SendObject>();
@@ -47,14 +52,13 @@ public class MultiPlayerGUI extends BasicGameState {
         catch (Exception e) {
             Logger.log(e);
         }
-        //wordList = new WordList(Config.wordlist, 500);
-        //game = new TypeGame(wordList);
     }
 
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
         super.enter(container, game);
 
+        dots = 0;
         runTime = 0;
         failCounter = 0;
         successfulWordCounter = 0;
@@ -140,6 +144,7 @@ public class MultiPlayerGUI extends BasicGameState {
                         if (foundGame) gameWon();
                         break;
                     case foundGame:
+                        runTime = 0;
                         game = new TypeGame(nextAction.getWordlist());
                         Score.newGame();
                         foundGame = true;
@@ -180,8 +185,12 @@ public class MultiPlayerGUI extends BasicGameState {
             }
         }
         else {
-            // do shit
-            System.out.println("Waiting for game!");
+            runTime += delta;
+            if (runTime > 500) {
+                if (dots < 3) dots++;
+                else dots = 1;
+                runTime = 0;
+            }
         }
     }
 
@@ -189,6 +198,16 @@ public class MultiPlayerGUI extends BasicGameState {
         Menu.typeMap.render(0, 0);
         if (foundGame) {
             game.render(g);
+        }
+        else {
+            g.setFont(typeFont.getFont());
+            String drawString = "Searching for players";
+            for (int i = 0; i < dots; i++) {
+                drawString += ".";
+            }
+            g.drawString(drawString, 100, container.getHeight()/2 - 50);
+            Menu.loadingAnimation.draw(container.getWidth()/2 - Menu.loadingAnimation.getWidth()/2,
+                                       container.getHeight()/2 - Menu.loadingAnimation.getHeight()/2 + 50);
         }
     }
 
