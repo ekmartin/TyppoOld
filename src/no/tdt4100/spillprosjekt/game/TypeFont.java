@@ -14,10 +14,12 @@ public class TypeFont {
 
     public TypeFont(String font, int size, boolean bold, Color color) {
         try {
-            if (bold)
+            if (bold) {
                 awtFont = new Font(font, Font.BOLD, size);
-            else
+            }
+            else {
                 awtFont = new Font(font, Font.PLAIN, size);
+            }
             uFont = new UnicodeFont(awtFont, size, bold, false);
             uFont.getEffects().add(new ColorEffect(color));
             uFont.addGlyphs(glyphs + glyphs.toUpperCase());
@@ -26,6 +28,7 @@ public class TypeFont {
             Logger.log(e);
         }
     }
+
 
     public UnicodeFont getFont() {
         return uFont;
