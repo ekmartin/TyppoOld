@@ -138,4 +138,20 @@ public class Block {
         }
         fadeIndex = 0;
     }
+
+    public void destroyFadedAndLock() {
+        ArrayList<Cell> destroyCells = new ArrayList<>();
+
+        for (Cell cell : getCells()) {
+            if (cell.isFaded()) {
+                destroyCells.add(cell);
+            }
+            else {
+                cell.dropLock();
+            }
+        }
+        for (Cell destroyCell : destroyCells) {
+            getCells().remove(destroyCell);
+        }
+    }
 }

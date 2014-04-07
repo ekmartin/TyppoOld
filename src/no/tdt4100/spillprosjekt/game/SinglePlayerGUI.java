@@ -73,7 +73,7 @@ public class SinglePlayerGUI extends BasicGameState {
     public void keyPressed(int key, char c) {
         if (key == Input.KEY_ENTER) {
             if (game.hasStartedWriting() && !game.getCurrentBlock().isLocked()) {
-               game.unFadeBlock(game.getCurrentBlock());
+               game.destroyFadedAndLock(game.getCurrentBlock());
             }
         }
         else {

@@ -141,6 +141,10 @@ public class Cell {
         faded = true;
     }
 
+    public void dropLock() {
+        letter = '\0';
+    }
+
     public void lock() {
         unFade();
         letter = '\0';

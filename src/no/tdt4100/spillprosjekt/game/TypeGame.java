@@ -133,6 +133,11 @@ public class TypeGame {
         this.currentBlock = currentBlock;
     }
 
+    public void destroyFadedAndLock(Block block) {
+        startedWriting = false;
+        block.destroyFadedAndLock();
+    }
+
     public void unFadeBlock(Block block) {
         startedWriting = false;
         block.unFade();
