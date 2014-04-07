@@ -1,9 +1,5 @@
 package no.tdt4100.spillprosjekt.game;
 
-import no.tdt4100.spillprosjekt.objects.WordList;
-import no.tdt4100.spillprosjekt.utils.Config;
-import no.tdt4100.spillprosjekt.utils.Logger;
-
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -16,7 +12,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class FinishedScreen extends BasicGameState {
 
-    public static final int ID = 4;
+    public static final int ID = 5;
     private StateBasedGame stateGame;
 
     private TypeFont typeFont;
@@ -44,11 +40,11 @@ public class FinishedScreen extends BasicGameState {
 
     public void render(GameContainer container, StateBasedGame stateGame, Graphics g) throws SlickException {
         g.setFont(typeFont.getFont());
-        if (GameGUI.score > 0) {
-            g.drawString("Congratulations! Score: " + GameGUI.score, 80, container.getHeight()/2);
+        if (MultiPlayerGUI.score > 0) {
+            g.drawString("Congratulations! Score: " + MultiPlayerGUI.score, 80, container.getHeight()/2);
         }
         else {
-            g.drawString("You reached " + GameGUI.score + " points before losing.", 80, container.getHeight() / 2);
+            g.drawString("You reached " + MultiPlayerGUI.score + " points before losing.", 80, container.getHeight() / 2);
         }
     }
 

@@ -1,8 +1,7 @@
 package no.tdt4100.spillprosjekt.client;
 
-import no.tdt4100.spillprosjekt.game.GameGUI;
+import no.tdt4100.spillprosjekt.game.MultiPlayerGUI;
 
-import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 
 /**
@@ -11,9 +10,9 @@ import java.util.concurrent.LinkedBlockingDeque;
 public class LinkedBlockingDequeCustom<E> extends LinkedBlockingDeque<E> {
 
     GameListener client;
-    GameGUI gameGUI;
+    MultiPlayerGUI gameGUI;
 
-    public void setListener(GameListener client, GameGUI gameGUI) {
+    public void setListener(GameListener client, MultiPlayerGUI gameGUI) {
         this.client = client;
         this.gameGUI = gameGUI;
     }

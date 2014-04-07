@@ -4,8 +4,6 @@ import no.tdt4100.spillprosjekt.objects.Word;
 import no.tdt4100.spillprosjekt.utils.Config;
 import no.tdt4100.spillprosjekt.utils.Logger;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.UnicodeFont;
-import org.newdawn.slick.font.effects.ColorEffect;
 
 import java.util.ArrayList;
 
@@ -70,7 +68,7 @@ public class Block {
         for (Cell cell : cells) {
             cell.dropCell(blocked);
             if (blocked[cell.getY()+1][cell.getX()] == true) {
-                GameGUI.lockSound.play();
+                Menu.lockSound.play();
                 locked = true;
                 for (Cell cell2 : cells) {
                     cell2.lock();

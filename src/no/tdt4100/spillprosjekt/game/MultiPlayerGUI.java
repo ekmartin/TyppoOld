@@ -3,7 +3,6 @@ package no.tdt4100.spillprosjekt.game;
 import no.tdt4100.spillprosjekt.client.GameListener;
 import no.tdt4100.spillprosjekt.client.LinkedBlockingDequeCustom;
 import no.tdt4100.spillprosjekt.client.SendObject;
-import no.tdt4100.spillprosjekt.objects.WordList;
 import no.tdt4100.spillprosjekt.utils.Config;
 import no.tdt4100.spillprosjekt.utils.Logger;
 
@@ -12,15 +11,12 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
-import org.newdawn.slick.tiled.TiledMap;
 
 import java.util.ArrayList;
 
-public class GameGUI extends BasicGameState {
+public class MultiPlayerGUI extends BasicGameState {
 
     private TypeGame game;
-    private WordList wordList;
-    private TiledMap typeMap = null;
     private int runTime;
     private int failCounter;
     private int successfulWordCounter;
@@ -28,11 +24,6 @@ public class GameGUI extends BasicGameState {
 
     public static final int ID = 2;
     private StateBasedGame stateGame;
-
-    public static Sound typeSoundGood;
-    public static Sound typeSoundFail;
-    public static Sound loseSound;
-    public static Sound lockSound;
 
     public static int score = 0;
     private LinkedBlockingDequeCustom serverDeque;
@@ -45,19 +36,7 @@ public class GameGUI extends BasicGameState {
 
         foundGame = false;
 
-        //ArrayList<String> words = new ArrayList<String>();
-        //String[] wordsArray;
-
         try {
-            /* Scanner scanner = new Scanner(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/wordlist.txt"));
-            while (scanner.hasNextLine()) {
-                words.add(scanner.nextLine());
-            }
-            scanner.close();
-            System.out.println(words);
-            wordsArray = words.toArray(new String[0]);
-            Config.wordlist = wordsArray;*/
-
             serverDeque = new LinkedBlockingDequeCustom<SendObject>();
             gameListener = new GameListener(serverDeque);
 
@@ -83,26 +62,6 @@ public class GameGUI extends BasicGameState {
         successfulWordCounter = 0;
         foundGame = false;
 
-        try {
-            typeSoundGood = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/click.aif"));
-            typeSoundFail = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/Bottle.aif"));
-            lockSound = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/Tink.aif"));
-            loseSound = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/Basso.aif"));
-
-            typeMap = new TiledMap(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/TiledMap.tmx"), Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/").getPath());
-
-            /* Scanner scanner = new Scanner(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/wordlist.txt"));
-            while (scanner.hasNextLine()) {
-                words.add(scanner.nextLine());
-            }
-            scanner.close();
-            System.out.println(words);
-            wordsArray = words.toArray(new String[0]);
-            Config.wordlist = wordsArray;*/
-        }
-        catch (Exception e) {
-            Logger.log(e);
-        }
         SendObject sendObject = new SendObject(Config.commands.findGame);
         serverDeque.sendToServer(sendObject);
     }
@@ -114,9 +73,7 @@ public class GameGUI extends BasicGameState {
     @Override
     public void keyPressed(int key, char c) {
         if (foundGame) {
-            if (key == Input.KEY_ESCAPE) {
-                stateGame.enterState(3, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
-            } else if (key == Input.KEY_ENTER) {
+            if (key == Input.KEY_ENTER) {
                 game.addDead();
             } else {
                 boolean wrote = false;
@@ -142,7 +99,7 @@ public class GameGUI extends BasicGameState {
                     if (allowed.getChar() == c) {
                         wrote = true;
                         failCounter = 0;
-                        typeSoundGood.play(); // temp sound, should be replaced
+                        Menu.typeSoundGood.play(); // temp sound, should be replaced
                         System.out.println("fading next, which is: " + allowed.getChar());
                         game.startedWriting(allowed.getBlock());
                         if (game.fadeNext()) {
@@ -158,7 +115,7 @@ public class GameGUI extends BasicGameState {
 
                 if (!wrote) {
                     failCounter++;
-                    typeSoundFail.play();
+                    Menu.typeSoundFail.play();
                     if (failCounter >= 5) {
                         game.addDead();
                         failCounter = 0;
@@ -186,7 +143,7 @@ public class GameGUI extends BasicGameState {
                         foundGame = true;
                         break;
                     case opponentLeft:
-                        stateGame.enterState(6, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+                        stateGame.enterState(5, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
                         break;
                     default:
                         System.out.println("Unkown SendObject-type: " + nextAction.getType());
@@ -199,7 +156,7 @@ public class GameGUI extends BasicGameState {
         //TODO: Add victory state, stats etc.
         System.out.println("Won, FIXME");
         score = game.getScore();
-        stateGame.enterState(4, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+        stateGame.enterState(5, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
     }
 
     public void update(GameContainer container, StateBasedGame stateGame, int delta) throws SlickException {
@@ -216,7 +173,7 @@ public class GameGUI extends BasicGameState {
             }
 
             if (game.isLost()) {
-                loseSound.play();
+                Menu.loseSound.play();
                 System.out.println("Game lost.");
                 serverDeque.sendToServer(new SendObject(Config.commands.lost));
                 score = -game.getScore();
@@ -230,7 +187,7 @@ public class GameGUI extends BasicGameState {
     }
 
     public void render(GameContainer container, StateBasedGame stateGame, Graphics g) throws SlickException {
-        typeMap.render(0, 0);
+        Menu.typeMap.render(0, 0);
         if (foundGame) {
             game.render(g);
         }

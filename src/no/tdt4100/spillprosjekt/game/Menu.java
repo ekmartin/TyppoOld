@@ -1,15 +1,12 @@
 package no.tdt4100.spillprosjekt.game;
 
-import no.tdt4100.spillprosjekt.objects.WordList;
-import no.tdt4100.spillprosjekt.utils.Config;
-import no.tdt4100.spillprosjekt.utils.Logger;
-
 import org.newdawn.slick.*;
 import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
+import org.newdawn.slick.tiled.TiledMap;
 
 public class Menu extends BasicGameState {
 
@@ -17,17 +14,23 @@ public class Menu extends BasicGameState {
     private StateBasedGame stateGame;
 
 
-    private Image backgroundImage;
-    private Image playGameImage;
-    private Image playGameHoverImage;
-    private Image joinGameImage;
-    private Image joinGameHoverImage;
+    public static Image backgroundImage;
 
-    private Image[] buttonImages;
+    private Image singlePlayerImage;
+    private Image singlePlayerHowerImage;
+    private Image multiPlayerImage;
+    private Image multiPlayerHowerImage;
+
+    public static Sound typeSoundGood;
+    public static Sound typeSoundFail;
+    public static Sound lockSound;
+    public static Sound loseSound;
+    public static TiledMap typeMap;
+
     private Image[] buttonHoverImages;
 
-    private MouseOverArea playGameHover;
-    private MouseOverArea joinGameHover;
+    private MouseOverArea singlePlayerHower;
+    private MouseOverArea multiPlayerHower;
     private MouseOverArea[] mouseOverAreas;
 
     private TypeFont typeFont;
@@ -42,18 +45,24 @@ public class Menu extends BasicGameState {
 
         typeFont = new TypeFont("Verdana", 32, true, java.awt.Color.white);
 
+        typeSoundGood = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/click.aif"));
+        typeSoundFail = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/Bottle.aif"));
+        lockSound = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/Tink.aif"));
+        loseSound = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/Basso.aif"));
+
+        typeMap = new TiledMap(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/TiledMap.tmx"), Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/").getPath());
+
         backgroundImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/background.png"), "background.png", false);
-        playGameImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/play_game.png"), "play_game.png", false);
-        playGameHoverImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/play_game_hover.png"), "play_game_hover.png", false);
-        joinGameImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/join_game.png"), "join_game.png", false);
-        joinGameHoverImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/join_game_hover.png"), "join_game_hover.png", false);
+        singlePlayerImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/play_game.png"), "play_game.png", false);
+        singlePlayerHowerImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/play_game_hover.png"), "play_game_hover.png", false);
+        multiPlayerImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/join_game.png"), "join_game.png", false);
+        multiPlayerHowerImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/join_game_hover.png"), "join_game_hover.png", false);
 
-        buttonImages = new Image[] {playGameImage, joinGameImage};
-        buttonHoverImages = new Image[] {playGameHoverImage, joinGameHoverImage};
+        buttonHoverImages = new Image[] {singlePlayerHowerImage, multiPlayerHowerImage};
 
-        playGameHover = new MouseOverArea(container, playGameImage, buttonX, playGameY);
-        joinGameHover = new MouseOverArea(container, joinGameImage, buttonX, joinGameY);
-        mouseOverAreas = new MouseOverArea[] {playGameHover, joinGameHover};
+        singlePlayerHower = new MouseOverArea(container, singlePlayerImage, buttonX, playGameY);
+        multiPlayerHower = new MouseOverArea(container, multiPlayerImage, buttonX, joinGameY);
+        mouseOverAreas = new MouseOverArea[] {singlePlayerHower, multiPlayerHower};
         for (int i = 0; i < mouseOverAreas.length; i++) {
             mouseOverAreas[i].setMouseOverImage(buttonHoverImages[i]);
         }
@@ -77,11 +86,12 @@ public class Menu extends BasicGameState {
     @Override
     public void mousePressed(int button, int x, int y) {
         if (button == 0) {
-            if (playGameHover.isMouseOver()) {
-                stateGame.enterState(2, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+            if (singlePlayerHower.isMouseOver()) {
+                System.out.println("starting single");
+                stateGame.enterState(3, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
             }
-            else if (joinGameHover.isMouseOver()) {
-                stateGame.enterState(5, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+            else if (multiPlayerHower.isMouseOver()) {
+                stateGame.enterState(2, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
 
             }
         }
