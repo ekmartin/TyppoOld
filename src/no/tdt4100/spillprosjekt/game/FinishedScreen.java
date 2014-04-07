@@ -40,11 +40,11 @@ public class FinishedScreen extends BasicGameState {
 
     public void render(GameContainer container, StateBasedGame stateGame, Graphics g) throws SlickException {
         g.setFont(typeFont.getFont());
-        if (MultiPlayerGUI.score > 0) {
-            g.drawString("Congratulations! Score: " + MultiPlayerGUI.score, 80, container.getHeight()/2);
+        if (Score.getStatus()) {
+            g.drawString("Congratulations! Score: " + Score.getScore(), 80, container.getHeight()/2);
         }
         else {
-            g.drawString("You reached " + MultiPlayerGUI.score + " points before losing.", 80, container.getHeight() / 2);
+            g.drawString("You reached " + Score.getScore() + " points before losing.", 80, container.getHeight() / 2);
         }
     }
 

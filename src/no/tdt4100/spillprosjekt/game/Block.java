@@ -128,4 +128,14 @@ public class Block {
         }
         return fadeIndex == wordString.length();
     }
+
+    public void unFade() {
+        for (Cell cell : getCells()) {
+            if (cell.isFaded()) {
+                cell.unFade();
+                Score.minusCharScore();
+            }
+        }
+        fadeIndex = 0;
+    }
 }

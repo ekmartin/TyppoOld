@@ -106,6 +106,7 @@ public class Cell {
                     cellImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/orangecell.png"), "orangecell.png", false);
                     break;
             }
+            faded = false;
         }
         catch (Exception e) {
             Logger.log(e);

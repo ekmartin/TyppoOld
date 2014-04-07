@@ -25,7 +25,6 @@ public class MultiPlayerGUI extends BasicGameState {
     public static final int ID = 2;
     private StateBasedGame stateGame;
 
-    public static int score = 0;
     private LinkedBlockingDequeCustom serverDeque;
 
     private GameListener gameListener;
@@ -56,7 +55,6 @@ public class MultiPlayerGUI extends BasicGameState {
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
         super.enter(container, game);
 
-        score = 0;
         runTime = 0;
         failCounter = 0;
         successfulWordCounter = 0;
@@ -74,8 +72,11 @@ public class MultiPlayerGUI extends BasicGameState {
     public void keyPressed(int key, char c) {
         if (foundGame) {
             if (key == Input.KEY_ENTER) {
-                game.addDead();
-            } else {
+                if (game.hasStartedWriting() && !game.getCurrentBlock().isLocked()) {
+                    game.unFadeBlock(game.getCurrentBlock());
+                }
+            }
+            else {
                 boolean wrote = false;
                 c = Character.toLowerCase(c);
                 ArrayList<AllowedCharacter> allowedChars = new ArrayList<AllowedCharacter>();
@@ -140,6 +141,7 @@ public class MultiPlayerGUI extends BasicGameState {
                         break;
                     case foundGame:
                         game = new TypeGame(nextAction.getWordlist());
+                        Score.newGame();
                         foundGame = true;
                         break;
                     case opponentLeft:
@@ -153,9 +155,7 @@ public class MultiPlayerGUI extends BasicGameState {
     }
 
     public void gameWon() {
-        //TODO: Add victory state, stats etc.
-        System.out.println("Won, FIXME");
-        score = game.getScore();
+        Score.won();
         stateGame.enterState(4, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
     }
 
@@ -176,7 +176,6 @@ public class MultiPlayerGUI extends BasicGameState {
                 Menu.loseSound.play();
                 System.out.println("Game lost.");
                 serverDeque.sendToServer(new SendObject(Config.commands.lost));
-                score = -game.getScore();
                 stateGame.enterState(4, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
             }
         }

@@ -45,6 +45,8 @@ public class OpponentLeft extends BasicGameState {
     public void render(GameContainer container, StateBasedGame stateGame, Graphics g) throws SlickException {
         g.setFont(typeFont.getFont());
         g.drawString("Your opponent disconnected or left, sorry.", 80, container.getHeight()/2);
+        g.drawString("Final score: " + Score.getScore(), 80, container.getHeight()/2);
+
     }
 
 }

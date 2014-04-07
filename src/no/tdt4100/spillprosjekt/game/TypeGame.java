@@ -10,7 +10,6 @@ import java.util.ArrayList;
 public class TypeGame {
 
     private TypeFont typeFont;
-    private int score;
 
     private int delay;
     private int addBlockTreshold;
@@ -39,8 +38,6 @@ public class TypeGame {
             blocked[Config.boardHeight][i] = true;
         }
         bottom = Config.boardHeight-1;
-
-        score = 0;
 
         delay = 1200;
         addBlockCounter = 3;
@@ -113,7 +110,7 @@ public class TypeGame {
             block.draw(g);
         }
         g.setFont(typeFont.getFont());
-        String scoreString = score+"";
+        String scoreString = Score.getScore() + "";
         g.drawString(scoreString, Config.boardWidthFloat/2-(scoreString.length()*8), Config.boardHeightFloat-32);
     }
 
@@ -136,6 +133,11 @@ public class TypeGame {
         this.currentBlock = currentBlock;
     }
 
+    public void unFadeBlock(Block block) {
+        startedWriting = false;
+        block.unFade();
+    }
+
     public Block getCurrentBlock() {
         return currentBlock;
     }
@@ -148,14 +150,14 @@ public class TypeGame {
         if (startedWriting) {
             System.out.println("fading next!!!");
             if (currentBlock.fadeNext()) {
-                score += 5;
+                Score.wordScore();
                 System.out.println("Deleting block, cuz yolo. ");
                 blocks.remove(currentBlock);
                 startedWriting = false;
                 return true;
             }
             else {
-                score++;
+                Score.charScore();
             }
         }
         return false;
@@ -167,9 +169,5 @@ public class TypeGame {
 
     public boolean isLost() {
         return gameLost;
-    }
-
-    public int getScore() {
-        return score;
     }
 }

@@ -29,8 +29,6 @@ public class SinglePlayerGUI extends BasicGameState {
     public static final int ID = 3;
     private StateBasedGame stateGame;
 
-    public static int score = 0;
-
     @Override
     public void init(GameContainer container, StateBasedGame stateGame) throws SlickException {
         this.stateGame = stateGame;
@@ -40,7 +38,6 @@ public class SinglePlayerGUI extends BasicGameState {
     public void enter(GameContainer container, StateBasedGame stateGame) throws SlickException {
         super.enter(container, stateGame);
 
-        score = 0;
         runTime = 0;
         failCounter = 0;
         foundGame = false;
@@ -63,6 +60,7 @@ public class SinglePlayerGUI extends BasicGameState {
             Logger.log(e);
         }
         wordList = new WordList(Config.wordlist, 1000);
+        Score.newGame();
         game = new TypeGame(wordList);
 
     }
@@ -74,8 +72,11 @@ public class SinglePlayerGUI extends BasicGameState {
     @Override
     public void keyPressed(int key, char c) {
         if (key == Input.KEY_ENTER) {
-            game.addDead();
-        } else {
+            if (game.hasStartedWriting() && !game.getCurrentBlock().isLocked()) {
+               game.unFadeBlock(game.getCurrentBlock());
+            }
+        }
+        else {
             boolean wrote = false;
             c = Character.toLowerCase(c);
             ArrayList<AllowedCharacter> allowedChars = new ArrayList<AllowedCharacter>();
@@ -126,7 +127,6 @@ public class SinglePlayerGUI extends BasicGameState {
         if (game.isLost()) {
             Menu.loseSound.play();
             System.out.println("Game lost.");
-            score = -game.getScore();
             stateGame.enterState(4, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
         }
 
