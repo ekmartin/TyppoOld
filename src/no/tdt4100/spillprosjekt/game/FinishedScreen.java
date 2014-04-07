@@ -12,7 +12,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class FinishedScreen extends BasicGameState {
 
-    public static final int ID = 5;
+    public static final int ID = 4;
     private StateBasedGame stateGame;
 
     private TypeFont typeFont;

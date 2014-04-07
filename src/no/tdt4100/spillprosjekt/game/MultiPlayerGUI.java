@@ -156,7 +156,7 @@ public class MultiPlayerGUI extends BasicGameState {
         //TODO: Add victory state, stats etc.
         System.out.println("Won, FIXME");
         score = game.getScore();
-        stateGame.enterState(5, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+        stateGame.enterState(4, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
     }
 
     public void update(GameContainer container, StateBasedGame stateGame, int delta) throws SlickException {

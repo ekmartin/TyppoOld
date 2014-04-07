@@ -127,7 +127,7 @@ public class SinglePlayerGUI extends BasicGameState {
             Menu.loseSound.play();
             System.out.println("Game lost.");
             score = -game.getScore();
-            stateGame.enterState(5, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+            stateGame.enterState(4, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
         }
 
         if (runTime > game.getDelay()) {

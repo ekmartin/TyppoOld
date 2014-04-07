@@ -16,7 +16,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class OpponentLeft extends BasicGameState {
 
-    public static final int ID = 6;
+    public static final int ID = 5;
     private StateBasedGame stateGame;
 
     private TypeFont typeFont;
