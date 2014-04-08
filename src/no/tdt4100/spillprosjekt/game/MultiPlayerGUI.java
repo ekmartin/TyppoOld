@@ -86,7 +86,16 @@ public class MultiPlayerGUI extends BasicGameState {
 
     @Override
     public void keyPressed(int key, char c) {
-        if (foundGame) {
+        if (key == Input.KEY_ESCAPE) {
+            if (foundGame) {
+                serverDeque.sendToServer(new SendObject(Config.commands.lost));
+            }
+            else {
+                serverDeque.sendToServer(new SendObject(Config.commands.deleteMyGames));
+                stateGame.enterState(1, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+            }
+        }
+        else if (foundGame) {
             if (key == Input.KEY_ENTER) {
                 if (game.hasStartedWriting() && !game.getCurrentBlock().isLocked()) {
                     game.destroyFadedAndLock(game.getCurrentBlock());

@@ -76,7 +76,11 @@ public class SinglePlayerGUI extends BasicGameState {
 
     @Override
     public void keyPressed(int key, char c) {
-        if (key == Input.KEY_ENTER) {
+        if (key == Input.KEY_ESCAPE) {
+            Menu.loseSound.play();
+            stateGame.enterState(4, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+        }
+        else if (key == Input.KEY_ENTER) {
             if (game.hasStartedWriting() && !game.getCurrentBlock().isLocked()) {
                game.destroyFadedAndLock(game.getCurrentBlock());
             }
