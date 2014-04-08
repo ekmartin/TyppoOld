@@ -10,7 +10,7 @@ public class Config {
     public static int ServerTCPPort = 54555;
     public static int ServerUDPPort = 54777;
 
-    public static String ServerAddress = "127.0.0.1";
+    public static String ServerAddress = "78.91.1.221";
 
 
     public static float cellHeight = 32;
