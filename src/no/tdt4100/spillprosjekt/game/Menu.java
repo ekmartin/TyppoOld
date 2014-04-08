@@ -55,17 +55,13 @@ public class Menu extends BasicGameState {
 
         bannerAnimationImages = new Image[] {
                 new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/bAnim0.png"), "bAnim0.png", false),
-                new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/bAnim1.png"), "bAnim1.png", false),
-                new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/bAnim2.png"), "bAnim2.png", false),
-                new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/bAnim3.png"), "bAnim3.png", false),
-                new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/bAnim4.png"), "bAnim4.png", false),
                 new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/bAnim5.png"), "bAnim5.png", false),
         };
 
-        int[] duration = {500, 200, 300, 100, 200, 800};
+        int[] duration = {500, 500};
         banner = new Animation(bannerAnimationImages, duration, true);
 
-        backgroundImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/background.png"), "background.png", false);
+        backgroundImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/Background.png"), "Background.png", false);
         singlePlayerImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/single_player.png"), "single_player.png", false);
         singlePlayerHowerImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/single_player_hover.png"), "single_player_hover.png", false);
         multiPlayerImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/multi_player.png"), "multi_player.png", false);
