@@ -126,6 +126,10 @@ public class Block {
         catch (Exception e) {
             Logger.log(e);
         }
+        if (wordString == null) {
+            // TODO: Test this!
+            System.out.println("Trying to fade a gray block or something?");
+        }
         return fadeIndex == wordString.length();
     }
 
