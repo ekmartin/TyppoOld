@@ -23,6 +23,7 @@ public class MultiPlayerGUI extends BasicGameState {
     private int runTime;
     private int failCounter;
     private int successfulWordCounter;
+    private int totalSuccessfulWordCounter;
     private boolean foundGame;
 
     public static final int ID = 2;
@@ -32,6 +33,7 @@ public class MultiPlayerGUI extends BasicGameState {
 
     private GameListener gameListener;
 
+    private TypeFont scoreFont;
     private TypeFont smallFont;
     private TypeFont largeFont;
 
@@ -43,6 +45,7 @@ public class MultiPlayerGUI extends BasicGameState {
 
         foundGame = false;
 
+        scoreFont = new TypeFont("Consolas", 20, true, java.awt.Color.lightGray);
         smallFont = new TypeFont("Consolas", 25, true, java.awt.Color.white);
         largeFont = new TypeFont("Consolas", 40, true, java.awt.Color.white);
 
@@ -70,6 +73,7 @@ public class MultiPlayerGUI extends BasicGameState {
         runTime = 0;
         failCounter = 0;
         successfulWordCounter = 0;
+        totalSuccessfulWordCounter = 0;
         foundGame = false;
 
         SendObject sendObject = new SendObject(Config.commands.findGame);
@@ -118,6 +122,7 @@ public class MultiPlayerGUI extends BasicGameState {
                             game.startedWriting(allowed.getBlock());
                             if (game.fadeNext()) {
                                 successfulWordCounter++;
+                                totalSuccessfulWordCounter++;
                                 if (successfulWordCounter >= 5) {
                                     serverDeque.sendToServer(new SendObject(Config.commands.gray));
                                     successfulWordCounter = 0;
@@ -128,6 +133,8 @@ public class MultiPlayerGUI extends BasicGameState {
                     }
 
                     if (!wrote) {
+                        totalSuccessfulWordCounter = 0;
+                        successfulWordCounter = 0;
                         failCounter++;
                         Menu.typeSoundFail.play();
                         if (failCounter >= 5) {
@@ -224,6 +231,8 @@ public class MultiPlayerGUI extends BasicGameState {
                 g.drawString("" + countDown, container.getWidth()/2 - 10, 300);
             }
             game.render(g);
+            String successString = "" + totalSuccessfulWordCounter;
+            g.drawString(successString, Config.cellWidth*1.5f, Config.boardHeightFloat-32);
         }
         else {
             g.setFont(smallFont.getFont());

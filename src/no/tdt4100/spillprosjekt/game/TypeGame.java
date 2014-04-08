@@ -32,7 +32,7 @@ public class TypeGame {
     public TypeGame(WordList wordList) {
         gameLost = false;
 
-        typeFont = new TypeFont("Verdana", 20, true, java.awt.Color.lightGray);
+        typeFont = new TypeFont("Consolas", 20, true, java.awt.Color.lightGray);
         blocked = new boolean[Config.boardHeight + 1][Config.boardWidth];
         for (int i = 0; i < blocked[Config.boardHeight].length; i++) {
             blocked[Config.boardHeight][i] = true;
@@ -112,7 +112,7 @@ public class TypeGame {
         }
         g.setFont(typeFont.getFont());
         String scoreString = Score.getScore() + "";
-        g.drawString(scoreString, Config.boardWidthFloat/2-(scoreString.length()*8), Config.boardHeightFloat-32);
+        g.drawString(scoreString, Config.boardWidthFloat/2-(scoreString.length()*6.3f), Config.boardHeightFloat-32);
     }
 
     public boolean[][] getBlocked() {
