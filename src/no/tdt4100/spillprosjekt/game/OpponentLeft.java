@@ -4,11 +4,13 @@ import no.tdt4100.spillprosjekt.objects.WordList;
 import no.tdt4100.spillprosjekt.utils.Config;
 import no.tdt4100.spillprosjekt.utils.Logger;
 
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
@@ -20,12 +22,29 @@ public class OpponentLeft extends BasicGameState {
     private StateBasedGame stateGame;
 
     private TypeFont typeFont;
+    private TypeFont typeFontBig;
+
+    private Image backgroundImage;
+    private Image backToMenu;
+
+    private Image backToMenuHower;
+
+    private MouseOverArea menuHower;
 
     @Override
     public void init(GameContainer container, StateBasedGame stateGame) throws SlickException {
         this.stateGame = stateGame;
 
-        typeFont = new TypeFont("Verdana", 18, true, java.awt.Color.white);
+        typeFont = new TypeFont("Consolas", 24, true, java.awt.Color.white);
+        typeFontBig = new TypeFont("Consolas", 48, true, java.awt.Color.white);
+
+        backgroundImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/background.png"), "background.png", false);
+
+        backToMenu = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/menu.png"), "menu.png", false);
+        backToMenuHower = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/menu_hower.png"), "menu_hower.png", false);
+
+        menuHower = new MouseOverArea(container, backToMenu, (container.getWidth() / 2) - 96, 450);
+        menuHower.setMouseOverImage(backToMenuHower);
     }
 
     public int getID() {
@@ -42,10 +61,22 @@ public class OpponentLeft extends BasicGameState {
         }
     }
 
+    @Override
+    public void mousePressed(int button, int x, int y) {
+        if (button == 0 && menuHower.isMouseOver()) {
+            stateGame.enterState(1, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+        }
+    }
+
     public void render(GameContainer container, StateBasedGame stateGame, Graphics g) throws SlickException {
+        g.drawImage(backgroundImage, 0, 0);
+        menuHower.render(container, g);
+        g.setFont(typeFontBig.getFont());
+        g.drawString("SORRY!", 160, 150);
         g.setFont(typeFont.getFont());
-        g.drawString("Your opponent disconnected or left, sorry.", 80, container.getHeight()/2);
-        g.drawString("Final score: " + Score.getScore(), 80, container.getHeight()/2);
+        g.drawString("Your opponent left or lost", 65, container.getHeight()/2 - 30);
+        g.drawString("connection.", 165, container.getHeight()/2);
+        g.drawString("Score: " + Score.getScore(), 170, container.getHeight()/2 + 50);
 
     }
 
