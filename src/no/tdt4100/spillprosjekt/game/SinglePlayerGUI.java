@@ -1,8 +1,5 @@
 package no.tdt4100.spillprosjekt.game;
 
-import no.tdt4100.spillprosjekt.client.GameListener;
-import no.tdt4100.spillprosjekt.client.LinkedBlockingDequeCustom;
-import no.tdt4100.spillprosjekt.client.SendObject;
 import no.tdt4100.spillprosjekt.objects.WordList;
 import no.tdt4100.spillprosjekt.utils.Config;
 import no.tdt4100.spillprosjekt.utils.Logger;
@@ -12,7 +9,6 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
-import org.newdawn.slick.tiled.TiledMap;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -22,6 +18,11 @@ public class SinglePlayerGUI extends BasicGameState {
     private TypeGame game;
     private WordList wordList;
 
+    private TypeFont smallFont;
+    private TypeFont largeFont;
+
+    private int countDown;
+    private int countDownTimer;
     private int runTime;
     private int failCounter;
     private boolean foundGame;
@@ -32,6 +33,10 @@ public class SinglePlayerGUI extends BasicGameState {
     @Override
     public void init(GameContainer container, StateBasedGame stateGame) throws SlickException {
         this.stateGame = stateGame;
+
+        smallFont = new TypeFont("Consolas", 30, true, java.awt.Color.white);
+        largeFont = new TypeFont("Consolas", 40, true, java.awt.Color.white);
+
     }
 
     @Override
@@ -40,8 +45,8 @@ public class SinglePlayerGUI extends BasicGameState {
 
         runTime = 0;
         failCounter = 0;
+        countDown = 3;
         foundGame = false;
-
 
         ArrayList<String> words = new ArrayList<String>();
         String[] wordsArray;
@@ -120,26 +125,42 @@ public class SinglePlayerGUI extends BasicGameState {
     }
 
     public void update(GameContainer container, StateBasedGame stateGame, int delta) throws SlickException {
-        runTime += delta;
-        int n = runTime / game.getDelay();
-
-        if (game.isLost()) {
-            Menu.loseSound.play();
-            System.out.println("Game lost.");
-            stateGame.enterState(4, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
-        }
-
-        if (runTime > game.getDelay()) {
-            for (int i = 0; i < n; i++) {
-                game.dropBlocks();
+        if (countDown > 0) {
+            countDownTimer += delta;
+            if (countDownTimer > 1000) {
+                countDown--;
+                countDownTimer = 0;
             }
-            runTime = 0;
+        }
+        else {
+            runTime += delta;
+            int n = runTime / game.getDelay();
+
+            if (game.isLost()) {
+                Menu.loseSound.play();
+                System.out.println("Game lost.");
+                stateGame.enterState(4, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+            }
+
+            if (runTime > game.getDelay()) {
+                for (int i = 0; i < n; i++) {
+                    game.dropBlocks();
+                }
+                runTime = 0;
+            }
         }
     }
 
     public void render(GameContainer container, StateBasedGame stateGame, Graphics g) throws SlickException {
         Menu.typeMap.render(0, 0);
         game.render(g);
+
+        if (countDown > 0) {
+            g.setFont(smallFont.getFont());
+            g.drawString("Type the falling words!", 65, 200);
+            g.setFont(largeFont.getFont());
+            g.drawString("" + countDown, container.getWidth()/2 - 10, 300);
+        }
     }
 
 }
