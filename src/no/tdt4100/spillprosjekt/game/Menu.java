@@ -143,7 +143,6 @@ public class Menu extends BasicGameState {
     public void mousePressed(int button, int x, int y) {
         if (button == 0) {
             if (singlePlayerHower.isMouseOver()) {
-                System.out.println("starting single");
                 stateGame.enterState(3, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
             }
             else if (multiPlayerHower.isMouseOver()) {
