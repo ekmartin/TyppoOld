@@ -22,9 +22,6 @@ public class GameListener implements ClientListener, Runnable {
 
         this.serverDeque = serverDeque;
 
-        client = new GameClient();
-        client.addListener(this);
-
         try {
             this.username = InetAddress.getLocalHost().getHostName();
         }
@@ -67,23 +64,22 @@ public class GameListener implements ClientListener, Runnable {
     }
 
     public void sendClientCommand(SendObject sendObject) {
-
-
-        switch (sendObject.getType()) {
-            case gray:
-                client.sendGrayLine();
-                break;
-            case lost:
-                client.sendLoss();
-                break;
-            case findGame:
-                joinGameRequest();
-                break;
-            case deleteMyGames:
-                client.deleteMyGames();
-                break;
+        if (this.connectionState) {
+            switch (sendObject.getType()) {
+                case gray:
+                    client.sendGrayLine();
+                    break;
+                case lost:
+                    client.sendLoss();
+                    break;
+                case findGame:
+                    joinGameRequest();
+                    break;
+                case deleteMyGames:
+                    client.deleteMyGames();
+                    break;
+            }
         }
-
     }
 
     @Override
@@ -109,17 +105,18 @@ public class GameListener implements ClientListener, Runnable {
     @Override
     public void run() {
 
-        serverDeque.add(new SendObject(Config.commands.connectionStatus, false));
-        client.connect(this.username);
+        serverDeque.add(new SendObject(false));
+
+        connectToServer();
 
         while (true) {
             try {
                 Thread.sleep(10);
                 if (!client.client.isConnected()) {
-                    client.connect(this.username);
+                    connectToServer();
                 }
                 if (this.connectionState != client.client.isConnected()) {
-                    serverDeque.add(new SendObject(Config.commands.connectionStatus, client.client.isConnected()));
+                    serverDeque.add(new SendObject(client.client.isConnected()));
                 }
                 this.connectionState = client.client.isConnected();
             } catch (InterruptedException e) {
@@ -134,4 +131,11 @@ public class GameListener implements ClientListener, Runnable {
         client.getOpenGames();
     }
 
+    public void connectToServer() {
+        client = new GameClient();
+        client.addListener(this);
+        client.connect(this.username);
+    }
+
 }
+
