@@ -18,6 +18,7 @@ public class SinglePlayerGUI extends BasicGameState {
     private TypeGame game;
     private WordList wordList;
 
+    private TypeFont scoreFont;
     private TypeFont smallFont;
     private TypeFont largeFont;
 
@@ -25,6 +26,9 @@ public class SinglePlayerGUI extends BasicGameState {
     private int countDownTimer;
     private int runTime;
     private int failCounter;
+    private int successfulWordCounter;
+    private int totalSuccessfulWordCounter;
+
     private boolean foundGame;
 
     public static final int ID = 3;
@@ -34,6 +38,7 @@ public class SinglePlayerGUI extends BasicGameState {
     public void init(GameContainer container, StateBasedGame stateGame) throws SlickException {
         this.stateGame = stateGame;
 
+        scoreFont = new TypeFont("Consolas", 20, true, java.awt.Color.lightGray);
         smallFont = new TypeFont("Consolas", 25, true, java.awt.Color.white);
         largeFont = new TypeFont("Consolas", 40, true, java.awt.Color.white);
 
@@ -46,6 +51,8 @@ public class SinglePlayerGUI extends BasicGameState {
         runTime = 0;
         failCounter = 0;
         countDown = 3;
+        successfulWordCounter = 0;
+        totalSuccessfulWordCounter = 0;
         foundGame = false;
 
         ArrayList<String> words = new ArrayList<String>();
@@ -90,7 +97,6 @@ public class SinglePlayerGUI extends BasicGameState {
                 boolean wrote = false;
                 c = Character.toLowerCase(c);
                 ArrayList<AllowedCharacter> allowedChars = new ArrayList<AllowedCharacter>();
-                System.out.println("New key pressed, currently writing: " + game.hasStartedWriting());
                 if (game.hasStartedWriting() && !game.getCurrentBlock().isLocked()) {
                     for (Cell cell : game.getCurrentBlock().getCells()) {
                         if (!cell.isFaded()) {
@@ -99,26 +105,32 @@ public class SinglePlayerGUI extends BasicGameState {
                         }
                     }
                 } else {
-                    System.out.println("kom inn i else");
                     for (Block block : game.getBlocks()) {
                         allowedChars.add(new AllowedCharacter(Character.toLowerCase(block.getCells().get(0).getLetter()), block));
                     }
                 }
 
                 for (AllowedCharacter allowed : allowedChars) {
-                    System.out.println("Allowed char: " + allowed.getChar());
                     if (allowed.getChar() == c) {
                         wrote = true;
                         failCounter = 0;
-                        Menu.typeSoundGood.play(); // temp sound, should be replaced
-                        System.out.println("fading next, which is: " + allowed.getChar());
+                        Menu.typeSoundGood.play();
                         game.startedWriting(allowed.getBlock());
-                        game.fadeNext();
+                        if (game.fadeNext()) {
+                            successfulWordCounter++;
+                            totalSuccessfulWordCounter++;
+                            if (successfulWordCounter >= 5) {
+                                Score.upMultiplier();
+                                successfulWordCounter = 0;
+                            }
+                        }
                         break;
                     }
                 }
 
                 if (!wrote) {
+                    totalSuccessfulWordCounter = 0;
+                    successfulWordCounter = 0;
                     failCounter++;
                     Menu.typeSoundFail.play();
                     if (failCounter >= 5) {
@@ -144,7 +156,6 @@ public class SinglePlayerGUI extends BasicGameState {
 
             if (game.isLost()) {
                 Menu.loseSound.play();
-                System.out.println("Game lost.");
                 stateGame.enterState(4, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
             }
 
@@ -160,6 +171,13 @@ public class SinglePlayerGUI extends BasicGameState {
     public void render(GameContainer container, StateBasedGame stateGame, Graphics g) throws SlickException {
         Menu.typeMap.render(0, 0);
         game.render(g);
+        String successString = "" + totalSuccessfulWordCounter;
+        String multiplierString = Score.getMultiplier() + "x";
+        g.setFont(scoreFont.getFont());
+        g.drawString(successString, Config.cellWidth*1.3f, Config.boardHeightFloat-32);
+        g.drawString(multiplierString,
+                container.getWidth() - (Config.cellWidth*2) + 5,
+                Config.boardHeightFloat-32);
 
         if (countDown > 0) {
             g.setFont(smallFont.getFont());
