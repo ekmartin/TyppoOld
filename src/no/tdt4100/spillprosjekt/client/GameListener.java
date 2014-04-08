@@ -119,8 +119,8 @@ public class GameListener implements ClientListener, Runnable {
                     serverDeque.add(new SendObject(client.client.isConnected()));
                 }
                 this.connectionState = client.client.isConnected();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+
             }
 
         }
