@@ -133,6 +133,8 @@ public class GameServer {
                     // User disconnected
                     userLoggedOut(connection);
                     sendGameCommand(connection, Config.commands.opponentLeft);
+
+
                 }
             }
 
@@ -173,12 +175,22 @@ public class GameServer {
 
     // Notify all users, new user connected
     private void userLoggedOut(ServerConnection c) {
+
+        ArrayList<Game> gamesCopy = new ArrayList<Game>(games);
+        for (Game game : gamesCopy) {
+            if (game.getCreator().getUID() == c.getUser().getUID() || game.getParticipant().getUID() == c.getUser().getUID()) {
+                games.remove(game);
+            }
+        }
+
         UserMessage message = new UserMessage(Config.commands.userDisconnected, c.getUser());
 
         for (Connection connection : server.getConnections()) {
             ServerConnection serverconnection = (ServerConnection) connection;
             serverconnection.sendTCP(message);
         }
+
+
     }
 
     private void startNewGame(ServerConnection connection) {
@@ -186,7 +198,7 @@ public class GameServer {
 
         ArrayList<Game> gamesCopy = new ArrayList<Game>(games);
         for (Game game : gamesCopy) {
-            if (game.getCreator() == connection.getUser() || game.getParticipant() == connection.getUser()) {
+            if (game.getCreator().getUID() == connection.getUser().getUID() || game.getParticipant().getUID() == connection.getUser().getUID()) {
                 games.remove(game);
             }
         }
@@ -213,18 +225,47 @@ public class GameServer {
     }
 
     private  void joinGame(ServerConnection connection, JoinGameRequest joinGameRequest) {
+
         for (Game game : games) {
             if (game.getID() == joinGameRequest.getGame().getID()) {
                 if (!game.getRunning() && game.getParticipant() == null) {
                     game.setParticipant(connection.getUser());
                     game.setRunning(true);
 
+                    ServerConnection creatorConnection = null;
+                    ServerConnection participantConnection = null;
+
                     for (Connection serverConnection : server.getConnections()) {
                         ServerConnection serverconnection = (ServerConnection) serverConnection;
                         if (serverconnection.getUser().getUID() == game.getParticipant().getUID() || serverconnection.getUser().getUID() == game.getCreator().getUID()) {
                             serverconnection.sendTCP(game);
                         }
+
+                        if (serverconnection.getUser().getUID() == game.getCreator().getUID()) {
+                            creatorConnection = serverconnection;
+                        }
+                        if (serverconnection.getUser().getUID() == game.getParticipant().getUID()) {
+                            participantConnection = serverconnection;
+                        }
                     }
+
+
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (creatorConnection != null && participantConnection != null) {
+                        UserMessage message = new UserMessage(Config.commands.startMultiplayerGame, null);
+                        creatorConnection.sendTCP(message);
+                        participantConnection.sendTCP(message);
+                    }
+                    else {
+                        games.remove(game); // Creator or participant is null, remove game.
+                    }
+
+                    break;
 
                 }
             }

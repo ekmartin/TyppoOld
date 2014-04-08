@@ -67,5 +67,10 @@ public class ClientListenerHandler implements ClientListener {
     public void addGrayLine() {}
 
     @Override
+    public void startMultiplayerGame() {
+
+    }
+
+    @Override
     public void opponentLeft() {}
 }

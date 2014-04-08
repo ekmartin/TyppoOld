@@ -146,6 +146,8 @@ public class MultiPlayerGUI extends BasicGameState {
                         runTime = 0;
                         game = new TypeGame(nextAction.getWordlist());
                         Score.newGame();
+                        break;
+                    case startMultiplayerGame:
                         foundGame = true;
                         break;
                     case opponentLeft:

@@ -27,4 +27,6 @@ public interface ClientListener {
     public void opponentLeft();
 
     public void addGrayLine();
+
+    public void startMultiplayerGame();
 }

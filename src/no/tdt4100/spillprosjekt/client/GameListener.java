@@ -88,6 +88,11 @@ public class GameListener implements ClientListener, Runnable {
     }
 
     @Override
+    public void startMultiplayerGame() {
+        serverDeque.add(new SendObject(Config.commands.startMultiplayerGame));
+    }
+
+    @Override
     public void opponentLeft() {
         serverDeque.add(new SendObject(Config.commands.opponentLeft));
     }

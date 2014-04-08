@@ -94,6 +94,11 @@ public class GameClient {
                             }
                             break;
                         }
+                        case startMultiplayerGame:
+                            for (ClientListener ci : listeners) {
+                                ci.startMultiplayerGame();
+                            }
+                            break;
                     }
 
                 }
