@@ -24,11 +24,11 @@ public class Score {
     }
 
     public static void charScore() {
-        score += charScore;
+        score += (charScore*multiplier);
     }
 
     public static void wordScore() {
-        score += wordScore;
+        score += (wordScore*multiplier);
     }
 
     public static int getScore() {
