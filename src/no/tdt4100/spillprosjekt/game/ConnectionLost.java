@@ -42,6 +42,12 @@ public class ConnectionLost extends BasicGameState {
         }
     }
 
+    @Override
+    public void enter(GameContainer container, StateBasedGame game) throws SlickException {
+        super.enter(container, game);
+        Menu.song.fade(1500, 0, true);
+    }
+
     public void render(GameContainer container, StateBasedGame stateGame, Graphics g) {
         g.drawImage(Menu.backgroundImage, 0, 0);
 

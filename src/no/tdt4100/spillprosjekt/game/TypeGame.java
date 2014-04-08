@@ -30,6 +30,7 @@ public class TypeGame {
     private ArrayList<Block> blocks = new ArrayList<Block>();
 
     public TypeGame(WordList wordList) {
+        Menu.song.loop();
         gameLost = false;
 
         typeFont = new TypeFont("Consolas", 20, true, java.awt.Color.lightGray);
