@@ -72,12 +72,6 @@ public class GameServer {
         // Listeners
         server.addListener(new Listener() {
             public void received (Connection c, Object object) {
-
-                // Print games
-                for (Game game : games) {
-                    System.out.println("Game: " + game.getCreator().getName() + ", " + game.getParticipant().getName() + " Running: " + game.getRunning().toString());
-                }
-
                 ServerConnection connection = (ServerConnection)c;
 
                 if (object instanceof User) {

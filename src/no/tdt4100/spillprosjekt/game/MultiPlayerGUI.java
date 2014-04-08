@@ -168,6 +168,7 @@ public class MultiPlayerGUI extends BasicGameState {
     @Override
     public void mousePressed(int button, int x, int y) {
         if (button == 0 && Menu.menuHower.isMouseOver() && !foundGame) {
+            serverDeque.sendToServer(new SendObject(Config.commands.deleteMyGames));
             stateGame.enterState(1, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
         }
     }
