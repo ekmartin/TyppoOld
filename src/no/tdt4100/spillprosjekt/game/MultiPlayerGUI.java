@@ -89,49 +89,51 @@ public class MultiPlayerGUI extends BasicGameState {
                 }
             }
             else {
-                boolean wrote = false;
-                c = Character.toLowerCase(c);
-                ArrayList<AllowedCharacter> allowedChars = new ArrayList<AllowedCharacter>();
-                System.out.println("New key pressed, currently writing: " + game.hasStartedWriting());
-                if (game.hasStartedWriting() && !game.getCurrentBlock().isLocked()) {
-                    for (Cell cell : game.getCurrentBlock().getCells()) {
-                        if (!cell.isFaded()) {
-                            allowedChars.add(new AllowedCharacter(Character.toLowerCase(cell.getLetter()), game.getCurrentBlock()));
+                if (Character.isLetter(c)) {
+                    boolean wrote = false;
+                    c = Character.toLowerCase(c);
+                    ArrayList<AllowedCharacter> allowedChars = new ArrayList<AllowedCharacter>();
+                    System.out.println("New key pressed, currently writing: " + game.hasStartedWriting());
+                    if (game.hasStartedWriting() && !game.getCurrentBlock().isLocked()) {
+                        for (Cell cell : game.getCurrentBlock().getCells()) {
+                            if (!cell.isFaded()) {
+                                allowedChars.add(new AllowedCharacter(Character.toLowerCase(cell.getLetter()), game.getCurrentBlock()));
+                                break;
+                            }
+                        }
+                    } else {
+                        System.out.println("kom inn i else");
+                        for (Block block : game.getBlocks()) {
+                            allowedChars.add(new AllowedCharacter(Character.toLowerCase(block.getCells().get(0).getLetter()), block));
+                        }
+                    }
+
+                    for (AllowedCharacter allowed : allowedChars) {
+                        System.out.println("Allowed char: " + allowed.getChar());
+                        if (allowed.getChar() == c) {
+                            wrote = true;
+                            failCounter = 0;
+                            Menu.typeSoundGood.play(); // temp sound, should be replaced
+                            System.out.println("fading next, which is: " + allowed.getChar());
+                            game.startedWriting(allowed.getBlock());
+                            if (game.fadeNext()) {
+                                successfulWordCounter++;
+                                if (successfulWordCounter >= 5) {
+                                    serverDeque.sendToServer(new SendObject(Config.commands.gray));
+                                    successfulWordCounter = 0;
+                                }
+                            }
                             break;
                         }
                     }
-                } else {
-                    System.out.println("kom inn i else");
-                    for (Block block : game.getBlocks()) {
-                        allowedChars.add(new AllowedCharacter(Character.toLowerCase(block.getCells().get(0).getLetter()), block));
-                    }
-                }
 
-                for (AllowedCharacter allowed : allowedChars) {
-                    System.out.println("Allowed char: " + allowed.getChar());
-                    if (allowed.getChar() == c) {
-                        wrote = true;
-                        failCounter = 0;
-                        Menu.typeSoundGood.play(); // temp sound, should be replaced
-                        System.out.println("fading next, which is: " + allowed.getChar());
-                        game.startedWriting(allowed.getBlock());
-                        if (game.fadeNext()) {
-                            successfulWordCounter++;
-                            if (successfulWordCounter >= 5) {
-                                serverDeque.sendToServer(new SendObject(Config.commands.gray));
-                                successfulWordCounter = 0;
-                            }
+                    if (!wrote) {
+                        failCounter++;
+                        Menu.typeSoundFail.play();
+                        if (failCounter >= 5) {
+                            game.addDead();
+                            failCounter = 0;
                         }
-                        break;
-                    }
-                }
-
-                if (!wrote) {
-                    failCounter++;
-                    Menu.typeSoundFail.play();
-                    if (failCounter >= 5) {
-                        game.addDead();
-                        failCounter = 0;
                     }
                 }
             }
