@@ -72,6 +72,12 @@ public class GameServer {
         // Listeners
         server.addListener(new Listener() {
             public void received (Connection c, Object object) {
+
+                // Print games
+                for (Game game : games) {
+                    System.out.println("Game: " + game.getCreator().getName() + ", " + game.getParticipant().getName() + " Running: " + game.getRunning().toString());
+                }
+
                 ServerConnection connection = (ServerConnection)c;
 
                 if (object instanceof User) {
@@ -244,6 +250,11 @@ public class GameServer {
         for (Game game : games) {
             if (game.getID() == joinGameRequest.getGame().getID()) {
                 if (!game.getRunning() && game.getParticipant() == null) {
+
+                    if (game.getCreator().getUID() == connection.getUser().getUID()) {
+                        continue;
+                    }
+
                     game.setParticipant(connection.getUser());
                     game.setRunning(true);
 
@@ -308,11 +319,15 @@ public class GameServer {
     private void deleteUserGames(ServerConnection connection) {
         ArrayList<Game> gamesCopy = new ArrayList<Game>(games);
         for (Game game : gamesCopy) {
-            if (game.getCreator().getUID() == connection.getUser().getUID()) {
-                games.remove(game);
+            if (game.getCreator() != null) {
+                if (game.getCreator().getUID() == connection.getUser().getUID()) {
+                    games.remove(game);
+                }
             }
-            else if (game.getParticipant().getUID() == connection.getUser().getUID()) {
-                games.remove(game);
+            if (game.getParticipant() != null) {
+                if (game.getParticipant().getUID() == connection.getUser().getUID()) {
+                    games.remove(game);
+                }
             }
         }
     }
