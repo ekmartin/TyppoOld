@@ -167,7 +167,7 @@ public class MultiPlayerGUI extends BasicGameState {
 
     @Override
     public void mousePressed(int button, int x, int y) {
-        if (button == 0 && Menu.menuHower.isMouseOver()) {
+        if (button == 0 && Menu.menuHower.isMouseOver() && !foundGame) {
             stateGame.enterState(1, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
         }
     }
@@ -230,7 +230,6 @@ public class MultiPlayerGUI extends BasicGameState {
 
                     if (game.isLost()) {
                         Menu.loseSound.play();
-                        System.out.println("Game lost.");
                         serverDeque.sendToServer(new SendObject(Config.commands.lost));
                         stateGame.enterState(4, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
                     }
