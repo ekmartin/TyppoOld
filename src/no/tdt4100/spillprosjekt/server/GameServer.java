@@ -202,7 +202,10 @@ public class GameServer {
 
         ArrayList<Game> gamesCopy = new ArrayList<Game>(games);
         for (Game game : gamesCopy) {
-            if (game.getCreator().getUID() == connection.getUser().getUID() || game.getParticipant().getUID() == connection.getUser().getUID()) {
+            if (game.getCreator().getUID() == connection.getUser().getUID()) {
+                games.remove(game);
+            }
+            else if (game.getParticipant().getUID() == connection.getUser().getUID()) {
                 games.remove(game);
             }
         }
