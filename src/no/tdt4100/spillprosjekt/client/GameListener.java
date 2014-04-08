@@ -22,9 +22,6 @@ public class GameListener implements ClientListener, Runnable {
 
         this.serverDeque = serverDeque;
 
-        client = new GameClient();
-        client.addListener(this);
-
         try {
             this.username = InetAddress.getLocalHost().getHostName();
         }
@@ -109,13 +106,14 @@ public class GameListener implements ClientListener, Runnable {
     public void run() {
 
         serverDeque.add(new SendObject(false));
-        client.connect(this.username);
+
+        connectToServer();
 
         while (true) {
             try {
                 Thread.sleep(10);
                 if (!client.client.isConnected()) {
-                    client.connect(this.username);
+                    connectToServer();
                 }
                 if (this.connectionState != client.client.isConnected()) {
                     serverDeque.add(new SendObject(client.client.isConnected()));
@@ -133,4 +131,11 @@ public class GameListener implements ClientListener, Runnable {
         client.getOpenGames();
     }
 
+    public void connectToServer() {
+        client = new GameClient();
+        client.addListener(this);
+        client.connect(this.username);
+    }
+
 }
+
