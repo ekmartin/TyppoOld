@@ -26,6 +26,8 @@ public class MultiPlayerGUI extends BasicGameState {
     private int totalSuccessfulWordCounter;
     private boolean foundGame;
 
+    private boolean connected;
+
     public static final int ID = 2;
     private StateBasedGame stateGame;
 
@@ -44,6 +46,7 @@ public class MultiPlayerGUI extends BasicGameState {
         this.stateGame = stateGame;
 
         foundGame = false;
+        connected = false;
 
         scoreFont = new TypeFont("Consolas", 20, true, java.awt.Color.lightGray);
         smallFont = new TypeFont("Consolas", 25, true, java.awt.Color.white);
@@ -76,6 +79,13 @@ public class MultiPlayerGUI extends BasicGameState {
         totalSuccessfulWordCounter = 0;
         foundGame = false;
 
+        if (!serverDeque.isEmpty()) {
+            SendObject first = (SendObject) serverDeque.peekFirst();
+            if (first.getType() == Config.commands.connectionStatus && first.getConnectionStatus()) {
+                SendObject sendObject = new SendObject(Config.commands.findGame);
+                serverDeque.sendToServer(sendObject);
+            }
+        }
         SendObject sendObject = new SendObject(Config.commands.findGame);
         serverDeque.sendToServer(sendObject);
     }
@@ -125,6 +135,7 @@ public class MultiPlayerGUI extends BasicGameState {
                                 totalSuccessfulWordCounter++;
                                 if (successfulWordCounter >= 5) {
                                     serverDeque.sendToServer(new SendObject(Config.commands.gray));
+                                    Score.upMultiplier();
                                     successfulWordCounter = 0;
                                 }
                             }
@@ -137,6 +148,7 @@ public class MultiPlayerGUI extends BasicGameState {
                         successfulWordCounter = 0;
                         failCounter++;
                         Menu.typeSoundFail.play();
+                        Score.resetMultiplier();
                         if (failCounter >= 5) {
                             game.addDead();
                             failCounter = 0;
@@ -170,6 +182,9 @@ public class MultiPlayerGUI extends BasicGameState {
                     case opponentLeft:
                         stateGame.enterState(5, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
                         break;
+                    case connectionStatus:
+                        connected = nextAction.getConnectionStatus();
+                        break;
                     default:
                         System.out.println("Unkown SendObject-type: " + nextAction.getType());
                 }
@@ -185,30 +200,34 @@ public class MultiPlayerGUI extends BasicGameState {
     public void update(GameContainer container, StateBasedGame stateGame, int delta) throws SlickException {
         doNextAction();
         if (foundGame) {
-            if (countDown > 0) {
-                countDownTimer += delta;
-                if (countDownTimer > 1000) {
-                    countDown--;
-                    countDownTimer = 0;
+            if (connected) {
+                if (countDown > 0) {
+                    countDownTimer += delta;
+                    if (countDownTimer > 1000) {
+                        countDown--;
+                        countDownTimer = 0;
+                    }
+                } else {
+                    runTime += delta;
+                    int n = runTime / game.getDelay();
+
+                    if (game.isLost()) {
+                        Menu.loseSound.play();
+                        System.out.println("Game lost.");
+                        serverDeque.sendToServer(new SendObject(Config.commands.lost));
+                        stateGame.enterState(4, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+                    }
+
+                    if (runTime > game.getDelay()) {
+                        for (int i = 0; i < n; i++) {
+                            game.dropBlocks();
+                        }
+                        runTime = 0;
+                    }
                 }
             }
             else {
-                runTime += delta;
-                int n = runTime / game.getDelay();
-
-                if (game.isLost()) {
-                    Menu.loseSound.play();
-                    System.out.println("Game lost.");
-                    serverDeque.sendToServer(new SendObject(Config.commands.lost));
-                    stateGame.enterState(4, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
-                }
-
-                if (runTime > game.getDelay()) {
-                    for (int i = 0; i < n; i++) {
-                        game.dropBlocks();
-                    }
-                    runTime = 0;
-                }
+                System.out.println("disconnected");
             }
         }
         else {
@@ -223,6 +242,7 @@ public class MultiPlayerGUI extends BasicGameState {
 
     public void render(GameContainer container, StateBasedGame stateGame, Graphics g) throws SlickException {
         Menu.typeMap.render(0, 0);
+
         if (foundGame) {
             if (countDown > 0) {
                 g.setFont(smallFont.getFont());
@@ -232,17 +252,28 @@ public class MultiPlayerGUI extends BasicGameState {
             }
             game.render(g);
             String successString = "" + totalSuccessfulWordCounter;
-            g.drawString(successString, Config.cellWidth*1.5f, Config.boardHeightFloat-32);
+            String multiplierString = Score.getMultiplier() + "x";
+            g.setFont(scoreFont.getFont());
+            g.drawString(successString, Config.cellWidth*1.3f, Config.boardHeightFloat-32);
+            g.drawString(multiplierString,
+                    container.getWidth() - (Config.cellWidth*2) + 5,
+                    Config.boardHeightFloat-32);
         }
         else {
             g.setFont(smallFont.getFont());
-            String drawString = "Searching for players";
+            String drawString;
+            if (connected) {
+                drawString = "Searching for players";
+            }
+            else {
+                drawString = "Trying to connect";
+            }
             for (int i = 0; i < dots; i++) {
                 drawString += ".";
             }
             g.drawString(drawString, 100, container.getHeight()/2 - 50);
             Menu.loadingAnimation.draw(container.getWidth()/2 - Menu.loadingAnimation.getWidth()/2,
-                                       container.getHeight()/2 - Menu.loadingAnimation.getHeight()/2 + 50);
+                    container.getHeight()/2 - Menu.loadingAnimation.getHeight()/2 + 50);
         }
 
     }
