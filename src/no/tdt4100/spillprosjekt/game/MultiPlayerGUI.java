@@ -43,7 +43,7 @@ public class MultiPlayerGUI extends BasicGameState {
 
         foundGame = false;
 
-        smallFont = new TypeFont("Consolas", 30, true, java.awt.Color.white);
+        smallFont = new TypeFont("Consolas", 25, true, java.awt.Color.white);
         largeFont = new TypeFont("Consolas", 40, true, java.awt.Color.white);
 
         try {
@@ -217,7 +217,7 @@ public class MultiPlayerGUI extends BasicGameState {
         if (foundGame) {
             if (countDown > 0) {
                 g.setFont(smallFont.getFont());
-                g.drawString("Type the falling words!", 65, 200);
+                g.drawString("Type the falling words!", 80, 200);
                 g.setFont(largeFont.getFont());
                 g.drawString("" + countDown, container.getWidth()/2 - 10, 300);
             }
