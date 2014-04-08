@@ -36,7 +36,7 @@ public class OpponentLeft extends BasicGameState {
         this.stateGame = stateGame;
 
         typeFont = new TypeFont("Consolas", 24, true, java.awt.Color.white);
-        typeFontBig = new TypeFont("Consolas", 48, true, java.awt.Color.white);
+        typeFontBig = new TypeFont("Consolas", 64, true, java.awt.Color.white);
 
         backgroundImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/background.png"), "background.png", false);
 
@@ -70,13 +70,17 @@ public class OpponentLeft extends BasicGameState {
 
     public void render(GameContainer container, StateBasedGame stateGame, Graphics g) throws SlickException {
         g.drawImage(backgroundImage, 0, 0);
-        menuHower.render(container, g);
+
         g.setFont(typeFontBig.getFont());
-        g.drawString("SORRY!", 160, 150);
+        g.drawString("SORRY!", 135, 100);
+        g.drawString("" + Score.getScore(), 220 - (String.valueOf(Score.getScore()).length() - 1) * 16, container.getHeight() / 2);
+
         g.setFont(typeFont.getFont());
-        g.drawString("Your opponent left or lost", 65, container.getHeight()/2 - 30);
-        g.drawString("connection.", 165, container.getHeight()/2);
-        g.drawString("Score: " + Score.getScore(), 170, container.getHeight()/2 + 50);
+        g.drawString("Your opponent left or lost", 65, 180);
+        g.drawString("connection.", 165, 200);
+        g.drawString("Your score:", 170, 250);
+
+        menuHower.render(container, g);
 
     }
 
