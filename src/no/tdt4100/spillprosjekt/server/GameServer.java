@@ -105,6 +105,7 @@ public class GameServer {
                             sendUserList(connection);
                             break;
                         case startGame:
+                            deleteUserGames(connection);
                             startNewGame(connection);
                             break;
                         case getOpenGames:
@@ -112,6 +113,7 @@ public class GameServer {
                             break;
                         case lost:
                             sendGameCommand(connection, Config.commands.won);
+                            deleteUserGames(connection);
                             break;
                         case gray:
                             sendGameCommand(connection, Config.commands.gray);
@@ -124,6 +126,7 @@ public class GameServer {
 
                 // Join game
                 if (object instanceof JoinGameRequest) {
+                    deleteUserGames(connection);
                     JoinGameRequest joinGame = (JoinGameRequest) object;
                     joinGame(connection, joinGame);
                 }
