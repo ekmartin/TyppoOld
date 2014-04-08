@@ -252,13 +252,6 @@ public class GameServer {
                         }
                     }
 
-
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
                     if (creatorConnection != null && participantConnection != null) {
                         UserMessage message = new UserMessage(Config.commands.startMultiplayerGame, null);
                         creatorConnection.sendTCP(message);
