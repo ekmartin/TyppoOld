@@ -89,6 +89,8 @@ public class MultiPlayerGUI extends BasicGameState {
         if (key == Input.KEY_ESCAPE) {
             if (foundGame) {
                 serverDeque.sendToServer(new SendObject(Config.commands.lost));
+                Menu.loseSound.play();
+                stateGame.enterState(4, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
             }
             else {
                 serverDeque.sendToServer(new SendObject(Config.commands.deleteMyGames));
