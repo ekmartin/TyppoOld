@@ -48,12 +48,15 @@ public class FinishedScreen extends BasicGameState {
         g.drawImage(Menu.backgroundImage, 0, 0);
 
         g.setFont(Menu.typeFontBig.getFont());
-        if (Score.getStatus()) {
-            g.drawString("YOU WON!", 100, 100);
-            g.drawString("" + Score.getScore(), 220 - (String.valueOf(Score.getScore()).length() - 1) * 16, container.getHeight() / 2);
-        }
-        else if (Score.isMultiplayer()) {
+
+        if (Score.isMultiplayer()) {
+            if (Score.getStatus()) {
+                g.drawString("YOU WON!", 100, 100);
+                g.drawString("" + Score.getScore(), 220 - (String.valueOf(Score.getScore()).length() - 1) * 16, container.getHeight() / 2);
+            }
+            else {
                 g.drawString("YOU LOST!", 90, 100);
+            }
         }
         else {
                 g.drawString("DONE!", 155, 100);
