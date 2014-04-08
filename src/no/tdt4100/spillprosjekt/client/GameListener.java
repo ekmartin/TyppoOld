@@ -108,7 +108,7 @@ public class GameListener implements ClientListener, Runnable {
     @Override
     public void run() {
 
-        serverDeque.add(new SendObject(Config.commands.connectionStatus, false));
+        serverDeque.add(new SendObject(false));
         client.connect(this.username);
 
         while (true) {
@@ -118,7 +118,7 @@ public class GameListener implements ClientListener, Runnable {
                     client.connect(this.username);
                 }
                 if (this.connectionState != client.client.isConnected()) {
-                    serverDeque.add(new SendObject(Config.commands.connectionStatus, client.client.isConnected()));
+                    serverDeque.add(new SendObject(client.client.isConnected()));
                 }
                 this.connectionState = client.client.isConnected();
             } catch (InterruptedException e) {
