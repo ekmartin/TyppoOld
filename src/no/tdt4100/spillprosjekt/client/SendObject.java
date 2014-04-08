@@ -11,6 +11,7 @@ public class SendObject {
     Config.commands type;
 
     private WordList wordList;
+    private boolean connectionStatus = false;
 
     public SendObject(Config.commands type) {
         this.type = type;
@@ -21,6 +22,11 @@ public class SendObject {
         this.wordList = wordList;
     }
 
+    public SendObject(boolean connectionStatus) {
+        this.type = Config.commands.connectionStatus;
+        this.connectionStatus = connectionStatus;
+    }
+
     public Config.commands getType() {
         return type;
     }
@@ -28,4 +34,9 @@ public class SendObject {
     public WordList getWordlist() {
         return wordList;
     }
+
+    public boolean isConnectionStatus() {
+        return connectionStatus;
+    }
 }
+
