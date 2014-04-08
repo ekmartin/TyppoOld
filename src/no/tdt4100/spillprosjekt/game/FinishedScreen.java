@@ -77,7 +77,8 @@ public class FinishedScreen extends BasicGameState {
         }
         else {
             g.setFont(typeFontBig.getFont());
-            g.drawString("YOU LOST!", 90, 100);
+
+            if (Score.isMultiplayer()) g.drawString("YOU LOST!", 90, 100);
 
             g.setFont(typeFont.getFont());
             g.drawString("Your score: " + Score.getScore(), 125, 180);

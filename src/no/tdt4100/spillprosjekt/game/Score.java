@@ -9,9 +9,11 @@ public class Score {
     private static int charScore = 1;
     private static int wordScore = 5;
     private static boolean wonGame;
+    private static boolean multiplayer;
 
-    public static void newGame() {
+    public static void newGame(boolean multiplayer) {
         score = 0;
+        Score.multiplayer = multiplayer;
     }
 
     public static void minusCharScore() {
@@ -36,5 +38,9 @@ public class Score {
 
     public static boolean getStatus() {
         return wonGame;
+    }
+
+    public static boolean isMultiplayer() {
+        return multiplayer;
     }
 }

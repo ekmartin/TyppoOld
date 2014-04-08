@@ -65,7 +65,7 @@ public class SinglePlayerGUI extends BasicGameState {
             Logger.log(e);
         }
         wordList = new WordList(Config.wordlist, 1000);
-        Score.newGame();
+        Score.newGame(false);
         game = new TypeGame(wordList);
 
     }
