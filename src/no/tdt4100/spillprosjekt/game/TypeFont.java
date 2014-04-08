@@ -10,7 +10,7 @@ import java.awt.Color;
 public class TypeFont {
     private Font awtFont;
     private UnicodeFont uFont;
-    private String glyphs = "abcdefghijklmnopqrstuvwxyzæøå0123456789()!?.";
+    private String glyphs = "abcdefghijklmnopqrstuvwxyzæøå0123456789()!?.:";
 
     public TypeFont(String font, int size, boolean bold, Color color) {
         try {

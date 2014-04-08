@@ -17,6 +17,9 @@ import java.util.ArrayList;
 public class MultiPlayerGUI extends BasicGameState {
 
     private TypeGame game;
+
+    private int countDown;
+    private int countDownTimer;
     private int runTime;
     private int failCounter;
     private int successfulWordCounter;
@@ -28,7 +31,9 @@ public class MultiPlayerGUI extends BasicGameState {
     private LinkedBlockingDequeCustom serverDeque;
 
     private GameListener gameListener;
-    private TypeFont typeFont;
+
+    private TypeFont smallFont;
+    private TypeFont largeFont;
 
     private int dots;
 
@@ -38,7 +43,8 @@ public class MultiPlayerGUI extends BasicGameState {
 
         foundGame = false;
 
-        typeFont = new TypeFont("Consolas", 25, true, java.awt.Color.white);
+        smallFont = new TypeFont("Consolas", 30, true, java.awt.Color.white);
+        largeFont = new TypeFont("Consolas", 40, true, java.awt.Color.white);
 
         try {
             serverDeque = new LinkedBlockingDequeCustom<SendObject>();
@@ -58,6 +64,8 @@ public class MultiPlayerGUI extends BasicGameState {
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
         super.enter(container, game);
 
+        countDownTimer = 0;
+        countDown = 3;
         dots = 0;
         runTime = 0;
         failCounter = 0;
@@ -166,21 +174,30 @@ public class MultiPlayerGUI extends BasicGameState {
     public void update(GameContainer container, StateBasedGame stateGame, int delta) throws SlickException {
         doNextAction();
         if (foundGame) {
-            runTime += delta;
-            int n = runTime / game.getDelay();
-
-            if (runTime > game.getDelay()) {
-                for (int i = 0; i < n; i++) {
-                    game.dropBlocks();
+            if (countDown > 0) {
+                countDownTimer += delta;
+                if (countDownTimer > 1000) {
+                    countDown--;
+                    countDownTimer = 0;
                 }
-                runTime = 0;
             }
+            else {
+                runTime += delta;
+                int n = runTime / game.getDelay();
 
-            if (game.isLost()) {
-                Menu.loseSound.play();
-                System.out.println("Game lost.");
-                serverDeque.sendToServer(new SendObject(Config.commands.lost));
-                stateGame.enterState(4, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+                if (game.isLost()) {
+                    Menu.loseSound.play();
+                    System.out.println("Game lost.");
+                    serverDeque.sendToServer(new SendObject(Config.commands.lost));
+                    stateGame.enterState(4, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+                }
+
+                if (runTime > game.getDelay()) {
+                    for (int i = 0; i < n; i++) {
+                        game.dropBlocks();
+                    }
+                    runTime = 0;
+                }
             }
         }
         else {
@@ -199,7 +216,7 @@ public class MultiPlayerGUI extends BasicGameState {
             game.render(g);
         }
         else {
-            g.setFont(typeFont.getFont());
+            g.setFont(smallFont.getFont());
             String drawString = "Searching for players";
             for (int i = 0; i < dots; i++) {
                 drawString += ".";
@@ -207,6 +224,13 @@ public class MultiPlayerGUI extends BasicGameState {
             g.drawString(drawString, 100, container.getHeight()/2 - 50);
             Menu.loadingAnimation.draw(container.getWidth()/2 - Menu.loadingAnimation.getWidth()/2,
                                        container.getHeight()/2 - Menu.loadingAnimation.getHeight()/2 + 50);
+        }
+
+        if (countDown > 0) {
+            g.setFont(smallFont.getFont());
+            g.drawString("Type the falling words!", 65, 200);
+            g.setFont(largeFont.getFont());
+            g.drawString("" + countDown, container.getWidth()/2 - 10, 300);
         }
     }
 
