@@ -215,6 +215,12 @@ public class MultiPlayerGUI extends BasicGameState {
     public void render(GameContainer container, StateBasedGame stateGame, Graphics g) throws SlickException {
         Menu.typeMap.render(0, 0);
         if (foundGame) {
+            if (countDown > 0) {
+                g.setFont(smallFont.getFont());
+                g.drawString("Type the falling words!", 65, 200);
+                g.setFont(largeFont.getFont());
+                g.drawString("" + countDown, container.getWidth()/2 - 10, 300);
+            }
             game.render(g);
         }
         else {
@@ -228,12 +234,6 @@ public class MultiPlayerGUI extends BasicGameState {
                                        container.getHeight()/2 - Menu.loadingAnimation.getHeight()/2 + 50);
         }
 
-        if (countDown > 0) {
-            g.setFont(smallFont.getFont());
-            g.drawString("Type the falling words!", 65, 200);
-            g.setFont(largeFont.getFont());
-            g.drawString("" + countDown, container.getWidth()/2 - 10, 300);
-        }
     }
 
 }
