@@ -74,6 +74,9 @@ public class GameListener implements ClientListener, Runnable {
             case findGame:
                 joinGameRequest();
                 break;
+            case deleteMyGames:
+                client.deleteMyGames();
+                break;
         }
     }
 
@@ -116,4 +119,5 @@ public class GameListener implements ClientListener, Runnable {
     private void joinGameRequest() {
         client.getOpenGames();
     }
+
 }

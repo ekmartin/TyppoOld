@@ -155,4 +155,8 @@ public class GameClient {
         client.sendTCP(Config.commands.lost);
     }
 
+    public void deleteMyGames() {
+        client.sendTCP(Config.commands.deleteMyGames);
+    }
+
 }

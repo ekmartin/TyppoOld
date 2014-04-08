@@ -9,7 +9,7 @@ public class Config {
 
     public static int ServerTCPPort = 54555;
     public static int ServerUDPPort = 54777;
-    public static String ServerAddress = "78.91.83.48";
+    public static String ServerAddress = "78.91.1.221";
 
     public static float cellHeight = 32;
     public static float cellWidth = 32;
@@ -32,7 +32,8 @@ public class Config {
         won,
         gray,
         opponentLeft,
-        startMultiplayerGame
+        startMultiplayerGame,
+        deleteMyGames
     }
 
     public static String[] wordlist;

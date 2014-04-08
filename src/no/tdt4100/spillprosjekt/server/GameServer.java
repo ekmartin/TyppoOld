@@ -116,6 +116,9 @@ public class GameServer {
                         case gray:
                             sendGameCommand(connection, Config.commands.gray);
                             break;
+                        case deleteMyGames:
+                            deleteUserGames(connection);
+                            break;
                     }
                 }
 
@@ -293,6 +296,15 @@ public class GameServer {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private void deleteUserGames(ServerConnection connection) {
+        ArrayList<Game> gamesCopy = new ArrayList<Game>(games);
+        for (Game game : gamesCopy) {
+            if (game.getCreator().getUID() == connection.getUser().getUID() || game.getParticipant().getUID() == connection.getUser().getUID()) {
+                games.remove(game);
             }
         }
     }
