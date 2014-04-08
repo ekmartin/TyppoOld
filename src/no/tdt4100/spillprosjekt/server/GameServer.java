@@ -179,11 +179,15 @@ public class GameServer {
 
         ArrayList<Game> gamesCopy = new ArrayList<Game>(games);
         for (Game game : gamesCopy) {
-            if (game.getCreator().getUID() == c.getUser().getUID()) {
-                games.remove(game);
+            if (game.getCreator() != null) {
+                if (game.getCreator().getUID() == c.getUser().getUID()) {
+                    games.remove(game);
+                }
             }
-            else if (game.getParticipant().getUID() == c.getUser().getUID()) {
-                games.remove(game);
+            else if (game.getParticipant() != null) {
+                if (game.getParticipant().getUID() == c.getUser().getUID()) {
+                    games.remove(game);
+                }
             }
         }
 
