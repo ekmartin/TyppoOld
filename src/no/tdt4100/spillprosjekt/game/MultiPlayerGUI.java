@@ -221,7 +221,7 @@ public class MultiPlayerGUI extends BasicGameState {
                 }
             }
             else {
-                System.out.println("disconnected");
+                stateGame.enterState(6, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
             }
         }
         else {
