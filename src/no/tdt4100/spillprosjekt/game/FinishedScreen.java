@@ -18,29 +18,9 @@ public class FinishedScreen extends BasicGameState {
     public static final int ID = 4;
     private StateBasedGame stateGame;
 
-    private TypeFont typeFont;
-    private TypeFont typeFontBig;
-
-    private Image backgroundImage;
-    private Image backToMenu;
-    private Image backToMenuHower;
-
-    private MouseOverArea menuHower;
-
     @Override
     public void init(GameContainer container, StateBasedGame stateGame) throws SlickException {
         this.stateGame = stateGame;
-
-        typeFont = new TypeFont("Consolas", 24, true, java.awt.Color.white);
-        typeFontBig = new TypeFont("Consolas", 64, true, java.awt.Color.white);
-
-        backgroundImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/Background.png"), "Background.png", false);
-
-        backToMenu = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/menu.png"), "menu.png", false);
-        backToMenuHower = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/menu_hower.png"), "menu_hower.png", false);
-
-        menuHower = new MouseOverArea(container, backToMenu, (container.getWidth() / 2) - 96, 450);
-        menuHower.setMouseOverImage(backToMenuHower);
     }
 
     public int getID() {
@@ -59,15 +39,15 @@ public class FinishedScreen extends BasicGameState {
 
     @Override
     public void mousePressed(int button, int x, int y) {
-        if (button == 0 && menuHower.isMouseOver()) {
+        if (button == 0 && Menu.menuHower.isMouseOver()) {
             stateGame.enterState(1, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
         }
     }
 
     public void render(GameContainer container, StateBasedGame stateGame, Graphics g) throws SlickException {
-        g.drawImage(backgroundImage, 0, 0);
+        g.drawImage(Menu.backgroundImage, 0, 0);
 
-        g.setFont(typeFontBig.getFont());
+        g.setFont(Menu.typeFontBig.getFont());
         if (Score.getStatus()) {
             g.drawString("YOU WON!", 100, 100);
             g.drawString("" + Score.getScore(), 220 - (String.valueOf(Score.getScore()).length() - 1) * 16, container.getHeight() / 2);
@@ -80,10 +60,10 @@ public class FinishedScreen extends BasicGameState {
         }
         g.drawString("" + Score.getScore(), 220 - (String.valueOf(Score.getScore()).length() - 1) * 16, container.getHeight() / 2);
 
-        g.setFont(typeFont.getFont());
+        g.setFont(Menu.typeFont.getFont());
         g.drawString("Your score:", 170, 250);
 
-        menuHower.render(container, g);
+        Menu.menuHower.render(container, g);
     }
 
 }

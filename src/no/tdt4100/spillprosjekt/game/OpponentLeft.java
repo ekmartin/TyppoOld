@@ -4,13 +4,11 @@ import no.tdt4100.spillprosjekt.objects.WordList;
 import no.tdt4100.spillprosjekt.utils.Config;
 import no.tdt4100.spillprosjekt.utils.Logger;
 
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
@@ -21,30 +19,9 @@ public class OpponentLeft extends BasicGameState {
     public static final int ID = 5;
     private StateBasedGame stateGame;
 
-    private TypeFont typeFont;
-    private TypeFont typeFontBig;
-
-    private Image backgroundImage;
-    private Image backToMenu;
-
-    private Image backToMenuHower;
-
-    private MouseOverArea menuHower;
-
     @Override
     public void init(GameContainer container, StateBasedGame stateGame) throws SlickException {
         this.stateGame = stateGame;
-
-        typeFont = new TypeFont("Consolas", 24, true, java.awt.Color.white);
-        typeFontBig = new TypeFont("Consolas", 64, true, java.awt.Color.white);
-
-        backgroundImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/background.png"), "background.png", false);
-
-        backToMenu = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/menu.png"), "menu.png", false);
-        backToMenuHower = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/menu_hower.png"), "menu_hower.png", false);
-
-        menuHower = new MouseOverArea(container, backToMenu, (container.getWidth() / 2) - 96, 450);
-        menuHower.setMouseOverImage(backToMenuHower);
     }
 
     public int getID() {
@@ -63,25 +40,24 @@ public class OpponentLeft extends BasicGameState {
 
     @Override
     public void mousePressed(int button, int x, int y) {
-        if (button == 0 && menuHower.isMouseOver()) {
+        if (button == 0 && Menu.menuHower.isMouseOver()) {
             stateGame.enterState(1, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
         }
     }
 
     public void render(GameContainer container, StateBasedGame stateGame, Graphics g) throws SlickException {
-        g.drawImage(backgroundImage, 0, 0);
+        g.drawImage(Menu.backgroundImage, 0, 0);
 
-        g.setFont(typeFontBig.getFont());
+        g.setFont(Menu.typeFontBig.getFont());
         g.drawString("SORRY!", 135, 100);
         g.drawString("" + Score.getScore(), 220 - (String.valueOf(Score.getScore()).length() - 1) * 16, container.getHeight() / 2);
 
-        g.setFont(typeFont.getFont());
+        g.setFont(Menu.typeFont.getFont());
         g.drawString("Your opponent left or lost", 65, 180);
         g.drawString("connection.", 165, 200);
         g.drawString("Your score:", 170, 250);
 
-        menuHower.render(container, g);
-
+        Menu.menuHower.render(container, g);
     }
 
 }
