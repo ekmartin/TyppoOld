@@ -78,16 +78,6 @@ public class MultiPlayerGUI extends BasicGameState {
         successfulWordCounter = 0;
         totalSuccessfulWordCounter = 0;
         foundGame = false;
-
-        if (!serverDeque.isEmpty()) {
-            SendObject first = (SendObject) serverDeque.peekFirst();
-            if (first.getType() == Config.commands.connectionStatus && first.getConnectionStatus()) {
-                SendObject sendObject = new SendObject(Config.commands.findGame);
-                serverDeque.sendToServer(sendObject);
-            }
-        }
-        SendObject sendObject = new SendObject(Config.commands.findGame);
-        serverDeque.sendToServer(sendObject);
     }
 
     public int getID() {
@@ -184,6 +174,10 @@ public class MultiPlayerGUI extends BasicGameState {
                         break;
                     case connectionStatus:
                         connected = nextAction.getConnectionStatus();
+                        if (connected && !foundGame) {
+                            SendObject sendObject = new SendObject(Config.commands.findGame);
+                            serverDeque.sendToServer(sendObject);
+                        }
                         break;
                     default:
                         System.out.println("Unkown SendObject-type: " + nextAction.getType());
