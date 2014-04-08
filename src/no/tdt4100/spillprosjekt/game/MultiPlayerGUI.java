@@ -78,6 +78,11 @@ public class MultiPlayerGUI extends BasicGameState {
         successfulWordCounter = 0;
         totalSuccessfulWordCounter = 0;
         foundGame = false;
+
+        if (connected) {
+            SendObject sendObject = new SendObject(Config.commands.findGame);
+            serverDeque.sendToServer(sendObject);
+        }
     }
 
     public int getID() {
