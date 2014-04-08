@@ -2,6 +2,7 @@ package no.tdt4100.spillprosjekt.game;
 
 import org.newdawn.slick.*;
 import org.newdawn.slick.gui.MouseOverArea;
+import org.newdawn.slick.openal.SoundStore;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
@@ -18,12 +19,20 @@ public class Menu extends BasicGameState {
     public static Image backgroundImage;
     public static Image backToMenu;
     public static Image backToMenuHower;
+    public static Image soundEnabled;
+    public static Image soundDisabled;
+
     public static MouseOverArea menuHower;
+    public static MouseOverArea soundHower;
 
     private Image singlePlayerImage;
     private Image singlePlayerHowerImage;
     private Image multiPlayerImage;
     private Image multiPlayerHowerImage;
+
+
+    public static float pitch;
+    public static Sound[] soundList;
 
     public static Sound typeSoundGood;
     public static Sound typeSoundFail;
@@ -54,6 +63,7 @@ public class Menu extends BasicGameState {
     @Override
     public void init(GameContainer container, StateBasedGame stateGame) throws SlickException {
         this.stateGame = stateGame;
+        this.pitch = 1;
 
         this.buttonX = container.getWidth() / 2;
 
@@ -91,6 +101,10 @@ public class Menu extends BasicGameState {
 
         backToMenu = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/menu.png"), "menu.png", false);
         backToMenuHower = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/menu_hower.png"), "menu_hower.png", false);
+
+        soundEnabled = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/sound_enabled.png"), "sound_enabled.png", false);
+        soundDisabled = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/sound_disabled.png"), "sound_disabled.png", false);
+        soundHower = new MouseOverArea(container, soundEnabled, 30, 30);
 
         menuHower = new MouseOverArea(container, backToMenu, (container.getWidth() / 2) - 96, 450);
         menuHower.setMouseOverImage(backToMenuHower);
@@ -134,7 +148,18 @@ public class Menu extends BasicGameState {
             }
             else if (multiPlayerHower.isMouseOver()) {
                 stateGame.enterState(2, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
-
+            }
+            else if (soundHower.isMouseOver()) {
+                if (SoundStore.get().getMusicVolume() == 1) {
+                    SoundStore.get().setMusicVolume(0);
+                    soundHower.setNormalImage(soundDisabled);
+                    soundHower.setMouseOverImage(soundDisabled);
+                }
+                else if(SoundStore.get().getMusicVolume() == 0) {
+                    SoundStore.get().setMusicVolume(1);
+                    soundHower.setNormalImage(soundEnabled);
+                    soundHower.setMouseOverImage(soundEnabled);
+                }
             }
         }
     }
@@ -142,6 +167,7 @@ public class Menu extends BasicGameState {
     public void render(GameContainer container, StateBasedGame stateGame, Graphics g) throws SlickException {
         // temporary buttons.
         g.drawImage(backgroundImage, 0, 0);
+        soundHower.render(container, g);
         for (int i = 0; i < mouseOverAreas.length; i++) {
             mouseOverAreas[i].render(container, g);
         }
