@@ -21,7 +21,7 @@ public class GameClient {
     ArrayList<ClientListener> listeners = new ArrayList<ClientListener>();
 
     // Connect to server with username
-    public void connect(String username) {
+    public boolean connect(String username) {
 
         // Register objects
         ServerInit.mapClasses(client.getKryo());
@@ -120,6 +120,8 @@ public class GameClient {
                 }
             }
         });
+
+        return client.isConnected();
 
     }
 
