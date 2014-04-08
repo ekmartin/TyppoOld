@@ -32,5 +32,6 @@ public class TypeGameGUI extends StateBasedGame {
         addState(new SinglePlayerGUI());
         addState(new FinishedScreen());
         addState(new OpponentLeft());
+        addState(new ConnectionLost());
     }
 }
