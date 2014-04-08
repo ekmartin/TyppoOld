@@ -37,15 +37,14 @@ public class Menu extends BasicGameState {
 
     private TypeFont typeFont;
 
-    private int buttonX = 150;
-    private int singleGameY = 500;
-    private int multiGameY = 450;
+    private int buttonX = 50;
+    private int buttonY = 450;
 
     @Override
     public void init(GameContainer container, StateBasedGame stateGame) throws SlickException {
         this.stateGame = stateGame;
 
-        typeFont = new TypeFont("Verdana", 32, true, java.awt.Color.white);
+        typeFont = new TypeFont("Consolas", 32, true, java.awt.Color.white);
 
         typeSoundGood = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/click.aif"));
         typeSoundFail = new Sound(Thread.currentThread().getContextClassLoader().getResource("no/tdt4100/spillprosjekt/res/Bottle.aif"));
@@ -63,19 +62,19 @@ public class Menu extends BasicGameState {
                 new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/bAnim5.png"), "bAnim5.png", false),
         };
 
-        int[] duration = {500, 200, 200, 100, 100, 800};
+        int[] duration = {500, 200, 300, 100, 200, 800};
         banner = new Animation(bannerAnimationImages, duration, true);
 
-        backgroundImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/background2.png"), "background2.png", false);
-        singlePlayerImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/single_player2.png"), "single_player2.png", false);
-        singlePlayerHowerImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/single_player_hover2.png"), "single_player_hover2.png", false);
-        multiPlayerImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/multi_player2.png"), "multi_player2.png", false);
-        multiPlayerHowerImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/multi_player_hover2.png"), "multi_player_hover2.png", false);
+        backgroundImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/background.png"), "background.png", false);
+        singlePlayerImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/single_player.png"), "single_player.png", false);
+        singlePlayerHowerImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/single_player_hover.png"), "single_player_hover.png", false);
+        multiPlayerImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/multi_player.png"), "multi_player.png", false);
+        multiPlayerHowerImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/multi_player_hover.png"), "multi_player_hover.png", false);
 
         buttonHoverImages = new Image[] {singlePlayerHowerImage, multiPlayerHowerImage};
 
-        singlePlayerHower = new MouseOverArea(container, singlePlayerImage, buttonX, singleGameY);
-        multiPlayerHower = new MouseOverArea(container, multiPlayerImage, buttonX + 16, multiGameY);
+        singlePlayerHower = new MouseOverArea(container, singlePlayerImage, buttonX, buttonY + 50);
+        multiPlayerHower = new MouseOverArea(container, multiPlayerImage, buttonX + 16, buttonY);
         mouseOverAreas = new MouseOverArea[] {singlePlayerHower, multiPlayerHower};
         for (int i = 0; i < mouseOverAreas.length; i++) {
             mouseOverAreas[i].setMouseOverImage(buttonHoverImages[i]);
