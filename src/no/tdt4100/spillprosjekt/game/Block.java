@@ -119,16 +119,11 @@ public class Block {
 
     public boolean fadeNext() {
         try {
-            System.out.println("Fading: " + cells.get(fadeIndex).getLetter());
             cells.get(fadeIndex).fade();
             fadeIndex++;
         }
         catch (Exception e) {
             Logger.log(e);
-        }
-        if (wordString == null) {
-            // TODO: Test this!
-            System.out.println("Trying to fade a gray block or something?");
         }
         return fadeIndex == wordString.length();
     }

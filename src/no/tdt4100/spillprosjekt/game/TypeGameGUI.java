@@ -10,9 +10,10 @@ public class TypeGameGUI extends StateBasedGame {
     public static void main (String[] args) {
         try {
             AppGameContainer app = new AppGameContainer(new TypeGameGUI());
-            app.setTitle("Typpo?!");
+            app.setShowFPS(false);
+            app.setTitle("Typpo");
             app.setDisplayMode(480, 640, false);
-            app.setTargetFrameRate(200);
+            app.setTargetFrameRate(60);
             app.start();
         }
         catch (SlickException e) {
