@@ -111,7 +111,7 @@ public class GameListener implements ClientListener, Runnable {
 
         while (true) {
             try {
-                Thread.sleep(10);
+                Thread.sleep(1000);
                 if (!client.client.isConnected()) {
                     connectToServer();
                 }
@@ -132,6 +132,7 @@ public class GameListener implements ClientListener, Runnable {
     }
 
     public void connectToServer() {
+        client = null;
         client = new GameClient();
         client.addListener(this);
         client.connect(this.username);
