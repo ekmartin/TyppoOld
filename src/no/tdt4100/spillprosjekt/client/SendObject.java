@@ -35,7 +35,7 @@ public class SendObject {
         return wordList;
     }
 
-    public boolean isConnectionStatus() {
+    public boolean getConnectionStatus() {
         return connectionStatus;
     }
 }
