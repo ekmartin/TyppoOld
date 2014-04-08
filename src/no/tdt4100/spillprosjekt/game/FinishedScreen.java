@@ -31,7 +31,7 @@ public class FinishedScreen extends BasicGameState {
     public void init(GameContainer container, StateBasedGame stateGame) throws SlickException {
         this.stateGame = stateGame;
 
-        typeFont = new TypeFont("Consolas", 32, true, java.awt.Color.white);
+        typeFont = new TypeFont("Consolas", 24, true, java.awt.Color.white);
         typeFontBig = new TypeFont("Consolas", 64, true, java.awt.Color.white);
 
         backgroundImage = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("no/tdt4100/spillprosjekt/res/Background.png"), "Background.png", false);
@@ -66,23 +66,24 @@ public class FinishedScreen extends BasicGameState {
 
     public void render(GameContainer container, StateBasedGame stateGame, Graphics g) throws SlickException {
         g.drawImage(backgroundImage, 0, 0);
-        g.setFont(typeFont.getFont());
-        menuHower.render(container, g);
-        if (Score.getStatus()) {
-            g.setFont(typeFontBig.getFont());
-            g.drawString("YOU WON!", 90, 100);
 
-            g.setFont(typeFont.getFont());
-            g.drawString("Your score: " + Score.getScore(), 125, 180);
+        g.setFont(typeFontBig.getFont());
+        if (Score.getStatus()) {
+            g.drawString("YOU WON!", 100, 100);
+            g.drawString("" + Score.getScore(), 220 - (String.valueOf(Score.getScore()).length() - 1) * 16, container.getHeight() / 2);
+        }
+        else if (Score.isMultiplayer()) {
+                g.drawString("YOU LOST!", 90, 100);
         }
         else {
-            g.setFont(typeFontBig.getFont());
-
-            if (Score.isMultiplayer()) g.drawString("YOU LOST!", 90, 100);
-
-            g.setFont(typeFont.getFont());
-            g.drawString("Your score: " + Score.getScore(), 125, 180);
+                g.drawString("DONE!", 155, 100);
         }
+        g.drawString("" + Score.getScore(), 220 - (String.valueOf(Score.getScore()).length() - 1) * 16, container.getHeight() / 2);
+
+        g.setFont(typeFont.getFont());
+        g.drawString("Your score:", 170, 250);
+
+        menuHower.render(container, g);
     }
 
 }

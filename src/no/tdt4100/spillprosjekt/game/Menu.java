@@ -42,12 +42,14 @@ public class Menu extends BasicGameState {
 
     private TypeFont typeFont;
 
-    private int buttonX = 50;
+    private int buttonX;
     private int buttonY = 350;
 
     @Override
     public void init(GameContainer container, StateBasedGame stateGame) throws SlickException {
         this.stateGame = stateGame;
+
+        this.buttonX = container.getWidth() / 2;
 
         typeFont = new TypeFont("Consolas", 32, true, java.awt.Color.white);
 
@@ -85,8 +87,8 @@ public class Menu extends BasicGameState {
 
         buttonHoverImages = new Image[] {singlePlayerHowerImage, multiPlayerHowerImage};
 
-        singlePlayerHower = new MouseOverArea(container, singlePlayerImage, buttonX, buttonY + 70);
-        multiPlayerHower = new MouseOverArea(container, multiPlayerImage, buttonX + 16, buttonY);
+        singlePlayerHower = new MouseOverArea(container, singlePlayerImage, buttonX - 192, buttonY + 70);
+        multiPlayerHower = new MouseOverArea(container, multiPlayerImage, buttonX - 176, buttonY);
         mouseOverAreas = new MouseOverArea[] {singlePlayerHower, multiPlayerHower};
         for (int i = 0; i < mouseOverAreas.length; i++) {
             mouseOverAreas[i].setMouseOverImage(buttonHoverImages[i]);
@@ -128,7 +130,7 @@ public class Menu extends BasicGameState {
         for (int i = 0; i < mouseOverAreas.length; i++) {
             mouseOverAreas[i].render(container, g);
         }
-        banner.draw(100, 200);
+        banner.draw((container.getWidth() / 2) - 146, 200);
     }
 
 }

@@ -1,5 +1,7 @@
 package no.tdt4100.spillprosjekt.client;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import com.sun.xml.internal.ws.resources.SenderMessages;
 import no.tdt4100.spillprosjekt.objects.*;
 import no.tdt4100.spillprosjekt.utils.Config;
 
@@ -14,12 +16,13 @@ public class GameListener implements ClientListener, Runnable {
 
     private LinkedBlockingDequeCustom serverDeque;
     private String username = "";
+    private boolean connectionState = false;
 
     public GameListener(LinkedBlockingDequeCustom serverDeque){
 
         this.serverDeque = serverDeque;
 
-        client = new GameClient() ;
+        client = new GameClient();
         client.addListener(this);
 
         try {
@@ -64,6 +67,8 @@ public class GameListener implements ClientListener, Runnable {
     }
 
     public void sendClientCommand(SendObject sendObject) {
+
+
         switch (sendObject.getType()) {
             case gray:
                 client.sendGrayLine();
@@ -78,6 +83,7 @@ public class GameListener implements ClientListener, Runnable {
                 client.deleteMyGames();
                 break;
         }
+
     }
 
     @Override
@@ -103,11 +109,19 @@ public class GameListener implements ClientListener, Runnable {
     @Override
     public void run() {
 
+        serverDeque.add(new SendObject(Config.commands.connectionStatus, false));
         client.connect(this.username);
 
         while (true) {
             try {
                 Thread.sleep(10);
+                if (!client.client.isConnected()) {
+                    client.connect(this.username);
+                }
+                if (this.connectionState != client.client.isConnected()) {
+                    serverDeque.add(new SendObject(Config.commands.connectionStatus, client.client.isConnected()));
+                }
+                this.connectionState = client.client.isConnected();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
