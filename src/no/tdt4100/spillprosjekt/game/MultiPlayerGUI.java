@@ -158,6 +158,13 @@ public class MultiPlayerGUI extends BasicGameState {
         }
     }
 
+    @Override
+    public void mousePressed(int button, int x, int y) {
+        if (button == 0 && Menu.menuHower.isMouseOver()) {
+            stateGame.enterState(1, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+        }
+    }
+
     public void doNextAction() {
         while (!serverDeque.isEmpty()) {
             Object nextActionObject = serverDeque.peekFirst();
@@ -275,6 +282,7 @@ public class MultiPlayerGUI extends BasicGameState {
                 drawString += ".";
             }
             g.drawString(drawString, 100, container.getHeight()/2 - 50);
+            Menu.menuHower.render(container, g);
             Menu.loadingAnimation.draw(container.getWidth()/2 - Menu.loadingAnimation.getWidth()/2,
                     container.getHeight()/2 - Menu.loadingAnimation.getHeight()/2 + 50);
         }
