@@ -67,23 +67,22 @@ public class GameListener implements ClientListener, Runnable {
     }
 
     public void sendClientCommand(SendObject sendObject) {
-
-
-        switch (sendObject.getType()) {
-            case gray:
-                client.sendGrayLine();
-                break;
-            case lost:
-                client.sendLoss();
-                break;
-            case findGame:
-                joinGameRequest();
-                break;
-            case deleteMyGames:
-                client.deleteMyGames();
-                break;
+        if (this.connectionState) {
+            switch (sendObject.getType()) {
+                case gray:
+                    client.sendGrayLine();
+                    break;
+                case lost:
+                    client.sendLoss();
+                    break;
+                case findGame:
+                    joinGameRequest();
+                    break;
+                case deleteMyGames:
+                    client.deleteMyGames();
+                    break;
+            }
         }
-
     }
 
     @Override
