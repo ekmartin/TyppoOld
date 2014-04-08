@@ -10,9 +10,11 @@ public class Score {
     private static int wordScore = 5;
     private static boolean wonGame;
     private static boolean multiplayer;
+    private static int multiplier;
 
     public static void newGame(boolean multiplayer) {
         score = 0;
+        multiplier = 1;
         Score.multiplayer = multiplayer;
     }
 
@@ -42,5 +44,17 @@ public class Score {
 
     public static boolean isMultiplayer() {
         return multiplayer;
+    }
+
+    public static int getMultiplier() {
+        return multiplier;
+    }
+
+    public static void upMultiplier() {
+        multiplier++;
+    }
+
+    public static void resetMultiplier() {
+        multiplier = 1;
     }
 }
