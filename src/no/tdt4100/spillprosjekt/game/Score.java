@@ -13,6 +13,7 @@ public class Score {
     private static int multiplier;
 
     public static void newGame(boolean multiplayer) {
+        wonGame = false;
         score = 0;
         multiplier = 1;
         Score.multiplayer = multiplayer;
